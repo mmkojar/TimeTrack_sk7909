@@ -1,0 +1,13 @@
+{
+  "migIndex": 1,
+  "data": [
+    {
+      "path": "assets/fonts/OFL.txt",
+      "sha1": "a166743a0a13f3d2f545b067321aa056cdd9e728"
+    },
+    {
+      "path": "assets/fonts/VarelaRound-Regular.ttf",
+      "sha1": "0d28e4c76f4a10590964b9766ccfc54c14527445"
+    }
+  ]
+}
