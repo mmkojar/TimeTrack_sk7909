@@ -2,12 +2,17 @@ import React from 'react'
 import {  View,StyleSheet,Image,ScrollView,Pressable, Dimensions  } from 'react-native';
 import { Button,Card,Avatar,Text } from 'react-native-paper';
 import useThemeStyle from '../components/utils/useThemeStyle';
-import { useDispatch,useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 function Home({navigation}) {
 
     const [theme,GlobalStyle] = useThemeStyle();
     const authuser = useSelector((state) => state.auth.user);
+    const { HomepageSettings: settings } = useSelector((state) => state.auth.homepage);
+    var hps = {};
+    for (var i in settings) {
+        Object.assign(hps,settings[i]);
+    }    
     const isHod = useSelector((state) => state.auth.isHod)
 
     const handleTimeCard = () => {
@@ -15,7 +20,7 @@ function Home({navigation}) {
             navigation.navigate('IsHod')
         }
         else {
-            navigation.navigate('SelfCard')            
+            navigation.navigate('SelfCard')
         }
     }
         
@@ -33,47 +38,72 @@ function Home({navigation}) {
                 />
             </View>
             <View style={styles.container}>
-                <Pressable onPress={handleTimeCard}>
-                    <Card style={styles.innerItem} elevation={5}>
+                {
+                    Object.entries(hps).forEach(function(key) {
+                        console.log(key, hps[key]);
+                    })
+                }
+                {
+                    hps['Attendance-Chart'] == 1 &&  <Pressable onPress={() => navigation.navigate('AtttendanceChart')}>
+                        <Card style={styles.innerItem} elevation={5}>
+                                <Image
+                                    style={styles.image}
+                                    source={require('../assets/icons/8.png')}
+                                >
+                                </Image>
+                                <Text style={GlobalStyle.homeIconText}>Atttendance Chart</Text>
+                        </Card>
+                    </Pressable>
+                }
+                
+                {
+                    hps['Time-Card'] == 1 && <Pressable onPress={handleTimeCard}>
+                        <Card style={styles.innerItem} elevation={5}>
+                                <Image
+                                    style={styles.image}
+                                    source={require('../assets/icons/4.png')}
+                                >
+                                </Image>
+                                <Text style={GlobalStyle.homeIconText}>Time Card</Text>
+                        </Card>
+                    </Pressable>
+                } 
+                {
+                    hps['Holiday-List'] == 1 && <Pressable onPress={() => navigation.navigate('Holiday')}>
+                        <Card style={styles.innerItem} elevation={5}>
+                                <Image
+                                    style={styles.image}
+                                    source={require('../assets/icons/6.png')}
+                                >
+                                </Image>
+                                <Text style={GlobalStyle.homeIconText}>Holiday List</Text>
+                        </Card>
+                    </Pressable>
+                }
+                {
+                    hps['Notice-Board'] == 1 && <Pressable onPress={() => navigation.navigate('Notice')}> 
+                        <Card style={styles.innerItem} elevation={5}>
                             <Image
                                 style={styles.image}
-                                source={require('../assets/icons/4.png')}
+                                source={require('../assets/icons/7.png')}
                             >
                             </Image>
-                            <Text style={GlobalStyle.homeIconText}>Time Card</Text>
-                    </Card>
-                </Pressable> 
-                <Pressable onPress={() => navigation.navigate('Holiday')}>
-                    <Card style={styles.innerItem} elevation={5}>
+                            <Text style={GlobalStyle.homeIconText}>Notice Board</Text>
+                        </Card>
+                    </Pressable>
+                }      
+                {
+                    hps['Notification'] == 1 && <Pressable onPress={() => navigation.navigate('Notification')}>
+                        <Card style={styles.innerItem} elevation={5}>
                             <Image
-                                style={styles.image}
-                                source={require('../assets/icons/6.png')}
+                                style={styles.image}                                
+                                source={require('../assets/icons/9.png')}
                             >
                             </Image>
-                            <Text style={GlobalStyle.homeIconText}>Holiday List</Text>
-                    </Card>
-                </Pressable>                      
-                <Pressable onPress={() => navigation.navigate('Notice')}> 
-                    <Card style={styles.innerItem} elevation={5}>
-                        <Image
-                            style={styles.image}
-                            // source={require('../assets/Icons/2.png')}
-                            source={require('../assets/icons/7.png')}
-                        >
-                        </Image>
-                        <Text style={GlobalStyle.homeIconText}>Notice Board</Text>
-                    </Card>
-                </Pressable>       
-                <Pressable onPress={() => navigation.navigate('Notification')}>
-                    <Card style={styles.innerItem} elevation={1}>
-                        <Image
-                            style={styles.image}                                
-                            source={require('../assets/icons/9.png')}
-                        >
-                        </Image>
-                        <Text style={GlobalStyle.homeIconText}>Notification</Text>
-                    </Card>
-                </Pressable>
+                            <Text style={GlobalStyle.homeIconText}>Notification</Text>
+                        </Card>
+                    </Pressable>
+                }
             </View>
         </ScrollView>
     )
@@ -84,16 +114,18 @@ const width = Dimensions.get('window').width;
 const styles = StyleSheet.create({
     container:{
         flex:1,
-        flexDirection:'row',
-        flexWrap: 'wrap',
+        flexDirection:'row',        
+        flexWrap: 'wrap',        
         justifyContent:'center',
-        backgroundColor:"#fcfcfc",
+        backgroundColor:"#fff",
     },
     innerItem:{
         width:width/3.3,
+        height:126,
+        justifyContent:'center',
         padding:10,
         margin:3,
-        borderRadius:6,        
+        borderRadius:5,       
     },
     image:{
         width:54,

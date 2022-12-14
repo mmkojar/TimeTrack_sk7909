@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { 
-    START_LOADER, STOP_LOADER, GET_HOLIDAY_LIST, GET_NBOARD, GET_NOTIFI, UPDT_NOTIFI, HOD_REPORTEE, TCARD_ONLOAD, TCARD_SELF, DT_TCARD_SELF
+    START_LOADER, STOP_LOADER, GET_HOLIDAY_LIST, GET_NBOARD, GET_NOTIFI, UPDT_NOTIFI, HOD_REPORTEE, TCARD_ONLOAD, TCARD_SELF, DT_TCARD_SELF, GET_GRAPH
 } from './type';
 import Config from '../../utils/Config';
 
@@ -44,6 +44,11 @@ export const getDetailTimeCardForSelf = (empcode,tr_date) => (dispatch) => {
     fetchAxios(dispatch,`GetDetailedTimeCardForSelf?EmpCode=${empcode}&Tr_date=${tr_date}`,DT_TCARD_SELF);
 }
 
+export const getGraph = (empcode,month,year) => (dispatch) => {
+    
+    fetchAxios(dispatch,`GetGraphForSelectedMonthToEmployee?EmpCode=${empcode}&Month=${month}&Year=${year}`,GET_GRAPH);
+}
+
 const fetchAxios = (dispatch,param,action) => {
 
     dispatch({
@@ -51,19 +56,26 @@ const fetchAxios = (dispatch,param,action) => {
     });
     axios.get(Config.clientUrl+param)
     .then((res) => {
-        // console.log("res:",res.data);
-        if(action !== UPDT_NOTIFI) {
-            dispatch({
-                type: action,
-                payload: res.data,
-            });
+        console.log("res:",res.data);
+        if(res.data)  {
+            if(action !== UPDT_NOTIFI) {
+                dispatch({
+                    type: action,
+                    payload: res.data,
+                });
+            }
+            else {
+                dispatch({
+                    type: action,
+                });
+            }    
         }
         else {
             dispatch({
                 type: action,
+                payload: [],
             });
-        }
-        
+        }                
         dispatch({
             type: STOP_LOADER,
         });

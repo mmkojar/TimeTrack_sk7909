@@ -1,10 +1,11 @@
-import { LOGIN_SUCCESS, AUTH_ERROR } from '../actions/type';
+import { LOGIN_SUCCESS, AUTH_ERROR, HOME_PAGE } from '../actions/type';
 
 const initialState = {
     isAuthenticated: false,    
     empcode:null,
     user: null,
-    isHod:null
+    isHod:null,
+    homepage:null,
 };
 
 export default function (state = initialState, action) {
@@ -17,6 +18,11 @@ export default function (state = initialState, action) {
                 isHod:action.payload[2],
                 isAuthenticated: true,
             };
+        case HOME_PAGE:
+            return {
+                ...state,
+                homepage:action.payload
+            }    
         case AUTH_ERROR:
             return {
                 ...state,

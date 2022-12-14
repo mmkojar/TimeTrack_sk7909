@@ -1,16 +1,19 @@
 import React,{useEffect, useState} from 'react';
+import {  Image  } from 'react-native';
 import { useSelector } from 'react-redux';
 import { NavigationContainer  } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import HomeScreen from '../screens/Home';
 import LoginScreen from '../screens/Login';
-import HolidayScreen from '../screens/Holiday';
-import NoticeScreen from '../screens/Notice';
-import NotificationScreen from '../screens/Notification';
+import AtttendanceChartScreen from '../screens/AtttendanceChart';
 import IsHodScreen from '../screens/TimeCard/IsHod';
 import SelfCardScreen from '../screens/TimeCard/SelfCard';
 import DetailSelfCardScreen from '../screens/TimeCard/DetailSelfCard';
 import TeamAttendanceScreen from '../screens/TimeCard/TeamAttendance';
+import HolidayScreen from '../screens/Holiday';
+import NoticeScreen from '../screens/Notice';
+import NotificationScreen from '../screens/Notification';
+import AtttendanceChart from '../screens/AtttendanceChart';
 // import AttendeeProfile from '../screens/AttendeeProfile';
 // import DelegatesScreen from '../screens/Delegates';
 // import ChatBoxScreen from '../screens/ChatBox';
@@ -37,44 +40,50 @@ const Nav = ({color, refer}) => {
 //   const [theme,GlobalStyle] = useThemeStyle();
 
   const authData = useSelector((state) => state.auth);
+  const { ValidRegisterUser: settings } = useSelector((state) => state.auth.homepage);    
   const { isAuthenticated } = authData;
   
+  const LogoTitle = () => {
+    return (
+      <Image
+        style={{ width: 250, height: 50 }}
+        source={{uri:settings.find(item => item.CLogo).CLogo}}
+      />
+    );
+  }
+
   return (
     // <SafeAreaView>    
     <NavigationContainer ref={refer}>
         { isAuthenticated ?  (
             <Stack.Navigator initialRouteName='Home' 
                 screenOptions={({route}) => ({
-                animationEnabled:false,
-                headerStyle: {
-                    backgroundColor: color,
-                },
-                headerTintColor:'#fff',
-                headerTitleAlign:'left',
-                headerTitleStyle: {
-                    fontFamily:'VarelaRound-Regular'
-                },
-                cardStyle:{
-                    backgroundColor:'#FFFFFF'
-                }
-            })}
+                    animationEnabled:false,
+                    headerStyle: {
+                        backgroundColor: color,
+                    },
+                    headerTintColor:'#fff',
+                    headerTitleAlign:'left',
+                    headerTitleStyle: {
+                        fontFamily:'VarelaRound-Regular'
+                    },
+                    cardStyle:{
+                        backgroundColor:'#FFFFFF'
+                    }
+                })}
             >
             <Stack.Screen name="Home" component={HomeScreen}
-                options={{
-                    title:'Time Track Mobile App',
-                }} 
+                options={{ 
+                    headerStyle:{
+                        backgroundColor: color,
+                        height:80,                        
+                    },
+                    headerTitle: (props) => <LogoTitle {...props} /> 
+                }}
             /> 
-            <Stack.Screen name="Holiday" component={HolidayScreen} 
+            <Stack.Screen name="AtttendanceChart" component={AtttendanceChartScreen} 
                 options={{
-                title:'Holiday List',                   
-                }} />
-            <Stack.Screen name="Notice" component={NoticeScreen} 
-                options={{
-                    title:'Notice Board',                   
-                }}/>
-            <Stack.Screen name="Notification" component={NotificationScreen} 
-                options={{
-                title:'Notification',                   
+                title:'Atttendance Chart',                   
                 }} />
             <Stack.Screen name="TeamAttendance" component={TeamAttendanceScreen} 
                 options={{
@@ -91,6 +100,18 @@ const Nav = ({color, refer}) => {
             <Stack.Screen name="DSelfCard" component={DetailSelfCardScreen} 
                 options={{
                 title:'Time Card',                   
+                }} />
+            <Stack.Screen name="Holiday" component={HolidayScreen} 
+                options={{
+                title:'Holiday List',                   
+                }} />
+            <Stack.Screen name="Notice" component={NoticeScreen} 
+                options={{
+                    title:'Notice Board',                   
+                }}/>
+            <Stack.Screen name="Notification" component={NotificationScreen} 
+                options={{
+                title:'Notification',                   
                 }} />
             {/* <Stack.Screen name="Profile" component={ProfileScreen} 
                 options={{

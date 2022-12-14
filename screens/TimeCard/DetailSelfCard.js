@@ -11,7 +11,7 @@ const DetailSelfCard = ({route}) => {
 
     const [theme,GlobalStyle] = useThemeStyle();
     const dt_tcself = useSelector((state) => state.employee.dt_tcardself)
-    const entries = Object.entries(dt_tcself.GetTimeCardForPageLoad[0]);
+    const entries = dt_tcself && Object.entries(dt_tcself.GetTimeCardForPageLoad[0]);
     const dispatch = useDispatch();
     
     useEffect(() => {
@@ -28,7 +28,7 @@ const DetailSelfCard = ({route}) => {
                         </DataTable.Title>
                     </DataTable.Header>
                     {
-                        entries.map(([key, value]) => {
+                        entries && entries.map(([key, value]) => {
                             return (
                                 <DataTable.Row key={key}> 
                                     <DataTable.Cell>{key}</DataTable.Cell>

@@ -6,13 +6,16 @@ import { useDispatch, useSelector } from 'react-redux'
 import useThemeStyle from '../../components/utils/useThemeStyle';
 import CustomButtons from '../../components/utils/CustomButtons';
 
-const Index = ({navigation}) => {
+const IsHod = ({navigation}) => {
 
   const [theme,GlobalStyle] = useThemeStyle();
+  const empcode = useSelector((state) => state.auth.empcode)
 
   const pressHandler = (id) => {
     if(id == 's') {
-      navigation.navigate('SelfCard');
+      navigation.navigate('SelfCard',{
+        ecode:empcode
+      });
     }
     else{
       navigation.navigate('TeamAttendance');
@@ -22,22 +25,22 @@ const Index = ({navigation}) => {
   return (
     <View style={GlobalStyle.container}>        
           <View>
-          <Pressable onPress={() => pressHandler('s')}>
-            <Card.Title 
-                style={GlobalStyle.cardTitle}
-                title="For Self"
-                titleStyle={{fontSize:18}}
-                right={(props) => <IconButton {...props} size={26} icon="arrow-right" color={GlobalStyle.primarycolor.color} onPress={() => pressHandler('s')} />}
-            />
-          </Pressable>
-          <Pressable onPress={() => pressHandler('t')}>
-            <Card.Title 
-                style={GlobalStyle.cardTitle}
-                title="For Team"
-                titleStyle={{fontSize:18}}
-                right={(props) => <IconButton {...props} size={26} icon="arrow-right" color={GlobalStyle.primarycolor.color} onPress={() => pressHandler('t')} />}
-            />
-          </Pressable>
+            <Pressable onPress={() => pressHandler('s')}>
+              <Card.Title 
+                  style={GlobalStyle.cardTitle}
+                  title="For Self"
+                  titleStyle={{fontSize:18}}
+                  right={(props) => <IconButton {...props} size={26} icon="arrow-right" color={GlobalStyle.primarycolor.color} onPress={() => pressHandler('s')} />}
+              />
+            </Pressable>
+            <Pressable onPress={() => pressHandler('t')}>
+              <Card.Title 
+                  style={GlobalStyle.cardTitle}
+                  title="For Team"
+                  titleStyle={{fontSize:18}}
+                  right={(props) => <IconButton {...props} size={26} icon="arrow-right" color={GlobalStyle.primarycolor.color} onPress={() => pressHandler('t')} />}
+              />
+            </Pressable>
         </View>                    
     </View>
   )
@@ -51,4 +54,4 @@ const styles = StyleSheet.create({
   }
 })
 
-export default Index
+export default IsHod

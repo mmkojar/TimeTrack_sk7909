@@ -1,16 +1,19 @@
 import React,{useEffect,useState} from 'react'
 import { View, StyleSheet, FlatList } from 'react-native'
-import { TextInput, DataTable, IconButton } from 'react-native-paper';
+import { TextInput, DataTable, IconButton, Text } from 'react-native-paper';
 import { useDispatch, useSelector } from 'react-redux'
-import { getTimeCardOnLoad } from '../../components/redux/actions/employeeActions'
+import { getTimeCardOnLoad, getTimeCardForSelf } from '../../components/redux/actions/employeeActions'
 import useThemeStyle from '../../components/utils/useThemeStyle';
 import CustomButtons from '../../components/utils/CustomButtons';
 import moment from 'moment';
+// import DateTimePicker from '@react-native-community/datetimepicker';
 
-const SelfCard = ({navigation}) => {
+const SelfCard = ({navigation,route}) => {
 
+    const { ecode } = route.params;
     const [theme,GlobalStyle] = useThemeStyle();
-    const empcode = useSelector((state) => state.auth.empcode)
+    
+    const empcode = ecode
     const tconload = useSelector((state) => state.employee.tcardonload)
     const dispatch = useDispatch();
     
@@ -19,7 +22,7 @@ const SelfCard = ({navigation}) => {
         
     },[])
     
-    const [date1,setDate1] = useState('');
+    const [date1,setDate1] = useState(new Date());
     const [date2,setDate2] = useState('');
 
     const pressHandler = (date) => {
@@ -29,44 +32,62 @@ const SelfCard = ({navigation}) => {
         })
     }
 
+    const handleSubmit = () => {
+        if(date1 == '' || date2 == '') {
+            alert('Please Enter Dates');
+        }
+        else {
+            dispatch(getTimeCardForSelf(empcode,date1,date2))
+        }
+    }
+
     return (
         <View style={GlobalStyle.container}>
             <View style={styles.filter}>
                 <TextInput                  
                     style={[GlobalStyle.textinput,{width:'35%',height:40}]}
                     onChangeText={(val) => setDate1(val)}
-                    placeholder="User Id"
+                    placeholder="Date1"
                     placeholderTextColor={GlobalStyle.primarycolor.color}                      
                     value={date1}
                 />
+                {/* <DatePicker 
+                style={[GlobalStyle.textinput,{width:'35%',height:40}]}
+                date={date1}
+                onDateChange={setDate1} /> */}
                 <TextInput
                     style={[GlobalStyle.textinput,{width:'35%',height:40}]}
                     onChangeText={(val) => setDate2(val)}
-                    placeholder="Password"
+                    placeholder="Date2"
                     placeholderTextColor={GlobalStyle.primarycolor.color}
                     keyboardType='default'
                     value={date2}
                 />
-              <CustomButtons title="Go" pressHandler=""></CustomButtons>              
+              <CustomButtons title="Go" pressHandler={handleSubmit}></CustomButtons>              
             </View>
-            <View style={{marginTop:10}}>
-                <DataTable>
-                    <FlatList
-                        data={tconload.GetTimeCardForPageLoad}
-                        // numColumns={1}
-                        keyExtractor={(item,index) => index}
-                        renderItem={({item}) => (
-                            <DataTable.Row onPress={() => pressHandler(item.Tr_Date)}> 
-                                <DataTable.Cell>{item.Tr_Date}</DataTable.Cell>
-                                <DataTable.Cell style={{justifyContent:'center'}}>{item.AttendanceStatus}</DataTable.Cell>
-                                <DataTable.Cell style={{justifyContent:'flex-end'}}>
-                                    <IconButton size={24} icon="arrow-right" color={GlobalStyle.primarycolor.color} onPress={() => pressHandler(item.Tr_Date)} />
-                                </DataTable.Cell>
-                            </DataTable.Row>
-                        )}
-                    />
-                </DataTable>
-              </View>
+            {
+                tconload && tconload.GetTimeCardForPageLoad.length > 0 ? 
+                    <View style={{marginTop:10}}>
+                        <DataTable>
+                            <FlatList
+                                data={tconload && tconload.GetTimeCardForPageLoad}
+                                // numColumns={1}
+                                keyExtractor={(item,index) => index}
+                                renderItem={({item}) => (
+                                    <DataTable.Row onPress={() => pressHandler(item.Tr_Date)}> 
+                                        <DataTable.Cell>{item.Tr_Date}</DataTable.Cell>
+                                        <DataTable.Cell style={{justifyContent:'center'}}>{item.AttendanceStatus}</DataTable.Cell>
+                                        <DataTable.Cell style={{justifyContent:'flex-end'}}>
+                                            <IconButton size={24} icon="arrow-right" color={GlobalStyle.primarycolor.color} onPress={() => pressHandler(item.Tr_Date)} />
+                                        </DataTable.Cell>
+                                    </DataTable.Row>
+                                )}
+                            />
+                        </DataTable>
+                </View>
+                : <View style={GlobalStyle.nodatafound}><Text>No Record Found</Text></View>
+            }
+            
         </View>
     )
 }

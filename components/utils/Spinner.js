@@ -9,7 +9,7 @@ const Spinner = ({theme}) => {
     const { isLoading } = loadingState;
     return isLoading ? (
         <View style={styles.container}>
-            <ActivityIndicator size="large" animating={true}  color={theme.colors.primary} style={styles.spin}></ActivityIndicator>
+            <ActivityIndicator size="50" animating={true}  color={theme.colors.primary} style={styles.spin}></ActivityIndicator>
         </View>
     ) : null
 }
@@ -24,11 +24,11 @@ const styles = StyleSheet.create({
         alignItems: "center",
         justifyContent: "center",
         backgroundColor: "#F5FCFF88",
-        // backgroundColor:"#000",
+        backgroundColor:"#4d4b4b",
         opacity:0.5
     },
     spin : {
-        backgroundColor: "#fff",
+        // backgroundColor: "#fff",
         width: 80,
         height: 80,
         borderRadius:22,

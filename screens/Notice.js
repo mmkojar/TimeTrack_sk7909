@@ -20,7 +20,7 @@ const Notice = () => {
   return (
     <View style={GlobalStyle.container}>
       <Card style={GlobalStyle.card} elevation={5}>
-          <Paragraph>{notice.NoticeBoard}</Paragraph>
+          <Paragraph>{notice && notice.NoticeBoard}</Paragraph>
       </Card>
     </View>
   )

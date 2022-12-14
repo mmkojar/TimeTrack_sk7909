@@ -30,9 +30,9 @@ const Notification = () => {
   return (
     <View style={GlobalStyle.container}>
       {
-        notifi.Notification.length > 0 ? 
+        notifi && notifi.Notification.length > 0 ? 
         <FlatList
-            data={notifi.Notification}
+            data={notifi && notifi.Notification}
             keyExtractor={(item,index) => index}
             renderItem={({item}) => (
                   <Card style={[GlobalStyle.card,{backgroundColor:`${item.IsRead == '0' ? theme.colors.accent : '#fff'}`}]} elevation={5} onPress={handlePress(item)}>
@@ -52,7 +52,7 @@ const Notification = () => {
                   </Card>
         )}
         />
-        : <View style={GlobalStyle.nodatafound}><Text>No Data Found</Text></View>
+        : <View style={GlobalStyle.nodatafound}><Text>No Record Found</Text></View>
       }
     </View>
   )

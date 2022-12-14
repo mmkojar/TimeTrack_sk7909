@@ -61,12 +61,12 @@ const useThemeStyle = () => {
             marginVertical:3,
         },
         card:{
-            marginHorizontal:6,
+            marginHorizontal:8,
             marginBottom:6,
             borderWidth:0.6,
             padding:8,
             borderColor:'#fff',
-            borderRadius:6,
+            borderRadius:5,
         },
         cardTitle:{        
             backgroundColor:theme.colors.accent,

@@ -11,6 +11,7 @@ const Holiday = () => {
   const [theme,GlobalStyle] = useThemeStyle();
   const empcode = useSelector((state) => state.auth.empcode)
   const holidaylist = useSelector((state) => state.employee.holiday)
+  
   const dispatch = useDispatch();
   
   useEffect(() => {
@@ -27,7 +28,7 @@ const Holiday = () => {
           <DataTable.Title  textStyle={GlobalStyle.dtheader} style={{justifyContent:'flex-end'}}>Optional</DataTable.Title>
         </DataTable.Header>
         <FlatList
-            data={holidaylist.HolidayParamList}
+            data={holidaylist && holidaylist.HolidayParamList}
             // numColumns={1}
             keyExtractor={(item,index) => index}
             renderItem={({item}) => (

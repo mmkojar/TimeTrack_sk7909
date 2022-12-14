@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { Alert, Platform } from 'react-native';
-import { START_LOADER, STOP_LOADER, LOGIN_SUCCESS } from './type';
+import { START_LOADER, STOP_LOADER, LOGIN_SUCCESS, HOME_PAGE } from './type';
 import Config from '../../utils/Config';
 
 //  ------Login Action------
@@ -13,9 +13,12 @@ export const validRegisterUser = (userid,password,key) => (dispatch) => {
     axios.get(Config.serverUrl+`ValidRegisterUser?userid=${userid}&password=${password}&key=${key}`
     )
     .then((res) => {
-        const checkStatus = res.data.ValidRegisterUser.find(item => item.Status).Status;
-        // console.log(checkStatus);
+        const checkStatus = res.data.ValidRegisterUser.find(item => item.Status).Status;        
         if(checkStatus == 'active') {
+            dispatch({
+                type: HOME_PAGE,
+                payload: res.data
+            })
             dispatch(ValidEmployeeUser(userid,password))
         }
         else {

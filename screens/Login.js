@@ -7,8 +7,8 @@ import { validRegisterUser } from '../components/redux/actions/authActions';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 // import { fcmService } from '../services/FCMService';
 import useThemeStyle from '../components/utils/useThemeStyle';
-import Config from '../components/utils/Config';
-import MsgAlerts from '../components/utils/MsgAlerts';
+// import Config from '../components/utils/Config';
+// import MsgAlerts from '../components/utils/MsgAlerts';
 
 function Login() {
 
