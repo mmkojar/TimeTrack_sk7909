@@ -1,19 +1,18 @@
 import React,{useEffect,useState} from 'react'
 import { View, StyleSheet, FlatList } from 'react-native'
-import { TextInput, DataTable, IconButton, Text } from 'react-native-paper';
+import { TextInput, IconButton, Text } from 'react-native-paper';
 import { useDispatch, useSelector } from 'react-redux'
 import { getTimeCardOnLoad, getTimeCardForSelf } from '../../components/redux/actions/employeeActions'
 import useThemeStyle from '../../components/utils/useThemeStyle';
 import CustomButtons from '../../components/utils/CustomButtons';
-import moment from 'moment';
+import LoopItems from '../Reusable/LoopItems';
 // import DateTimePicker from '@react-native-community/datetimepicker';
 
 const SelfCard = ({navigation,route}) => {
 
-    const { ecode } = route.params;
     const [theme,GlobalStyle] = useThemeStyle();
     
-    const empcode = ecode
+    const empcode = route.params.ecode
     const tconload = useSelector((state) => state.employee.tcardonload)
     const dispatch = useDispatch();
     
@@ -67,23 +66,29 @@ const SelfCard = ({navigation,route}) => {
             </View>
             {
                 tconload && tconload.GetTimeCardForPageLoad.length > 0 ? 
-                    <View style={{marginTop:10}}>
-                        <DataTable>
-                            <FlatList
-                                data={tconload && tconload.GetTimeCardForPageLoad}
-                                // numColumns={1}
-                                keyExtractor={(item,index) => index}
-                                renderItem={({item}) => (
-                                    <DataTable.Row onPress={() => pressHandler(item.Tr_Date)}> 
-                                        <DataTable.Cell>{item.Tr_Date}</DataTable.Cell>
-                                        <DataTable.Cell style={{justifyContent:'center'}}>{item.AttendanceStatus}</DataTable.Cell>
-                                        <DataTable.Cell style={{justifyContent:'flex-end'}}>
-                                            <IconButton size={24} icon="arrow-right" color={GlobalStyle.primarycolor.color} onPress={() => pressHandler(item.Tr_Date)} />
-                                        </DataTable.Cell>
-                                    </DataTable.Row>
-                                )}
-                            />
-                        </DataTable>
+                    <View style={{marginTop:5}}>                        
+                        <FlatList
+                            data={tconload && tconload.GetTimeCardForPageLoad}
+                            keyExtractor={(item,index) => index}
+                            renderItem={({item}) => (
+                                <LoopItems
+                                    type='dt'
+                                    navigation={navigation}
+                                    naviTo="DSelfCard" 
+                                    naviObj={{
+                                        empcode:empcode,
+                                        tr_date:item.Tr_Date
+                                    }}
+                                    dttable={
+                                    [
+                                        item.Tr_Date,
+                                        item.AttendanceStatus,
+                                        <IconButton size={24} icon="arrow-right" color={GlobalStyle.primarycolor.color} onPress={() => pressHandler(item.Tr_Date)} />
+                                    ]
+                                    }
+                                />
+                            )}
+                        />
                 </View>
                 : <View style={GlobalStyle.nodatafound}><Text>No Record Found</Text></View>
             }

@@ -1,8 +1,15 @@
 import axios from 'axios';
 import { 
-    START_LOADER, STOP_LOADER, GET_HOLIDAY_LIST, GET_NBOARD, GET_NOTIFI, UPDT_NOTIFI, HOD_REPORTEE, TCARD_ONLOAD, TCARD_SELF, DT_TCARD_SELF, GET_GRAPH
+    START_LOADER, STOP_LOADER, GET_HOLIDAY_LIST, GET_NBOARD, GET_NOTIFI, UPDT_NOTIFI, 
+    HOD_REPORTEE, TCARD_ONLOAD, TCARD_SELF, DT_TCARD_SELF, GET_GRAPH, RG_LIST, RG_ITEMS, RG_DETAILS
 } from './type';
 import Config from '../../utils/Config';
+
+
+export const getGraph = (empcode,month,year) => (dispatch) => {
+    
+    fetchAxios(dispatch,`GetGraphForSelectedMonthToEmployee?EmpCode=${empcode}&Month=${month}&Year=${year}`,GET_GRAPH);
+}
 
 export const getHolidaylist = (empcode) => (dispatch) => {
     
@@ -24,6 +31,7 @@ export const updateNotification = (empcode,id,isread,isdelete) => (dispatch) => 
     fetchAxios(dispatch,`GetNotificationsIDForEmployeeRead?EmpCode=${empcode}&Id=${id}&IsRead=${isread}&Isdelete=${isdelete}`,UPDT_NOTIFI);
 }
 
+// TimeCard
 export const getHodReportee = (empcode) => (dispatch) => {
     
     fetchAxios(dispatch,`GetHODReporteeList?EmpCode=${empcode}`,HOD_REPORTEE);
@@ -44,9 +52,20 @@ export const getDetailTimeCardForSelf = (empcode,tr_date) => (dispatch) => {
     fetchAxios(dispatch,`GetDetailedTimeCardForSelf?EmpCode=${empcode}&Tr_date=${tr_date}`,DT_TCARD_SELF);
 }
 
-export const getGraph = (empcode,month,year) => (dispatch) => {
+// App Register
+export const getRegisterList = (empcode) => (dispatch) => {
     
-    fetchAxios(dispatch,`GetGraphForSelectedMonthToEmployee?EmpCode=${empcode}&Month=${month}&Year=${year}`,GET_GRAPH);
+    fetchAxios(dispatch,`RegisterSortingList`,RG_LIST);
+}
+
+export const getRegisterItems = (path,empcode) => (dispatch) => {
+    
+    fetchAxios(dispatch,`${path}?EmpCode=${empcode}`,RG_ITEMS);
+}
+
+export const getRegisterDetails = (path,empcode,id) => (dispatch) => {
+    
+    fetchAxios(dispatch,`${path}?EmpCode=${empcode}&ID=${id}`,RG_DETAILS);
 }
 
 const fetchAxios = (dispatch,param,action) => {
@@ -56,8 +75,8 @@ const fetchAxios = (dispatch,param,action) => {
     });
     axios.get(Config.clientUrl+param)
     .then((res) => {
-        console.log("res:",res.data);
-        if(res.data)  {
+        // console.log("res:",res.data);
+        // if(res.data)  {
             if(action !== UPDT_NOTIFI) {
                 dispatch({
                     type: action,
@@ -69,13 +88,13 @@ const fetchAxios = (dispatch,param,action) => {
                     type: action,
                 });
             }    
-        }
+       /*  }
         else {
             dispatch({
                 type: action,
                 payload: [],
             });
-        }                
+        }  */               
         dispatch({
             type: STOP_LOADER,
         });

@@ -60,6 +60,9 @@ const useThemeStyle = () => {
             flex:1,
             marginVertical:3,
         },
+        dtcontainer:{
+            flex:1,
+        },
         card:{
             marginHorizontal:8,
             marginBottom:6,
@@ -69,7 +72,7 @@ const useThemeStyle = () => {
             borderRadius:5,
         },
         cardTitle:{        
-            backgroundColor:theme.colors.accent,
+            backgroundColor:theme.colors.accent,            
             marginHorizontal:8,
             borderRadius:5,
             marginBottom:6,
@@ -96,9 +99,6 @@ const useThemeStyle = () => {
             flex:1,
             justifyContent:'center',
             alignItems:'center',
-        },
-        dtheader:{
-            fontSize:18,
         },
     })
 

@@ -1,10 +1,11 @@
 import React,{ useEffect } from 'react'
-import { View, FlatList } from 'react-native'
-import { DataTable } from 'react-native-paper';
 import { useDispatch, useSelector } from 'react-redux'
+import { View, FlatList } from 'react-native';
 import { getHolidaylist } from '../components/redux/actions/employeeActions'
 import useThemeStyle from '../components/utils/useThemeStyle';
-import moment from 'moment'
+import Dtheader from './Reusable/Dtheader';
+import LoopItems from './Reusable/LoopItems';
+import moment from 'moment';
 
 const Holiday = () => {
 
@@ -19,27 +20,28 @@ const Holiday = () => {
     
   },[])
 
+  const header = ['Date','Name','Optional'];
+
   return (
-    <View style={[GlobalStyle.container,{marginVertical:0}]}>
-      <DataTable>
-        <DataTable.Header style={{backgroundColor:'#91c4f0'}}>
-          <DataTable.Title textStyle={GlobalStyle.dtheader}>Date</DataTable.Title>
-          <DataTable.Title textStyle={GlobalStyle.dtheader} style={{justifyContent:'center'}}>Name</DataTable.Title>
-          <DataTable.Title  textStyle={GlobalStyle.dtheader} style={{justifyContent:'flex-end'}}>Optional</DataTable.Title>
-        </DataTable.Header>
-        <FlatList
-            data={holidaylist && holidaylist.HolidayParamList}
-            // numColumns={1}
-            keyExtractor={(item,index) => index}
-            renderItem={({item}) => (
-                <DataTable.Row> 
-                    <DataTable.Cell>{moment(item.HolidayDate).format('DD-MMM-YYYY')}</DataTable.Cell>
-                    <DataTable.Cell style={{justifyContent:'center'}}>{item.HolidayName}</DataTable.Cell>
-                    <DataTable.Cell style={{justifyContent:'flex-end'}}>{item.OptionalHoliday}</DataTable.Cell>
-                </DataTable.Row>
-            )}
-        />
-      </DataTable>
+    <View style={GlobalStyle.dtcontainer}>
+      <Dtheader headtitle={header} />
+      <FlatList
+          data={holidaylist && holidaylist.HolidayParamList}
+          // numColumns={1}
+          keyExtractor={(item,index) => index}
+          renderItem={({item}) => (
+              <LoopItems
+                type='dt'
+                dttable={
+                  [
+                    moment(item.HolidayDate).format('DD-MMM-YYYY'),
+                    item.HolidayName,
+                    item.OptionalHoliday
+                  ]
+                }
+              />
+          )}
+      />
     </View>
   )
 }

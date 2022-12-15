@@ -4,6 +4,7 @@ import { Card, Paragraph, IconButton, Text } from 'react-native-paper';
 import { useDispatch, useSelector } from 'react-redux'
 import { getNotification, updateNotification } from '../components/redux/actions/employeeActions'
 import useThemeStyle from '../components/utils/useThemeStyle';
+import Nodatafound from './Reusable/Nodatafound';
 import moment from 'moment'
 
 const Notification = () => {
@@ -52,7 +53,7 @@ const Notification = () => {
                   </Card>
         )}
         />
-        : <View style={GlobalStyle.nodatafound}><Text>No Record Found</Text></View>
+        : <Nodatafound />
       }
     </View>
   )

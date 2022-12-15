@@ -10,10 +10,12 @@ import IsHodScreen from '../screens/TimeCard/IsHod';
 import SelfCardScreen from '../screens/TimeCard/SelfCard';
 import DetailSelfCardScreen from '../screens/TimeCard/DetailSelfCard';
 import TeamAttendanceScreen from '../screens/TimeCard/TeamAttendance';
+import RegisterListScreen from '../screens/ApplicationRegister/RegisterList';
+import RegisterItemsScreen from '../screens/ApplicationRegister/RegisterItems';
+import RegisterDetailsScreen from '../screens/ApplicationRegister/RegisterDetails';
 import HolidayScreen from '../screens/Holiday';
 import NoticeScreen from '../screens/Notice';
 import NotificationScreen from '../screens/Notification';
-import AtttendanceChart from '../screens/AtttendanceChart';
 // import AttendeeProfile from '../screens/AttendeeProfile';
 // import DelegatesScreen from '../screens/Delegates';
 // import ChatBoxScreen from '../screens/ChatBox';
@@ -101,6 +103,12 @@ const Nav = ({color, refer}) => {
                 options={{
                 title:'Time Card',                   
                 }} />
+            <Stack.Screen name="RgList" component={RegisterListScreen} 
+                options={{
+                    title:'Application Register',                   
+                }} />
+            <Stack.Screen name="RgItem" component={RegisterItemsScreen} />        
+            <Stack.Screen name="RgDetails" component={RegisterDetailsScreen} />        
             <Stack.Screen name="Holiday" component={HolidayScreen} 
                 options={{
                 title:'Holiday List',                   

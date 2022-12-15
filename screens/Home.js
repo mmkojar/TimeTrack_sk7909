@@ -40,7 +40,7 @@ function Home({navigation}) {
             <View style={styles.container}>
                 {
                     Object.entries(hps).forEach(function(key) {
-                        console.log(key, hps[key]);
+                        // console.log(key, hps[key]);
                     })
                 }
                 {
@@ -101,6 +101,18 @@ function Home({navigation}) {
                             >
                             </Image>
                             <Text style={GlobalStyle.homeIconText}>Notification</Text>
+                        </Card>
+                    </Pressable>
+                }
+                {
+                    hps['Application-Register'] == 1 && <Pressable onPress={() => navigation.navigate('RgList')}>
+                        <Card style={styles.innerItem} elevation={5}>
+                            <Image
+                                style={styles.image}                                
+                                source={require('../assets/icons/3.png')}
+                            >
+                            </Image>
+                            <Text style={GlobalStyle.homeIconText}>Application Register</Text>
                         </Card>
                     </Pressable>
                 }

@@ -1,44 +1,40 @@
 import React,{useEffect} from 'react'
 import { View, FlatList } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux'
-import { getHodReportee } from '../../components/redux/actions/employeeActions'
+import { getRegisterList } from '../../components/redux/actions/employeeActions'
 import useThemeStyle from '../../components/utils/useThemeStyle';
 import Dtheader from '../Reusable/Dtheader';
 import LoopItems from '../Reusable/LoopItems';
 
-const TeamAttendance = ({navigation,route}) => {
+const RegisterList = ({navigation}) => {
 
-  const empcode = route.params.ecode;
-  const result = useSelector((state) => state.employee.hodreportee)
+  const empcode = useSelector((state) => state.auth.empcode)
+  const result = useSelector((state) => state.employee.reglist)
   const [theme,GlobalStyle] = useThemeStyle(); 
-
-  const repoarry = [];
   const dispatch = useDispatch();
 
-  for(var i in result && result.GetHODReporteeList) {
-    repoarry.push(Object.assign({},...result.GetHODReporteeList[i].Reportee));
-  }
-  
   useEffect(() => {
-    dispatch(getHodReportee(empcode));
+    dispatch(getRegisterList());
   },[])
 
   return (
     <View style={GlobalStyle.dtcontainer}>
-      <Dtheader headtitle={['Team Members']} />
+      <Dtheader headtitle={['All Register']}/>
       <View style={{marginTop:5}}>
         <FlatList
-            data={repoarry && repoarry}
+            data={result && result.RegisterSortingList}
             keyExtractor={(it,index) => index}
             renderItem={({item,index}) => (
               <LoopItems
                 type="card" 
                 navigation={navigation} 
-                naviTo="SelfCard" 
+                naviTo="RgItem" 
                 naviObj={{
-                  ecode:item['Reportee Code'] 
+                  ecode:empcode,
+                  api:`Get${item[index+1].replace(' ','')}Self`,
+                  title:item[index+1]
                 }}
-                ctitle={item['Reportee Name']}
+                ctitle={item[index+1]}
               />
           )}
         />
@@ -47,4 +43,4 @@ const TeamAttendance = ({navigation,route}) => {
   )
 }
 
-export default TeamAttendance
+export default RegisterList

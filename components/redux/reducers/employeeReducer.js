@@ -1,5 +1,5 @@
 import { 
-    GET_HOLIDAY_LIST,CLEAR_DATA, ERROR, GET_NBOARD, GET_NOTIFI, UPDT_NOTIFI, HOD_REPORTEE, TCARD_ONLOAD, TCARD_SELF, DT_TCARD_SELF, GET_GRAPH
+    GET_HOLIDAY_LIST,CLEAR_DATA, ERROR, GET_NBOARD, GET_NOTIFI, UPDT_NOTIFI, HOD_REPORTEE, TCARD_ONLOAD, TCARD_SELF, DT_TCARD_SELF, GET_GRAPH, RG_DETAILS, RG_ITEMS, RG_LIST
 } from '../actions/type';
 
 const initialState = {
@@ -10,6 +10,9 @@ const initialState = {
     tcardonload:null,
     dt_tcardself:null,
     graph:null,
+    reglist:null,
+    regitem:null,
+    regdetail:null,
 };
 
 export default function (state = initialState, action) {
@@ -53,7 +56,22 @@ export default function (state = initialState, action) {
         case UPDT_NOTIFI:
             return {
                 ...state
-            }    
+            }
+        case RG_LIST:
+            return {
+                ...state,
+                reglist: action.payload
+            }
+        case RG_ITEMS:
+            return {
+                ...state,
+                regitem: action.payload
+            }
+        case RG_DETAILS:
+            return {
+                ...state,
+                regdetail: action.payload
+            }
         case CLEAR_DATA:
         case ERROR:
             return { 
