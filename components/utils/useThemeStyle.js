@@ -31,29 +31,23 @@ const useThemeStyle = () => {
           } */
     };
 
+    const primary = '#3174AE'
+    const accent = '#e6e7e8'
+
     const theme = {
   
         ...MD2LightTheme,
         roundness: 4,
         colors: {
             ...MD2LightTheme.colors,
-            primary:'#3174AE',
-            accent: '#e6e7e8',
+            primary: primary,
+            accent: accent,
         },
-        fonts: configureFonts({config: fontConfig, isV3: false}),
-    };
-    
-    const GlobalStyle = StyleSheet.create({
-        primarycolor:{
-            color:theme.colors.primary
-        },
-        secondarycolor:{
-            color:theme.colors.accent
-        },
+        fonts: configureFonts({config: fontConfig, isV3: false}),      
         homeIconText :{
-            color:theme.colors.primary,
+            color:primary,
             marginTop:12,
-            fontSize:15,
+            // fontSize:14,
             textAlign:'center',
         },
         container: {
@@ -72,7 +66,7 @@ const useThemeStyle = () => {
             borderRadius:5,
         },
         cardTitle:{        
-            backgroundColor:theme.colors.accent,            
+            backgroundColor:accent,            
             marginHorizontal:8,
             borderRadius:5,
             marginBottom:6,
@@ -88,22 +82,17 @@ const useThemeStyle = () => {
         textinput:{
             height: 55,  
             backgroundColor:'#fff',      
-            borderColor:theme.colors.primary,
+            borderColor:primary,
             shadowOffset:0,
-            color:theme.colors.primary,
+            color:primary,
             fontSize:17,
             borderWidth: 1,
             borderRadius:5,
         },
-        nodatafound:{
-            flex:1,
-            justifyContent:'center',
-            alignItems:'center',
-        },
-    })
+    };
 
     return [
-        theme, GlobalStyle
+        theme
     ];
 };
   

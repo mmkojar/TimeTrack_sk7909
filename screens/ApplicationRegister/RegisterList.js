@@ -10,7 +10,7 @@ const RegisterList = ({navigation}) => {
 
   const empcode = useSelector((state) => state.auth.empcode)
   const result = useSelector((state) => state.employee.reglist)
-  const [theme,GlobalStyle] = useThemeStyle(); 
+  const [theme] = useThemeStyle(); 
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -18,7 +18,7 @@ const RegisterList = ({navigation}) => {
   },[])
 
   return (
-    <View style={GlobalStyle.dtcontainer}>
+    <View style={theme.dtcontainer}>
       <Dtheader headtitle={['All Register']}/>
       <View style={{marginTop:5}}>
         <FlatList
@@ -28,7 +28,7 @@ const RegisterList = ({navigation}) => {
               <LoopItems
                 type="card" 
                 navigation={navigation} 
-                naviTo="RgItem" 
+                naviTo="RgItem"
                 naviObj={{
                   ecode:empcode,
                   api:`Get${item[index+1].replace(' ','')}Self`,

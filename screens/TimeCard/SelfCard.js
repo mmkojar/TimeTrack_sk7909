@@ -2,15 +2,16 @@ import React,{useEffect,useState} from 'react'
 import { View, StyleSheet, FlatList } from 'react-native'
 import { TextInput, IconButton, Text } from 'react-native-paper';
 import { useDispatch, useSelector } from 'react-redux'
-import { getTimeCardOnLoad, getTimeCardForSelf } from '../../components/redux/actions/employeeActions'
+import { getTimeCardOnLoad, getTimeCardSelfFilter } from '../../components/redux/actions/employeeActions'
 import useThemeStyle from '../../components/utils/useThemeStyle';
 import CustomButtons from '../../components/utils/CustomButtons';
 import LoopItems from '../Reusable/LoopItems';
+import Nodatafound from '../Reusable/Nodatafound';
 // import DateTimePicker from '@react-native-community/datetimepicker';
 
 const SelfCard = ({navigation,route}) => {
 
-    const [theme,GlobalStyle] = useThemeStyle();
+    const [theme] = useThemeStyle();
     
     const empcode = route.params.ecode
     const tconload = useSelector((state) => state.employee.tcardonload)
@@ -36,36 +37,36 @@ const SelfCard = ({navigation,route}) => {
             alert('Please Enter Dates');
         }
         else {
-            dispatch(getTimeCardForSelf(empcode,date1,date2))
+            dispatch(getTimeCardSelfFilter(empcode,date1,date2))
         }
     }
 
     return (
-        <View style={GlobalStyle.container}>
+        <View style={theme.container}>
             <View style={styles.filter}>
                 <TextInput                  
-                    style={[GlobalStyle.textinput,{width:'35%',height:40}]}
+                    style={[theme.textinput,{width:'35%',height:40}]}
                     onChangeText={(val) => setDate1(val)}
                     placeholder="Date1"
-                    placeholderTextColor={GlobalStyle.primarycolor.color}                      
+                    placeholderTextColor={theme.colors.primary}                      
                     value={date1}
                 />
                 {/* <DatePicker 
-                style={[GlobalStyle.textinput,{width:'35%',height:40}]}
+                style={[theme.textinput,{width:'35%',height:40}]}
                 date={date1}
                 onDateChange={setDate1} /> */}
                 <TextInput
-                    style={[GlobalStyle.textinput,{width:'35%',height:40}]}
+                    style={[theme.textinput,{width:'35%',height:40}]}
                     onChangeText={(val) => setDate2(val)}
                     placeholder="Date2"
-                    placeholderTextColor={GlobalStyle.primarycolor.color}
+                    placeholderTextColor={theme.colors.primary}
                     keyboardType='default'
                     value={date2}
                 />
               <CustomButtons title="Go" pressHandler={handleSubmit}></CustomButtons>              
             </View>
             {
-                tconload && tconload.GetTimeCardForPageLoad.length > 0 ? 
+                tconload && tconload.GetTimeCardForPageLoad && tconload.GetTimeCardForPageLoad.length > 0 ? 
                     <View style={{marginTop:5}}>                        
                         <FlatList
                             data={tconload && tconload.GetTimeCardForPageLoad}
@@ -83,14 +84,14 @@ const SelfCard = ({navigation,route}) => {
                                     [
                                         item.Tr_Date,
                                         item.AttendanceStatus,
-                                        <IconButton size={24} icon="arrow-right" color={GlobalStyle.primarycolor.color} onPress={() => pressHandler(item.Tr_Date)} />
+                                        <IconButton size={24} icon="arrow-right" color={theme.colors.primary} onPress={() => pressHandler(item.Tr_Date)} />
                                     ]
                                     }
                                 />
                             )}
                         />
                 </View>
-                : <View style={GlobalStyle.nodatafound}><Text>No Record Found</Text></View>
+                : <Nodatafound />
             }
             
         </View>

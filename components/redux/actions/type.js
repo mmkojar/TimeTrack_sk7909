@@ -17,6 +17,16 @@ export const DT_TCARD_SELF = 'DT_TCARD_SELF';
 export const RG_LIST = 'RG_LIST';
 export const RG_ITEMS = 'RG_ITEMS';
 export const RG_DETAILS = 'RG_DETAILS';
+// Pending Applicatoin
+export const PEND_COUNT = 'PEND_COUNT';
+export const CANC_COUNT = 'CANC_COUNT';
+export const HOD_PEND_COUNT = 'HOD_PEND_COUNT';
+export const HOD_CANC_COUNT = 'HOD_CANC_COUNT';
+export const PEND_LIST = 'PEND_LIST';
+export const CANC_LIST = 'CANC_LIST';
+export const HOD_PEND_LIST = 'HOD_PEND_LIST';
+export const HOD_CANC_LIST = 'HOD_CANC_LIST';
+
 
 export const GET_HOLIDAY_LIST = 'GET_HOLIDAY_LIST';
 export const GET_NBOARD = 'GET_NBOARD';

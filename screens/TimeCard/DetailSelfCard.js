@@ -7,7 +7,7 @@ const DetailSelfCard = ({route}) => {
 
     const { tr_date, empcode } = route.params;
     const dt_tcself = useSelector((state) => state.employee.dt_tcardself)
-    const entries = dt_tcself && Object.entries(dt_tcself.GetTimeCardForPageLoad[0]);
+    const entries = dt_tcself && dt_tcself.GetTimeCardForPageLoad && Object.entries(dt_tcself.GetTimeCardForPageLoad[0]);
     const dispatch = useDispatch();
     
     useEffect(() => {

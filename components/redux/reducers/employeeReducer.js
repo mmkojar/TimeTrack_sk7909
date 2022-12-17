@@ -1,9 +1,10 @@
 import { 
-    GET_HOLIDAY_LIST,CLEAR_DATA, ERROR, GET_NBOARD, GET_NOTIFI, UPDT_NOTIFI, HOD_REPORTEE, TCARD_ONLOAD, TCARD_SELF, DT_TCARD_SELF, GET_GRAPH, RG_DETAILS, RG_ITEMS, RG_LIST
+    GET_HOLIDAY_LIST,CLEAR_DATA, ERROR, GET_NBOARD, GET_NOTIFI, UPDT_NOTIFI, HOD_REPORTEE, 
+    TCARD_ONLOAD, TCARD_SELF, DT_TCARD_SELF, GET_GRAPH, RG_DETAILS, RG_ITEMS, RG_LIST, PEND_COUNT, CANC_COUNT, HOD_PEND_COUNT, HOD_CANC_COUNT
 } from '../actions/type';
 
 const initialState = {
-    holiday:null,   
+    holiday:null,
     notice:null,
     notify:null,
     hodreportee:null,
@@ -13,6 +14,10 @@ const initialState = {
     reglist:null,
     regitem:null,
     regdetail:null,
+    pdcount:null,
+    cancount:null,
+    hodpdcount:null,
+    hodcancount:null,
 };
 
 export default function (state = initialState, action) {
@@ -71,6 +76,26 @@ export default function (state = initialState, action) {
             return {
                 ...state,
                 regdetail: action.payload
+            }
+        case PEND_COUNT:
+            return {
+                ...state,
+                pdcount: action.payload
+            }
+        case CANC_COUNT:
+            return {
+                ...state,
+                cancount: action.payload
+            }
+        case HOD_PEND_COUNT:
+            return {
+                ...state,
+                hodpdcount: action.payload
+            }    
+        case HOD_CANC_COUNT:
+            return {
+                ...state,
+                hodcancount: action.payload
             }
         case CLEAR_DATA:
         case ERROR:

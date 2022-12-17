@@ -4,7 +4,7 @@ import { START_LOADER, STOP_LOADER, LOGIN_SUCCESS, HOME_PAGE } from './type';
 import Config from '../../utils/Config';
 
 //  ------Login Action------
-export const validRegisterUser = (userid,password,key) => (dispatch) => {
+export const validRegisterUser = (userid,password,key,deviceId) => (dispatch) => {
 
     dispatch({
         type: START_LOADER,
@@ -19,12 +19,12 @@ export const validRegisterUser = (userid,password,key) => (dispatch) => {
                 type: HOME_PAGE,
                 payload: res.data
             })
-            dispatch(ValidEmployeeUser(userid,password))
+            dispatch(ValidEmployeeUser(userid,password,deviceId))
         }
         else {
             Alert.alert('Error','Invalid Key',[
                 {text: 'OK'}
-              ],{cancelable:true})                   
+              ],{cancelable:true})
             dispatch({
                 type: STOP_LOADER,
             });
@@ -38,15 +38,14 @@ export const validRegisterUser = (userid,password,key) => (dispatch) => {
     });
 };
 
-export const ValidEmployeeUser = (userid,password) => (dispatch) => {
+export const ValidEmployeeUser = (userid,password,deviceId) => (dispatch) => {
 
     axios.get(Config.clientUrl+`ValidEmployeeUser?userid=${userid}&password=${password}`
     )
     .then((res) => {
-        // console.log(res.data);
+        console.log(res.data);
         if(res.data.Active == 'true') {
             var deviceype = Platform.OS == 'ios' ? 'I' : 'A';
-            var deviceId = 'sss';
             var token = 'token';
             dispatch(GetEmployeeDevice(userid,deviceId,deviceype,token,res.data.IsHod))
         }
@@ -87,6 +86,9 @@ export const GetEmployeeDevice = (userid,deviceId,deviceype,token,isHod) => (dis
     })
     .catch((err) => {
         alert(err);
+        dispatch({
+            type: STOP_LOADER,
+        });
     });
 }
 
@@ -116,5 +118,8 @@ export const GetHomePageForEmployee = (userid,isHod) => (dispatch) => {
     })
     .catch((err) => {
         alert(err);
+        dispatch({
+            type: STOP_LOADER,
+        });
     });
 }

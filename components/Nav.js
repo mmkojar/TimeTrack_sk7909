@@ -7,12 +7,17 @@ import HomeScreen from '../screens/Home';
 import LoginScreen from '../screens/Login';
 import AtttendanceChartScreen from '../screens/AtttendanceChart';
 import IsHodScreen from '../screens/TimeCard/IsHod';
+import TeamAttendanceScreen from '../screens/TimeCard/TeamAttendance';
 import SelfCardScreen from '../screens/TimeCard/SelfCard';
 import DetailSelfCardScreen from '../screens/TimeCard/DetailSelfCard';
-import TeamAttendanceScreen from '../screens/TimeCard/TeamAttendance';
 import RegisterListScreen from '../screens/ApplicationRegister/RegisterList';
 import RegisterItemsScreen from '../screens/ApplicationRegister/RegisterItems';
 import RegisterDetailsScreen from '../screens/ApplicationRegister/RegisterDetails';
+import PAIsHodScreen from '../screens/PendingApplication/PAIsHod';
+import PAtypesScreen from '../screens/PendingApplication/PAtypes';
+import PAListScreen from '../screens/PendingApplication/PAList';
+import PAListItemsScreen from '../screens/PendingApplication/PAListItems';
+import PAItemDetailScreen from '../screens/PendingApplication/PAItemDetail';
 import HolidayScreen from '../screens/Holiday';
 import NoticeScreen from '../screens/Notice';
 import NotificationScreen from '../screens/Notification';
@@ -39,21 +44,11 @@ const Stack = createStackNavigator();
 
 const Nav = ({color, refer}) => {
      
-//   const [theme,GlobalStyle] = useThemeStyle();
+//   const [theme] = useThemeStyle();
 
   const authData = useSelector((state) => state.auth);
-  const { ValidRegisterUser: settings } = useSelector((state) => state.auth.homepage);    
   const { isAuthenticated } = authData;
   
-  const LogoTitle = () => {
-    return (
-      <Image
-        style={{ width: 250, height: 50 }}
-        source={{uri:settings.find(item => item.CLogo).CLogo}}
-      />
-    );
-  }
-
   return (
     // <SafeAreaView>    
     <NavigationContainer ref={refer}>
@@ -78,22 +73,22 @@ const Nav = ({color, refer}) => {
                 options={{ 
                     headerStyle:{
                         backgroundColor: color,
-                        height:80,                        
+                        // height:80,                        
                     },
-                    headerTitle: (props) => <LogoTitle {...props} /> 
+                    title:'Time Track Mobile App',
                 }}
             /> 
             <Stack.Screen name="AtttendanceChart" component={AtttendanceChartScreen} 
                 options={{
                 title:'Atttendance Chart',                   
+                }} />            
+            <Stack.Screen name="IsHod" component={IsHodScreen} 
+                options={{
+                title:'Time Card',                   
                 }} />
             <Stack.Screen name="TeamAttendance" component={TeamAttendanceScreen} 
                 options={{
                 title:'Team Attendance',                   
-                }} />
-            <Stack.Screen name="IsHod" component={IsHodScreen} 
-                options={{
-                title:'Time Card',                   
                 }} />
             <Stack.Screen name="SelfCard" component={SelfCardScreen} 
                 options={{
@@ -107,8 +102,22 @@ const Nav = ({color, refer}) => {
                 options={{
                     title:'Application Register',                   
                 }} />
-            <Stack.Screen name="RgItem" component={RegisterItemsScreen} />        
-            <Stack.Screen name="RgDetails" component={RegisterDetailsScreen} />        
+            <Stack.Screen name="RgItem" component={RegisterItemsScreen} />
+            <Stack.Screen name="RgDetails" component={RegisterDetailsScreen} />
+            <Stack.Screen name="PAIsHod" component={PAIsHodScreen} 
+                options={{
+                    title:'Pending Application',                   
+                }} />    
+            <Stack.Screen name="PAtypes" component={PAtypesScreen} 
+                options={{
+                    title:'Pending Application',                   
+                }} />
+            <Stack.Screen name="PAList" component={PAListScreen} 
+                options={{
+                    title:'Pending/Approve',                   
+                }} />
+            <Stack.Screen name="PAListItem" component={PAListItemsScreen}  />
+            <Stack.Screen name="PAItemDetail" component={PAItemDetailScreen} />                               
             <Stack.Screen name="Holiday" component={HolidayScreen} 
                 options={{
                 title:'Holiday List',                   

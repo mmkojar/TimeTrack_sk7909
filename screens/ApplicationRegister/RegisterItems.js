@@ -5,12 +5,11 @@ import { getRegisterItems } from '../../components/redux/actions/employeeActions
 import useThemeStyle from '../../components/utils/useThemeStyle';
 import Dtheader from '../Reusable/Dtheader';
 import LoopItems from '../Reusable/LoopItems';
-import moment from 'moment';
 import Nodatafound from '../Reusable/Nodatafound';
 
 const RegisterItems = ({navigation,route}) => {
 
-  const [theme,GlobalStyle] = useThemeStyle();
+  const [theme] = useThemeStyle();
   const { api,ecode,title } = route.params;
   const result = useSelector((state) => state.employee.regitem)
   
@@ -26,13 +25,13 @@ const RegisterItems = ({navigation,route}) => {
     dispatch(getRegisterItems(api,ecode));
   },[])
 
-  const headtitles = result.GetTimeCardForPageLoad && Object.keys(result.GetTimeCardForPageLoad[0]);
+  const checkKey = result && Object.keys(result)[0];
+  const headtitles = (checkKey == 'GetTimeCardForPageLoad') && Object.keys(result.GetTimeCardForPageLoad[0]);
   
   // delete header.Id  
-  const checkKey = Object.keys(result)[0];
   
   return (
-    <View style={GlobalStyle.dtcontainer}>
+    <View style={theme.dtcontainer}>
       {
         checkKey == 'GetTimeCardForPageLoad' ? 
         <>

@@ -7,7 +7,7 @@ import useThemeStyle from '../components/utils/useThemeStyle';
 
 const Notice = () => {
 
-  const [theme,GlobalStyle] = useThemeStyle();
+  const [theme] = useThemeStyle();
   const empcode = useSelector((state) => state.auth.empcode)
   const notice = useSelector((state) => state.employee.notice)
   const dispatch = useDispatch();
@@ -18,8 +18,8 @@ const Notice = () => {
   },[])
 
   return (
-    <View style={GlobalStyle.container}>
-      <Card style={GlobalStyle.card} elevation={5}>
+    <View style={theme.container}>
+      <Card style={theme.card} elevation={3}>
           <Paragraph>{notice && notice.NoticeBoard}</Paragraph>
       </Card>
     </View>

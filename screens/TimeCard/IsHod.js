@@ -1,22 +1,20 @@
 import React from 'react'
 import { View } from 'react-native'
-import {  useSelector } from 'react-redux'
 import useThemeStyle from '../../components/utils/useThemeStyle';
 import LoopItems from '../Reusable/LoopItems';
 
-const IsHod = ({navigation}) => {
+const IsHod = ({navigation,route}) => {
 
-  const [theme,GlobalStyle] = useThemeStyle();
-  const empcode = useSelector((state) => state.auth.empcode)  
+  const [theme] = useThemeStyle();
 
   return (
-    <View style={GlobalStyle.container}>
+    <View style={theme.container}>
           <LoopItems 
                 type="card" 
-                navigation={navigation} 
-                naviTo="SelfCard" 
+                navigation={navigation}
+                naviTo="SelfCard"
                 naviObj={{
-                  ecode:empcode
+                  ecode:route.params.ecode
                 }} 
                 ctitle="For Self"
           />
@@ -25,10 +23,10 @@ const IsHod = ({navigation}) => {
                 navigation={navigation} 
                 naviTo="TeamAttendance"
                 naviObj={{
-                  ecode:empcode
+                  ecode:route.params.ecode
                 }}
                 ctitle="For Team"
-          />                
+          />
     </View>
   )
 }

@@ -10,7 +10,7 @@ import moment from 'moment';
 
 const AtttendanceChart = ({navigation}) => {
 
-  const [theme,GlobalStyle] = useThemeStyle();
+  const [theme] = useThemeStyle();
   const empcode = useSelector((state) => state.auth.empcode)
   const result = useSelector((state) => state.employee.graph)
 
@@ -74,7 +74,7 @@ const AtttendanceChart = ({navigation}) => {
     
   return (
     <ScrollView>
-      <View style={GlobalStyle.container}>
+      <View style={theme.container}>
           <View style={styles.filter}>
               <SelectDropdown                
                 data={months}

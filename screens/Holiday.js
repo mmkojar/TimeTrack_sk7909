@@ -9,7 +9,7 @@ import moment from 'moment';
 
 const Holiday = () => {
 
-  const [theme,GlobalStyle] = useThemeStyle();
+  const [theme] = useThemeStyle();
   const empcode = useSelector((state) => state.auth.empcode)
   const holidaylist = useSelector((state) => state.employee.holiday)
   
@@ -23,7 +23,7 @@ const Holiday = () => {
   const header = ['Date','Name','Optional'];
 
   return (
-    <View style={GlobalStyle.dtcontainer}>
+    <View style={theme.dtcontainer}>
       <Dtheader headtitle={header} />
       <FlatList
           data={holidaylist && holidaylist.HolidayParamList}

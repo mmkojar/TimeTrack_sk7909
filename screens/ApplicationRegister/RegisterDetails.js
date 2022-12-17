@@ -7,7 +7,7 @@ const RegisterDetails = ({navigation,route}) => {
 
     const {empcode, id, api, title } = route.params;
     const result = useSelector((state) => state.employee.regdetail)
-    const entries = result && Object.entries(result.GetApplicationStatusReport[0]);
+    const entries = result && result.GetApplicationStatusReport && Object.entries(result.GetApplicationStatusReport[0]);
     const dispatch = useDispatch();
     
     React.useLayoutEffect(() => {

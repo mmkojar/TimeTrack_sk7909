@@ -1,11 +1,11 @@
- import React, { Fragment, useEffect } from 'react';
- import { Provider as PaperProvider, withTheme } from 'react-native-paper';
- import Nav from './components/Nav';
- import Spinner from './components/utils/Spinner';
- import { navigationRef, navigate } from './services/RootNavigation';
+import React, { Fragment, useEffect } from 'react';
+import { Provider as PaperProvider, withTheme } from 'react-native-paper';
+import Nav from './components/Nav';
+import Spinner from './components/utils/Spinner';
+import { navigationRef, navigate } from './services/RootNavigation';
 //  import factory from './components/redux/store';
- import useThemeStyle from './components/utils/useThemeStyle';
- import SplashScreen from 'react-native-splash-screen'
+import useThemeStyle from './components/utils/useThemeStyle';
+import SplashScreen from 'react-native-splash-screen'
 //  const { store } = factory();
 
 const App = () => {

@@ -4,6 +4,7 @@ import { Card,TextInput,Text, Snackbar} from 'react-native-paper';
 import CustomButtons from '../components/utils/CustomButtons';
 import { useDispatch } from 'react-redux';
 import { validRegisterUser } from '../components/redux/actions/authActions';
+import DeviceInfo from 'react-native-device-info';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 // import { fcmService } from '../services/FCMService';
 import useThemeStyle from '../components/utils/useThemeStyle';
@@ -12,7 +13,7 @@ import useThemeStyle from '../components/utils/useThemeStyle';
 
 function Login() {
 
-    const [theme,GlobalStyle] = useThemeStyle();
+    const [theme] = useThemeStyle();
     useEffect(() => {
         // fcmService.getToken(onRegister)
     }, [])
@@ -20,15 +21,19 @@ function Login() {
     /* const onRegister = (token) => {
         SetToken(token);
     } */
-       
+
     const [userid,SetUserid] = useState('');
     const [password,SetPassword] = useState('');
     const [key,SetKey] = useState('');
     const [isPasswordSecure, setIsPasswordSecure] = useState(true);
     const [isKeySecure, setIsKeySecure] = useState(true);
+    const [deviceId, setDeviceId] = useState(true);
 
+    DeviceInfo.getUniqueId().then((uniquid) => {
+        setDeviceId(uniquid);
+    })   
     const dispatch = useDispatch();
-    
+   
     const pressHandler = (e) => {
         
         e.preventDefault();
@@ -50,8 +55,8 @@ function Login() {
         }
         else {            
             Keyboard.dismiss();            
-            // console.log(token);
-            dispatch(validRegisterUser(userid,password,key));
+            // console.log(token);            
+            dispatch(validRegisterUser(userid,password,key,deviceId));
         }
     }
 
@@ -73,18 +78,18 @@ function Login() {
                             <Text style={styles.heading}>Please fillup all the details and complete the Login process</Text>
                             <Card.Content>
                                 <TextInput
-                                    style={GlobalStyle.textinput}
+                                    style={theme.textinput}
                                     onChangeText={(val) => SetUserid(val)}
                                     placeholder="User Id"
-                                    placeholderTextColor={GlobalStyle.primarycolor.color}
+                                    placeholderTextColor={theme.colors.primary}
                                     keyboardType='default'
                                     value={userid}
                                 />
                                 <TextInput
-                                    style={[GlobalStyle.textinput,{marginVertical:20}]}
+                                    style={[theme.textinput,{marginVertical:20}]}
                                     onChangeText={(val) => SetPassword(val)}
                                     placeholder="Password"
-                                    placeholderTextColor={GlobalStyle.primarycolor.color}
+                                    placeholderTextColor={theme.colors.primary}
                                     keyboardType='default'
                                     secureTextEntry={isPasswordSecure}
                                     right={
@@ -96,10 +101,10 @@ function Login() {
                                     value={password}
                                 />
                                 <TextInput
-                                    style={GlobalStyle.textinput}
+                                    style={theme.textinput}
                                     onChangeText={(val) => SetKey(val)}
                                     placeholder="Key"
-                                    placeholderTextColor={GlobalStyle.primarycolor.color}
+                                    placeholderTextColor={theme.colors.primary}
                                     keyboardType='default'
                                     secureTextEntry={isKeySecure}
                                     right={

@@ -8,7 +8,7 @@ const LoopItems = (props) => {
 
   const { type,navigation,naviTo,naviObj,ctitle,dttable } = props;
   
-  const [theme,GlobalStyle] = useThemeStyle();
+  const [theme] = useThemeStyle();
 
   const pressHandler = () => {
     navigation && navigation.navigate(naviTo && naviTo,naviObj && naviObj)
@@ -18,13 +18,13 @@ const LoopItems = (props) => {
     type == 'card' ? 
     <Pressable onPress={pressHandler}>
         <Card.Title
-            style={GlobalStyle.cardTitle}
+            style={theme.cardTitle}
             title={ctitle}
             // subtitle={item['Reportee Code']}
-            titleStyle={{fontSize:16}}
-            right={(props) => <IconButton {...props} size={22} icon="arrow-right" color={GlobalStyle.primarycolor.color} onPress={pressHandler} />}
+            titleStyle={{fontSize:15}}
+            right={(props) => <IconButton {...props} size={22} icon="arrow-right" color={theme.colors.primary} onPress={pressHandler} />}
         />
-    </Pressable> :      
+    </Pressable> :
     <DataTable.Row onPress={pressHandler}>
       {
           dttable.map((item,index) => {

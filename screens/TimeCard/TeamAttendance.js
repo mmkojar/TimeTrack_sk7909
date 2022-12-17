@@ -10,7 +10,7 @@ const TeamAttendance = ({navigation,route}) => {
 
   const empcode = route.params.ecode;
   const result = useSelector((state) => state.employee.hodreportee)
-  const [theme,GlobalStyle] = useThemeStyle(); 
+  const [theme] = useThemeStyle(); 
 
   const repoarry = [];
   const dispatch = useDispatch();
@@ -24,8 +24,8 @@ const TeamAttendance = ({navigation,route}) => {
   },[])
 
   return (
-    <View style={GlobalStyle.dtcontainer}>
-      <Dtheader headtitle={['Team Members']} />
+    <View style={theme.dtcontainer}>
+      <Dtheader headtitle={['Team Members']}/>
       <View style={{marginTop:5}}>
         <FlatList
             data={repoarry && repoarry}

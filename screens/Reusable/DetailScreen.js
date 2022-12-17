@@ -6,22 +6,21 @@ import Dtheader from './Dtheader';
 
 const DetailScreen = ({title, entries}) => {
 
-    const [theme,GlobalStyle] = useThemeStyle();
+    const [theme] = useThemeStyle();
 
     return (
         <ScrollView>
-            <View style={GlobalStyle.dtcontainer}>
+            <View style={theme.dtcontainer}>
                 <DataTable>
                     <Dtheader headtitle={[title]}/>
                     {
                         entries && entries.map(([key, value]) => {
                             return (
                                 <DataTable.Row key={key}> 
-                                    <DataTable.Cell>{key}</DataTable.Cell>
+                                    <DataTable.Cell>{key.replace('_',' ')}</DataTable.Cell>
                                     <DataTable.Cell style={{justifyContent:'center'}}>{value}</DataTable.Cell>
                                 </DataTable.Row>
-                            )
-                            
+                            )                            
                         })
                     }
                 </DataTable>
