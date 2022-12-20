@@ -27,8 +27,10 @@ export default function (state = initialState, action) {
             return {
                 ...state,
                 isAuthenticated: false,
-                userid:null,
-                user:null,
+                empcode:null,
+                user: null,
+                isHod:null,
+                homepage:null,
             };
         default:
             return state;

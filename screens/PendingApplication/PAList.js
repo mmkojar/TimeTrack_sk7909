@@ -16,20 +16,20 @@ const PAList = ({navigation,route}) => {
 
   if(hodtype === 'self' && pdtype === "Pending Approval") {
     const pdresult = useSelector((state) => state.employee.pdcount)
-    paarray = pdresult && pdresult.GetEmployeePendingCount[0]['Pending Application'];
+    paarray = pdresult && pdresult.GetEmployeePendingCount && pdresult.GetEmployeePendingCount[0]['Pending Application'];
   }
   else if(hodtype === 'self' && pdtype === "Pending Cancellation") {
     const canresult = useSelector((state) => state.employee.cancount)
-    paarray = canresult && canresult.GetEmployeeCancellationPendingCount[0]['Cancellation Pending Application'];
+    paarray = canresult && canresult.GetEmployeeCancellationPendingCount && canresult.GetEmployeeCancellationPendingCount[0]['Cancellation Pending Application'];
   }
   else if(hodtype === 'team' && pdtype === "Pending Approval") {
 
     const hodpdresult = useSelector((state) => state.employee.hodpdcount)    
-    paarray = hodpdresult && hodpdresult.GetHODHomePageCount[0]['Pending Application']
+    paarray = hodpdresult && hodpdresult.GetHODHomePageCount && hodpdresult.GetHODHomePageCount[0]['Pending Application']
   }
   else if(hodtype === 'team' && pdtype === "Pending Cancellation") {
     const hodcanresult = useSelector((state) => state.employee.hodcancount)    
-    paarray = hodcanresult && hodcanresult.GetHODHomePageCancellationPendingCount[0]['Cancellation Pending Application']
+    paarray = hodcanresult && hodcanresult.GetHODHomePageCancellationPendingCount && hodcanresult.GetHODHomePageCancellationPendingCount[0]['Cancellation Pending Application']
   }
 
   const dispatch = useDispatch();   
@@ -59,8 +59,13 @@ const PAList = ({navigation,route}) => {
     });
     let pafinal = Object.entries(paresult);
 
-    const pressHandler = () => {
-        
+    const pressHandler = (AppType) => {
+        navigation.navigate('PAListItem', {
+            ecode:ecode,
+            hodtype: hodtype,
+            apptype: AppType.replace(' ',''),
+            pdtype:pdtype
+        })
     }
 
   return (
@@ -70,10 +75,10 @@ const PAList = ({navigation,route}) => {
           pafinal.length > 0 ?
             pafinal && pafinal.map(([key, value]) => {              
                   return (
-                      <DataTable.Row key={key}> 
+                      <DataTable.Row key={key} onPress={() =>pressHandler(key)}> 
                           <DataTable.Cell>{key}</DataTable.Cell>
                           <DataTable.Cell>{value}</DataTable.Cell>
-                          <IconButton size={22} icon="arrow-right" color={theme.colors.primary} onPress={pressHandler} />
+                          <IconButton size={22} icon="arrow-right" color={theme.colors.primary} onPress={() =>pressHandler(key)} />
                       </DataTable.Row>
                   )
             })

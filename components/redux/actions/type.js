@@ -3,11 +3,15 @@ export const STOP_LOADER = 'STOP_LOADER';
 export const GET_MSG = 'GET_MSG';
 export const CLEAR_MSG = 'CLEAR_MSG';
 export const CLEAR_DATA = 'CLEAR_DATA';
-export const THEME_SETTINGS = 'THEME_SETTINGS';
+export const HOME_SETTINGS = 'HOME_SETTINGS';
 // Login
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
 export const HOME_PAGE = 'HOME_PAGE';
 export const GET_GRAPH = 'GET_GRAPH';
+// Mark Attendance
+export const ATTEND_LOGS = 'ATTEND_LOGS';
+export const MARK_EMP_LOGS = 'MARK_EMP_LOGS';
+export const INSERT_ATTEND = 'INSERT_ATTEND';
 // TimeCard
 export const HOD_REPORTEE = 'HOD_REPORTEE';
 export const TCARD_ONLOAD = 'TCARD_ONLOAD';
@@ -26,6 +30,7 @@ export const PEND_LIST = 'PEND_LIST';
 export const CANC_LIST = 'CANC_LIST';
 export const HOD_PEND_LIST = 'HOD_PEND_LIST';
 export const HOD_CANC_LIST = 'HOD_CANC_LIST';
+export const DETAIL_HOD_LIST = 'DETAIL_HOD_LIST';
 
 
 export const GET_HOLIDAY_LIST = 'GET_HOLIDAY_LIST';

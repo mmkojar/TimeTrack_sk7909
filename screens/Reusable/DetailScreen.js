@@ -4,7 +4,7 @@ import { DataTable } from 'react-native-paper';
 import useThemeStyle from '../../components/utils/useThemeStyle';
 import Dtheader from './Dtheader';
 
-const DetailScreen = ({title, entries}) => {
+const DetailScreen = ({title, entries, type}) => {
 
     const [theme] = useThemeStyle();
 
@@ -12,7 +12,7 @@ const DetailScreen = ({title, entries}) => {
         <ScrollView>
             <View style={theme.dtcontainer}>
                 <DataTable>
-                    <Dtheader headtitle={[title]}/>
+                    { type !== 'pa' && <Dtheader headtitle={[title]}/>  }
                     {
                         entries && entries.map(([key, value]) => {
                             return (

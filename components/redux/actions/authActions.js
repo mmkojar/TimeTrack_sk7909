@@ -43,7 +43,7 @@ export const ValidEmployeeUser = (userid,password,deviceId) => (dispatch) => {
     axios.get(Config.clientUrl+`ValidEmployeeUser?userid=${userid}&password=${password}`
     )
     .then((res) => {
-        console.log(res.data);
+        // console.log(res.data);
         if(res.data.Active == 'true') {
             var deviceype = Platform.OS == 'ios' ? 'I' : 'A';
             var token = 'token';
@@ -71,7 +71,7 @@ export const GetEmployeeDevice = (userid,deviceId,deviceype,token,isHod) => (dis
     axios.get(Config.clientUrl+`GetEmployeeDevice?userid=${userid}&deviceid=${deviceId}&DeviceType=${deviceype}&TokenNumber=${token}`
     )
     .then((res) => {
-        console.log("GetEmployeeDevice:",res.data);
+        // console.log("GetEmployeeDevice:",res.data);
         if(res.data.Active == 'Success') {
             dispatch(GetHomePageForEmployee(userid,isHod));
         }
@@ -95,7 +95,7 @@ export const GetEmployeeDevice = (userid,deviceId,deviceype,token,isHod) => (dis
 export const GetHomePageForEmployee = (userid,isHod) => (dispatch) => {
     axios.get(Config.clientUrl+`GetHomePageForEmployee2?EmpCode=${userid}`)
     .then((res) => {
-        console.log("GetHomePageForEmployee:",res.data.GetHomePageForEmployee);
+        // console.log("GetHomePageForEmployee:",res.data.GetHomePageForEmployee);
         dispatch({
             type: LOGIN_SUCCESS,
             payload: [res.data.GetHomePageForEmployee,userid,isHod],
@@ -120,6 +120,9 @@ export const GetHomePageForEmployee = (userid,isHod) => (dispatch) => {
         alert(err);
         dispatch({
             type: STOP_LOADER,
+        });
+        dispatch({
+            type: AUTH_ERROR,
         });
     });
 }

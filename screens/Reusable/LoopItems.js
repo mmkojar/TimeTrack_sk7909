@@ -28,7 +28,7 @@ const LoopItems = (props) => {
     <DataTable.Row onPress={pressHandler}>
       {
           dttable.map((item,index) => {
-            return <DataTable.Cell key={index} textStyle={{fontSize:12}} style={{justifyContent:'center'}}>{item}</DataTable.Cell>
+            return <DataTable.Cell key={index} textStyle={{fontSize:13}} style={{justifyContent:'center'}}>{item}</DataTable.Cell>
           })
       }
     </DataTable.Row>

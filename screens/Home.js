@@ -1,9 +1,11 @@
-import React from 'react'
-import {  View,StyleSheet,Image,ScrollView,Pressable, Dimensions  } from 'react-native';
+import React, {useEffect} from 'react'
+import {  View,StyleSheet,Image,ScrollView,Pressable, Dimensions, Platform  } from 'react-native';
 import { Button,Card,Avatar,Text } from 'react-native-paper';
 import useThemeStyle from '../components/utils/useThemeStyle';
-import { useSelector } from 'react-redux';
-
+import { useDispatch, useSelector } from 'react-redux';
+import { validRegisterUser, GetHomePageForEmployee } from '../components/redux/actions/authActions';
+import { appPermissions } from '../services/AppPermissions';
+import { PERMISSIONS } from 'react-native-permissions';
 
 function Home({navigation}) {
      
@@ -11,7 +13,7 @@ function Home({navigation}) {
     const authuser = useSelector((state) => state.auth.user);
     const empcode = useSelector((state) => state.auth.empcode)
     const { HomepageSettings: settings, ValidRegisterUser: vru } = useSelector((state) => state.auth.homepage);
-
+    
     var hps = {};
     for (var i in settings) {
         Object.assign(hps,settings[i]);
@@ -30,6 +32,13 @@ function Home({navigation}) {
            // headerTitle: (props) => <LogoTitle {...props} /> 
         });
     }, [navigation]);
+
+    const dispatch = useDispatch();
+    
+    useEffect(() => {
+            dispatch(GetHomePageForEmployee(empcode,isHod));        
+            dispatch(validRegisterUser(empcode,empcode,'Https@123'));
+      },[])
 
     const handleTimeCard = () => {
         if(isHod === 'true') {
@@ -56,8 +65,13 @@ function Home({navigation}) {
             })
         }
     }
-    
-        
+
+    const checkPermi = () => {
+        if(Platform.OS ==  'android') {
+            appPermissions.requestMultiple([PERMISSIONS.ANDROID.CAMERA,PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION],'MarkAtt',{ecode:empcode});
+        }
+    }
+            
     return (
         <ScrollView>
              {/* Display User Info */}
@@ -72,11 +86,6 @@ function Home({navigation}) {
                 />
             </View>
             <View style={styles.container}>
-                {
-                    Object.entries(hps).forEach(function(key) {
-                        // console.log(key, hps[key]);
-                    })
-                }
                 {
                     hps['Attendance-Chart'] == 1 &&  <Pressable onPress={() => navigation.navigate('AtttendanceChart')}>
                         <Card style={styles.innerItem} elevation={3}>
@@ -99,6 +108,18 @@ function Home({navigation}) {
                                 >
                                 </Image>
                                 <Text style={theme.homeIconText}>Time Card</Text>
+                        </Card>
+                    </Pressable>
+                }
+                {
+                    hps['MarkMyAttendance'] == 1 && <Pressable onPress={checkPermi}>
+                        <Card style={styles.innerItem} elevation={3}>
+                                <Image
+                                    style={styles.image}
+                                    source={require('../assets/icons/5.png')}
+                                >
+                                </Image>
+                                <Text style={theme.homeIconText}>Mark My Attendance</Text>
                         </Card>
                     </Pressable>
                 }

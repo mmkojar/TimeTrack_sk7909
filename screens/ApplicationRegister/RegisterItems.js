@@ -28,8 +28,6 @@ const RegisterItems = ({navigation,route}) => {
   const checkKey = result && Object.keys(result)[0];
   const headtitles = (checkKey == 'GetTimeCardForPageLoad') && Object.keys(result.GetTimeCardForPageLoad[0]);
   
-  // delete header.Id  
-  
   return (
     <View style={theme.dtcontainer}>
       {

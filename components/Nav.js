@@ -10,6 +10,7 @@ import IsHodScreen from '../screens/TimeCard/IsHod';
 import TeamAttendanceScreen from '../screens/TimeCard/TeamAttendance';
 import SelfCardScreen from '../screens/TimeCard/SelfCard';
 import DetailSelfCardScreen from '../screens/TimeCard/DetailSelfCard';
+import MarkAttendanceScreen from '../screens/MarkAttendance';
 import RegisterListScreen from '../screens/ApplicationRegister/RegisterList';
 import RegisterItemsScreen from '../screens/ApplicationRegister/RegisterItems';
 import RegisterDetailsScreen from '../screens/ApplicationRegister/RegisterDetails';
@@ -97,6 +98,10 @@ const Nav = ({color, refer}) => {
             <Stack.Screen name="DSelfCard" component={DetailSelfCardScreen} 
                 options={{
                 title:'Time Card',                   
+                }} />
+            <Stack.Screen name="MarkAtt" component={MarkAttendanceScreen} 
+                options={{
+                title:'Attendance',                   
                 }} />
             <Stack.Screen name="RgList" component={RegisterListScreen} 
                 options={{
