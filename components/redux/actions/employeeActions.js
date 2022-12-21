@@ -187,15 +187,15 @@ const fetchAxios = (dispatch,param,action) => {
     });
     axios.get(Config.clientUrl+param)
     .then((res) => {
-        if(action !== UPDT_NOTIFI || action !== INSERT_ATTEND) {
+        if(action == UPDT_NOTIFI || action == INSERT_ATTEND) {
             dispatch({
-                type: action,
-                payload: res.data,
+                type: action,                
             });
         }
         else {
             dispatch({
                 type: action,
+                payload: res.data,
             });
         }            
         dispatch({

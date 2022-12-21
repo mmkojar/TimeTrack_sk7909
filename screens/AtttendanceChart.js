@@ -36,15 +36,10 @@ const AtttendanceChart = ({navigation}) => {
     // };
     // dispatch(getGraph(empcode));
     // console.log(result);
-  }, [])
+  }, [month,year])
     const [month,setMonth] = useState(cmonth);
     const [year,setYear] = useState(cyear);
-    
-    const selectHandler = () => {
-      console.log(month && month);
-      console.log(year && year);
-    }
-
+   
     const dohnurtdata = {
       labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
       datasets: [
@@ -71,29 +66,31 @@ const AtttendanceChart = ({navigation}) => {
         },
       ],
     };
-    
+
+    console.log(month && month);
+    console.log(year && year);
+
   return (
     <ScrollView>
       <View style={theme.container}>
           <View style={styles.filter}>
-              <SelectDropdown                
+              <SelectDropdown
                 data={months}
                 defaultButtonText={cmonth}
-                buttonStyle={{width:'30%',marginLeft:-30}}
-                onSelect={(item) => {
-                  setMonth({
-                    ...prevProps,
-                    item
-                  })
-                }}
-                onBlur={selectHandler}
+                buttonStyle={{width:'30%',marginLeft:-30,borderRadius:10}}
+                dropdownStyle={{borderRadius:10,marginTop:-30}}              
+                rowTextStyle={{fontSize:16}}
+                onSelect={(item) => setMonth(item)}
+                // onBlur={selectHandler}
               />
               <SelectDropdown
                 data={years}
                 defaultButtonText={cyear}
-                buttonStyle={{width:'30%'}}
-                onSelect={(item) => setYear(item) }
-                onBlur={selectHandler}
+                buttonStyle={{width:'30%',borderRadius:10}}
+                dropdownStyle={{borderRadius:10,marginTop:-30}}
+                rowTextStyle={{fontSize:16}}
+                onSelect={(item) => setYear(item)}
+                // onBlur={selectHandler}
               />     
           </View>
           <View style={{flex:1,justifyContent:'center'}}>

@@ -58,10 +58,9 @@ function Home({navigation}) {
         else {
             navigation.navigate('PAtypes',{
                 ecode:empcode,
-                  type:'self',
-                  api1:'GetEmployeePendingCount',
-                  api2:'GetEmployeeCancellationPendingCount',
-                  type:'self'
+                type:'self',
+                api1:'GetEmployeePendingCount',
+                api2:'GetEmployeeCancellationPendingCount'
             })
         }
     }
@@ -69,6 +68,9 @@ function Home({navigation}) {
     const checkPermi = () => {
         if(Platform.OS ==  'android') {
             appPermissions.requestMultiple([PERMISSIONS.ANDROID.CAMERA,PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION],'MarkAtt',{ecode:empcode});
+        }
+        if(Platform.OS ==  'ios') {
+            appPermissions.requestMultiple([PERMISSIONS.IOS.CAMERA,PERMISSIONS.IOS.ACCESS_FINE_LOCATION],'MarkAtt',{ecode:empcode});
         }
     }
             
@@ -123,6 +125,18 @@ function Home({navigation}) {
                         </Card>
                     </Pressable>
                 }
+                {
+                    hps['Application'] == 1 && <Pressable onPress={() => navigation.navigate('App')}>
+                        <Card style={styles.innerItem} elevation={3}>
+                                <Image
+                                    style={styles.image}
+                                    source={require('../assets/icons/1.png')}
+                                >
+                                </Image>
+                                <Text style={theme.homeIconText}>Application</Text>
+                        </Card>
+                    </Pressable>
+                } 
                 {
                     hps['Pending-Application'] == 1 && <Pressable onPress={handlePA}>
                         <Card style={styles.innerItem} elevation={3}>

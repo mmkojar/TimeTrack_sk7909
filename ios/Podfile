@@ -7,7 +7,7 @@ install! 'cocoapods', :deterministic_uuids => false
 target 'TimeTrack' do
   config = use_native_modules!
   use_frameworks!
-
+  
   pre_install do |installer|
     Pod::Installer::Xcode::TargetValidator.send(:define_method, :verify_no_static_framework_transitive_dependencies) {}
   
@@ -21,6 +21,8 @@ target 'TimeTrack' do
       end
     end
   end
+
+    pod 'react-native-geo-fencing', path: '../node_modules/react-native-geo-fencing'
 
     permissions_path = '../node_modules/react-native-permissions/ios'
 

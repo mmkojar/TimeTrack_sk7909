@@ -6,19 +6,26 @@ import { createStackNavigator } from '@react-navigation/stack';
 import HomeScreen from '../screens/Home';
 import LoginScreen from '../screens/Login';
 import AtttendanceChartScreen from '../screens/AtttendanceChart';
+//App screens
+import AppScreen from '../screens/Application/Applist';
+import HolAppsScreen from '../screens/Application/Holiday';
+// TimeCard
 import IsHodScreen from '../screens/TimeCard/IsHod';
 import TeamAttendanceScreen from '../screens/TimeCard/TeamAttendance';
 import SelfCardScreen from '../screens/TimeCard/SelfCard';
 import DetailSelfCardScreen from '../screens/TimeCard/DetailSelfCard';
 import MarkAttendanceScreen from '../screens/MarkAttendance';
+// Application Rgister
 import RegisterListScreen from '../screens/ApplicationRegister/RegisterList';
 import RegisterItemsScreen from '../screens/ApplicationRegister/RegisterItems';
 import RegisterDetailsScreen from '../screens/ApplicationRegister/RegisterDetails';
+// Pending Application
 import PAIsHodScreen from '../screens/PendingApplication/PAIsHod';
 import PAtypesScreen from '../screens/PendingApplication/PAtypes';
 import PAListScreen from '../screens/PendingApplication/PAList';
 import PAListItemsScreen from '../screens/PendingApplication/PAListItems';
 import PAItemDetailScreen from '../screens/PendingApplication/PAItemDetail';
+
 import HolidayScreen from '../screens/Holiday';
 import NoticeScreen from '../screens/Notice';
 import NotificationScreen from '../screens/Notification';
@@ -82,7 +89,15 @@ const Nav = ({color, refer}) => {
             <Stack.Screen name="AtttendanceChart" component={AtttendanceChartScreen} 
                 options={{
                 title:'Atttendance Chart',                   
-                }} />            
+                }} />    
+            <Stack.Screen name="App" component={AppScreen} 
+                options={{
+                title:'Application',                   
+                }} /> 
+            <Stack.Screen name="HolidayRegister" component={HolAppsScreen} 
+                options={{
+                title:'Holiday Application',                   
+                }} />
             <Stack.Screen name="IsHod" component={IsHodScreen} 
                 options={{
                 title:'Time Card',                   

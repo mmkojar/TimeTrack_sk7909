@@ -37,6 +37,10 @@
 	</dict>
 	<key>NSCameraUsageDescription</key>
 	<string>TimeTrack wants your camera permission for QR Scanner</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+  	<string>YOUR TEXT</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+  	<string>YOUR TEXT</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string/>
 	<key>UILaunchStoryboardName</key>
