@@ -7,7 +7,10 @@ import useThemeStyle from '../../components/utils/useThemeStyle';
 import CustomButtons from '../../components/utils/CustomButtons';
 import LoopItems from '../Reusable/LoopItems';
 import Nodatafound from '../Reusable/Nodatafound';
-// import DateTimePicker from '@react-native-community/datetimepicker';
+import DateTimePicker from '@react-native-community/datetimepicker';
+import moment from 'moment';
+import Toast from 'react-native-toast-message';
+import Datepicker from '../../components/utils/Datepicker';
 
 const SelfCard = ({navigation,route}) => {
 
@@ -22,8 +25,8 @@ const SelfCard = ({navigation,route}) => {
         
     },[])
     
-    const [date1,setDate1] = useState(new Date());
-    const [date2,setDate2] = useState('');
+    const [date1,setDate1] = useState(moment().startOf('month').format('DD/MM/YYYY'));
+    const [date2,setDate2] = useState(moment(date2).format('DD/MM/YYYY'));
 
     const pressHandler = (date) => {
         navigation.navigate('DSelfCard',{
@@ -34,7 +37,16 @@ const SelfCard = ({navigation,route}) => {
 
     const handleSubmit = () => {
         if(date1 == '' || date2 == '') {
-            alert('Please Enter Dates');
+            Toast.show({
+                type:'error',
+                text1:'Please Enter Dates'
+            });
+        }
+        else if(date1 > date2) {
+            Toast.show({
+                type:'error',
+                text1:'Incorrect Dates'
+            });
         }
         else {
             dispatch(getTimeCardSelfFilter(empcode,date1,date2))
@@ -44,24 +56,13 @@ const SelfCard = ({navigation,route}) => {
     return (
         <View style={theme.container}>
             <View style={styles.filter}>
-                <TextInput                  
-                    style={[theme.textinput,{width:'35%',height:40}]}
-                    onChangeText={(val) => setDate1(val)}
-                    placeholder="Date1"
-                    placeholderTextColor={theme.colors.primary}                      
-                    value={date1}
-                />
-                {/* <DatePicker 
-                style={[theme.textinput,{width:'35%',height:40}]}
-                date={date1}
-                onDateChange={setDate1} /> */}
-                <TextInput
-                    style={[theme.textinput,{width:'35%',height:40}]}
-                    onChangeText={(val) => setDate2(val)}
-                    placeholder="Date2"
-                    placeholderTextColor={theme.colors.primary}
-                    keyboardType='default'
-                    value={date2}
+                <Datepicker
+                    datecount="2" 
+                    date1={date1}
+                    date2={date2}
+                    setState1={setDate1}
+                    setState2={setDate2}
+                    style={{width:'35%',height:40,fontSize:14,marginBottom:10}}
                 />
               <CustomButtons title="Go" pressHandler={handleSubmit}></CustomButtons>              
             </View>
@@ -102,7 +103,7 @@ const styles = StyleSheet.create({
     filter:{    
       display:'flex',
       flexDirection:'row',
-      marginHorizontal:-5,
+    //   marginHorizontal:-5,
       justifyContent:'space-evenly',
     }
   })

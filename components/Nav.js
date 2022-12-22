@@ -9,6 +9,7 @@ import AtttendanceChartScreen from '../screens/AtttendanceChart';
 //App screens
 import AppScreen from '../screens/Application/Applist';
 import HolAppsScreen from '../screens/Application/Holiday';
+import wfhAppsScreen from '../screens/Application/WFH';
 // TimeCard
 import IsHodScreen from '../screens/TimeCard/IsHod';
 import TeamAttendanceScreen from '../screens/TimeCard/TeamAttendance';
@@ -97,6 +98,10 @@ const Nav = ({color, refer}) => {
             <Stack.Screen name="HolidayRegister" component={HolAppsScreen} 
                 options={{
                 title:'Holiday Application',                   
+                }} />
+            <Stack.Screen name="WFHRegister" component={wfhAppsScreen} 
+                options={{
+                title:'WFH Application',
                 }} />
             <Stack.Screen name="IsHod" component={IsHodScreen} 
                 options={{

@@ -3,9 +3,10 @@ import {
     START_LOADER, STOP_LOADER, GET_HOLIDAY_LIST, GET_NBOARD, GET_NOTIFI, UPDT_NOTIFI, 
     HOD_REPORTEE, TCARD_ONLOAD, TCARD_SELF, DT_TCARD_SELF, GET_GRAPH, RG_LIST, RG_ITEMS, 
     RG_DETAILS, PEND_COUNT, CANC_COUNT, HOD_PEND_COUNT, HOD_CANC_COUNT, PEND_LIST, 
-    CANC_LIST, HOD_PEND_LIST, HOD_CANC_LIST, DETAIL_HOD_LIST, ATTEND_LOGS, INSERT_ATTEND, MARK_EMP_LOGS
+    CANC_LIST, HOD_PEND_LIST, HOD_CANC_LIST, DETAIL_HOD_LIST, ATTEND_LOGS, INSERT_ATTEND, MARK_EMP_LOGS, GET_EMP_HOLIDAY, INS_APPS, GET_EMP_WFH
 } from './type';
 import Config from '../../utils/Config';
+import Toast from 'react-native-toast-message';
 
 
 export const getGraph = (empcode,month,year) => (dispatch) => {
@@ -56,6 +57,27 @@ export const getMarkEmpLogs = (empcode) => (dispatch) => {
 export const insertAttendance = (empcode,type,lang,lati,accuracy,pdate,remark,qrval) => (dispatch) => {
     
     fetchAxios(dispatch,`InsertMarkMyAttendance?EmpCode=${empcode}&Type=${type}&Lang=${lang}&Lat=${lati}&Accuracy=${accuracy}&PunchDate=${pdate}&Remark=${remark}&QrValue=${qrval}`,INSERT_ATTEND);
+}
+
+//Apps
+/* export const getEmpHoliday = (empcode) => (dispatch) => {
+    fetchAxios(dispatch,`GetHolidayForEmployee?EmpCode=${empcode}`,GET_EMP_HOLIDAY);
+}
+
+export const getEmpWFH = (empcode) => (dispatch) => {    
+    fetchAxios(dispatch,`GetWfhForEmployee?EmpCode=${empcode}`,GET_EMP_WFH);
+} */
+
+export const getEmpAppsData = (path,retype) => (dispatch) => {    
+    dispatch({
+        type: retype,
+        payload: [],
+    })
+    fetchAxios(dispatch,`${path}`,retype);
+}
+export const insertAppForm = (fullpath) => (dispatch) => {
+    
+    fetchAxios(dispatch,`${fullpath}`,INS_APPS);
 }
 
 // TimeCard
@@ -180,32 +202,31 @@ export const getDetailHODList = (empcode,Id,ltype) => (dispatch) => {
     fetchAxios(dispatch,`GETDetailedHODApplicationList?EmpCode=${empcode}&Id=${Id}&AppType=${ltype}`,DETAIL_HOD_LIST);
 }
 
-const fetchAxios = (dispatch,param,action) => {
+export const fetchAxios = (dispatch,param,action) => {
     
-    dispatch({
-        type: START_LOADER,
-    });
+    dispatch({ type: START_LOADER });
+
     axios.get(Config.clientUrl+param)
     .then((res) => {
+        // console.log(res.data);
         if(action == UPDT_NOTIFI || action == INSERT_ATTEND) {
-            dispatch({
-                type: action,                
-            });
+            dispatch({ type: action });
+        }
+        else if(action == INS_APPS) {
+            if(res.data.Success == '0') {
+                Toast.show({ type: 'error', text1:res.data.MSG });
+            }
+            else {
+                Toast.show({ type: 'success', text1:res.data.MSG });
+            }
         }
         else {
-            dispatch({
-                type: action,
-                payload: res.data,
-            });
-        }            
-        dispatch({
-            type: STOP_LOADER,
-        });
+            dispatch({ type: action, payload: res.data });
+        }
+        dispatch({ type: STOP_LOADER });
     })
     .catch((err) => {        
-        dispatch({
-            type: STOP_LOADER,
-        });
+        dispatch({ type: STOP_LOADER });
         alert(err);
     });
 }

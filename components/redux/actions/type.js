@@ -12,6 +12,10 @@ export const GET_GRAPH = 'GET_GRAPH';
 export const ATTEND_LOGS = 'ATTEND_LOGS';
 export const MARK_EMP_LOGS = 'MARK_EMP_LOGS';
 export const INSERT_ATTEND = 'INSERT_ATTEND';
+// Apps
+export const GET_EMP_HOLIDAY = 'GET_EMP_HOLIDAY';
+export const GET_EMP_WFH = 'GET_EMP_WFH';
+export const INS_APPS = 'INS_APPS';
 // TimeCard
 export const HOD_REPORTEE = 'HOD_REPORTEE';
 export const TCARD_ONLOAD = 'TCARD_ONLOAD';

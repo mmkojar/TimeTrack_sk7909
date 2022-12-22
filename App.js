@@ -6,6 +6,8 @@ import { navigationRef, navigate } from './services/RootNavigation';
 //  import factory from './components/redux/store';
 import useThemeStyle from './components/utils/useThemeStyle';
 import SplashScreen from 'react-native-splash-screen'
+import Toast from 'react-native-toast-message';
+import toastConfig from './components/utils/useToast';
 //  const { store } = factory();
 
 const App = () => {
@@ -19,8 +21,9 @@ const App = () => {
 return (
       <PaperProvider theme={theme}>
         <Fragment>
-          <Nav color={theme.colors.primary} refer={navigationRef}/>        
+          <Nav color={theme.colors.primary} refer={navigationRef}/>
           <Spinner/>
+          <Toast config={toastConfig} visibilityTime={2500} position="bottom"/>
         </Fragment>
       </PaperProvider>
   );

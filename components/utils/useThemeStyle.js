@@ -80,7 +80,7 @@ const useThemeStyle = () => {
             marginTop:10,
         },
         textinput:{
-            height: 40,  
+            height: 45,  
             backgroundColor:'#fff',      
             borderColor:primary,            
             color:primary,
@@ -88,6 +88,9 @@ const useThemeStyle = () => {
             borderWidth: 1,
             borderRadius:5,
         },
+        applabel:{
+            fontSize:15
+        }
     };
 
     return [

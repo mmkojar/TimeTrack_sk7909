@@ -30,7 +30,6 @@ const Applist = ({navigation}) => {
                 naviTo={item[index+1].replace(' ','')}
                 naviObj={{
                   ecode:empcode,
-                  theme:theme
                 }}
                 ctitle={item[index+1].replace('Register','Application')}
               />
