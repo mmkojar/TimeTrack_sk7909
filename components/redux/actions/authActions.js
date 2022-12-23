@@ -34,7 +34,7 @@ export const validRegisterUser = (userid,password,key,deviceId) => (dispatch) =>
         dispatch({
             type: STOP_LOADER,
         });
-        alert(err);
+        Toast.show({ type: 'error', text1:'Server Error. Please try again after sometime' });
     });
 };
 
@@ -63,7 +63,7 @@ export const ValidEmployeeUser = (userid,password,deviceId) => (dispatch) => {
         dispatch({
             type: STOP_LOADER,
         });
-        alert(err);
+        Toast.show({ type: 'error', text1:'Server Error. Please try again after sometime' });
     });
 }
 
@@ -85,7 +85,7 @@ export const GetEmployeeDevice = (userid,deviceId,deviceype,token,isHod) => (dis
         }
     })
     .catch((err) => {
-        alert(err);
+        Toast.show({ type: 'error', text1:'Server Error. Please try again after sometime' });
         dispatch({
             type: STOP_LOADER,
         });
@@ -117,12 +117,9 @@ export const GetHomePageForEmployee = (userid,isHod) => (dispatch) => {
         } */
     })
     .catch((err) => {
-        alert(err);
+        Toast.show({ type: 'error', text1:'Server Error. Please try again after sometime' });
         dispatch({
             type: STOP_LOADER,
-        });
-        dispatch({
-            type: AUTH_ERROR,
         });
     });
 }

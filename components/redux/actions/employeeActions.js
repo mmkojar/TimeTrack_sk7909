@@ -3,7 +3,8 @@ import {
     START_LOADER, STOP_LOADER, GET_HOLIDAY_LIST, GET_NBOARD, GET_NOTIFI, UPDT_NOTIFI, 
     HOD_REPORTEE, TCARD_ONLOAD, TCARD_SELF, DT_TCARD_SELF, GET_GRAPH, RG_LIST, RG_ITEMS, 
     RG_DETAILS, PEND_COUNT, CANC_COUNT, HOD_PEND_COUNT, HOD_CANC_COUNT, PEND_LIST, 
-    CANC_LIST, HOD_PEND_LIST, HOD_CANC_LIST, DETAIL_HOD_LIST, ATTEND_LOGS, INSERT_ATTEND, MARK_EMP_LOGS, GET_EMP_HOLIDAY, INS_APPS, GET_EMP_WFH
+    CANC_LIST, HOD_PEND_LIST, HOD_CANC_LIST, DETAIL_HOD_LIST, ATTEND_LOGS, INSERT_ATTEND, 
+    MARK_EMP_LOGS, GET_EMP_HOLIDAY, INS_APPS, GET_EMP_WFH, GET_EMP_LWP, GET_EMP_LEAVE, GET_EMP_OD, GET_EMP_MANUAL, GET_EMP_COFF, GET_EMP_SL
 } from './type';
 import Config from '../../utils/Config';
 import Toast from 'react-native-toast-message';
@@ -59,24 +60,34 @@ export const insertAttendance = (empcode,type,lang,lati,accuracy,pdate,remark,qr
     fetchAxios(dispatch,`InsertMarkMyAttendance?EmpCode=${empcode}&Type=${type}&Lang=${lang}&Lat=${lati}&Accuracy=${accuracy}&PunchDate=${pdate}&Remark=${remark}&QrValue=${qrval}`,INSERT_ATTEND);
 }
 
-//Apps
-/* export const getEmpHoliday = (empcode) => (dispatch) => {
+// Applications
+
+/* export const getEmpLeave = (empcode) => (dispatch) => {
+    fetchAxios(dispatch,`GetHolidayForEmployee?EmpCode=${empcode}`,GET_EMP_LEAVE);
+} */
+export const getEmpOD = (empcode) => (dispatch) => {
+    fetchAxios(dispatch,`GetODEntryEmployee?EmpCode=${empcode}`,GET_EMP_OD);
+}
+export const getEmpManual = (empcode) => (dispatch) => {
+    fetchAxios(dispatch,`ManualEntryForEmployee?EmpCode=${empcode}`,GET_EMP_MANUAL);
+}
+/* export const getEmpCoff = (empcode) => (dispatch) => {
+    fetchAxios(dispatch,`GetODEntryEmployee?EmpCode=${empcode}`,GET_EMP_COFF);
+} */
+export const getEmpLWP = (empcode) => (dispatch) => {    
+    fetchAxios(dispatch,`GetLWPForEmployee?EmpCode=${empcode}`,GET_EMP_LWP);
+}
+export const getEmpSL = (empcode) => (dispatch) => {    
+    fetchAxios(dispatch,`GetShortLeaveForEmployee_v2?EmpCode=${empcode}`,GET_EMP_SL);
+}
+export const getEmpWFH = (empcode) => (dispatch) => {    
+    fetchAxios(dispatch,`GetWfhForEmployee?EmpCode=${empcode}`,GET_EMP_WFH);
+}
+export const getEmpHoliday = (empcode) => (dispatch) => {
     fetchAxios(dispatch,`GetHolidayForEmployee?EmpCode=${empcode}`,GET_EMP_HOLIDAY);
 }
 
-export const getEmpWFH = (empcode) => (dispatch) => {    
-    fetchAxios(dispatch,`GetWfhForEmployee?EmpCode=${empcode}`,GET_EMP_WFH);
-} */
-
-export const getEmpAppsData = (path,retype) => (dispatch) => {    
-    dispatch({
-        type: retype,
-        payload: [],
-    })
-    fetchAxios(dispatch,`${path}`,retype);
-}
-export const insertAppForm = (fullpath) => (dispatch) => {
-    
+export const insertAppForm = (fullpath) => (dispatch) => {    
     fetchAxios(dispatch,`${fullpath}`,INS_APPS);
 }
 
@@ -202,7 +213,7 @@ export const getDetailHODList = (empcode,Id,ltype) => (dispatch) => {
     fetchAxios(dispatch,`GETDetailedHODApplicationList?EmpCode=${empcode}&Id=${Id}&AppType=${ltype}`,DETAIL_HOD_LIST);
 }
 
-export const fetchAxios = (dispatch,param,action) => {
+const fetchAxios = (dispatch,param,action) => {
     
     dispatch({ type: START_LOADER });
 
@@ -226,7 +237,7 @@ export const fetchAxios = (dispatch,param,action) => {
         dispatch({ type: STOP_LOADER });
     })
     .catch((err) => {        
-        dispatch({ type: STOP_LOADER });
-        alert(err);
+        dispatch({ type: STOP_LOADER });        
+        Toast.show({ type: 'error', text1:'Server Error. Please try again after sometime' });
     });
 }

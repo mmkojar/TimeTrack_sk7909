@@ -26,11 +26,11 @@ export default function (state = initialState, action) {
         case AUTH_ERROR:
             return {
                 ...state,
-                isAuthenticated: false,
+                /* isAuthenticated: false,
                 empcode:null,
                 user: null,
                 isHod:null,
-                homepage:null,
+                homepage:null, */
             };
         default:
             return state;

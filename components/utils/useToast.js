@@ -13,9 +13,9 @@ const toastConfig = {
         {...props}
         style={{ borderLeftColor: 'green' }}
         contentContainerStyle={{ paddingHorizontal: 10 }}
-        text1NumberOfLines={5}
+        text1NumberOfLines={10}
         text1Style={{
-          fontSize: 15,
+          fontSize: 16,
           fontWeight: '400',  
           fontFamily:'VarelaRound-Regular'                  
         }}
@@ -29,9 +29,9 @@ const toastConfig = {
       <ErrorToast
         {...props}
         style={{ borderLeftColor: 'red' }}
-        text1NumberOfLines={5}
+        text1NumberOfLines={10}
         text1Style={{
-            fontSize: 15,
+            fontSize: 16,
             fontWeight: '400',
             fontFamily:'VarelaRound-Regular'                    
         }}

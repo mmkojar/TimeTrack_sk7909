@@ -8,8 +8,14 @@ import LoginScreen from '../screens/Login';
 import AtttendanceChartScreen from '../screens/AtttendanceChart';
 //App screens
 import AppScreen from '../screens/Application/Applist';
-import HolAppsScreen from '../screens/Application/Holiday';
+import LeaveAppsScreen from '../screens/Application/Leave';
+import ODAppsScreen from '../screens/Application/OutDoor';
+import ManualAppsScreen from '../screens/Application/Manual';
+import CoffAppsScreen from '../screens/Application/Coff';
+import lwpAppsScreen from '../screens/Application/LWP';
+import slAppsScreen from '../screens/Application/Shortleave';
 import wfhAppsScreen from '../screens/Application/WFH';
+import HolAppsScreen from '../screens/Application/Holiday';
 // TimeCard
 import IsHodScreen from '../screens/TimeCard/IsHod';
 import TeamAttendanceScreen from '../screens/TimeCard/TeamAttendance';
@@ -95,13 +101,37 @@ const Nav = ({color, refer}) => {
                 options={{
                 title:'Application',                   
                 }} /> 
-            <Stack.Screen name="HolidayRegister" component={HolAppsScreen} 
+            <Stack.Screen name="LeaveRegister" component={LeaveAppsScreen} 
                 options={{
-                title:'Holiday Application',                   
+                title:'Leave Application',                   
+                }} />
+            <Stack.Screen name="OdRegister" component={ODAppsScreen} 
+                options={{
+                title:'OutDoor Application',                   
+                }} />
+            <Stack.Screen name="ManualRegister" component={ManualAppsScreen} 
+                options={{
+                title:'Manual Application',                   
+                }} />  
+            <Stack.Screen name="CoffRegister" component={CoffAppsScreen} 
+                options={{
+                title:'Coff Application',                   
+                }} />
+            <Stack.Screen name="LWPRegister" component={lwpAppsScreen} 
+                options={{
+                title:'LWP Application',
+                }} />
+            <Stack.Screen name="ShortLeaveRegister" component={slAppsScreen} 
+                options={{
+                title:'ShortLeave Application',
                 }} />
             <Stack.Screen name="WFHRegister" component={wfhAppsScreen} 
                 options={{
                 title:'WFH Application',
+                }} />
+            <Stack.Screen name="HolidayRegister" component={HolAppsScreen} 
+                options={{
+                title:'Holiday Application',                   
                 }} />
             <Stack.Screen name="IsHod" component={IsHodScreen} 
                 options={{

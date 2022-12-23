@@ -7,7 +7,6 @@ import useThemeStyle from '../../components/utils/useThemeStyle';
 import CustomButtons from '../../components/utils/CustomButtons';
 import LoopItems from '../Reusable/LoopItems';
 import Nodatafound from '../Reusable/Nodatafound';
-import DateTimePicker from '@react-native-community/datetimepicker';
 import moment from 'moment';
 import Toast from 'react-native-toast-message';
 import Datepicker from '../../components/utils/Datepicker';
@@ -21,35 +20,27 @@ const SelfCard = ({navigation,route}) => {
     const dispatch = useDispatch();
     
     useEffect(() => {
-        dispatch(getTimeCardOnLoad(empcode));
-        
+        dispatch(getTimeCardOnLoad(empcode));        
     },[])
     
-    const [date1,setDate1] = useState(moment().startOf('month').format('DD/MM/YYYY'));
-    const [date2,setDate2] = useState(moment(date2).format('DD/MM/YYYY'));
+    const [date1,setDate1] = useState(moment().startOf('month').format('YYYY-MM-DD'));
+    const [date2,setDate2] = useState(moment().format('YYYY-MM-DD'));
 
     const pressHandler = (date) => {
         navigation.navigate('DSelfCard',{
             empcode:empcode,
             tr_date:date
         })
-    }
-
+    }    
     const handleSubmit = () => {
-        if(date1 == '' || date2 == '') {
-            Toast.show({
-                type:'error',
-                text1:'Please Enter Dates'
-            });
-        }
-        else if(date1 > date2) {
+        if(date1 > date2) {
             Toast.show({
                 type:'error',
                 text1:'Incorrect Dates'
             });
         }
         else {
-            dispatch(getTimeCardSelfFilter(empcode,date1,date2))
+            dispatch(getTimeCardSelfFilter(empcode,moment(date1).format('DD/MM/YYYY'),moment(date2).format('DD/MM/YYYY')))
         }
     }
 
@@ -62,9 +53,9 @@ const SelfCard = ({navigation,route}) => {
                     date2={date2}
                     setState1={setDate1}
                     setState2={setDate2}
-                    style={{width:'35%',height:40,fontSize:14,marginBottom:10}}
+                    style={{width:'35%',height:40}}
                 />
-              <CustomButtons title="Go" pressHandler={handleSubmit}></CustomButtons>              
+              <CustomButtons title="Go" pressHandler={handleSubmit} style={{marginTop:0}}></CustomButtons>              
             </View>
             {
                 tconload && tconload.GetTimeCardForPageLoad && tconload.GetTimeCardForPageLoad.length > 0 ? 

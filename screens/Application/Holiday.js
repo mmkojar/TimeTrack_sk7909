@@ -6,9 +6,8 @@ import moment from 'moment';
 import Dropdown from '../../components/utils/Dropdown';
 import CustomButtons from '../../components/utils/CustomButtons';
 import Authorities from '../Reusable/Authorities';
-import { getEmpAppsData, getEmpHoliday, insertAppForm } from '../../components/redux/actions/employeeActions';
+import { getEmpHoliday, insertAppForm } from '../../components/redux/actions/employeeActions';
 import Toast from 'react-native-toast-message';
-import { GET_EMP_HOLIDAY } from '../../components/redux/actions/type';
 
 const Holiday = ({theme,navigation,route}) => {
   
@@ -23,13 +22,13 @@ const Holiday = ({theme,navigation,route}) => {
 
   const dispatch = useDispatch();
   useEffect(() => {
-    // dispatch(getEmpHoliday(ecode))
-    dispatch(getEmpAppsData(`GetHolidayForEmployee?EmpCode=${ecode}`,GET_EMP_HOLIDAY))
+    dispatch(getEmpHoliday(ecode))
   },[])
 
   const [holname, setHolname] = useState(''); 
   const [remark, setRemark] = useState(''); 
-  
+  const hdate = holname.split("~")[1];
+
   const submitEntry = () => {
     if(holname == '' || remark == "") {
       Toast.show({
@@ -38,31 +37,29 @@ const Holiday = ({theme,navigation,route}) => {
       });
     }
     else {
-      dispatch(insertAppForm(`ApplyHolidayEmployee?EmpCode=${ecode}&HolidayName=${holname}&HolidayDate=${moment(holname).format('DD-MM-YYYY')}&Remark=${remark}`));
+      dispatch(insertAppForm(`ApplyHolidayEmployee?EmpCode=${ecode}&HolidayName=${holname}&HolidayDate=${moment(new Date(hdate)).format('DD-MM-YYYY')}&Remark=${remark}`));
       setHolname('')
       setRemark('')
     }
   }
 
-  const hdate = holname.split("~")[1];
-
   return (
     <View style={theme.container}>
         <Authorities recom={result && result.Recommender} sanc={result && result.Sanctioner} />
-        <Card style={theme.card} elevation={5}>          
-          <Title style={{color:theme.colors.primary,fontSize:22}}>Holiday Details</Title>
+        <Card style={theme.card} elevation={5}>
+          <Title style={theme.appheading}>Holiday Details</Title>
           <View>
             <Text style={theme.applabel}>Holiday Name</Text>
             <Dropdown data={filterYes} text="--Select--" setValue={setHolname} />
             <View style={{marginVertical:10}}>
               <Text style={theme.applabel}>Holiday Date</Text>            
               <TextInput
-                  value={hdate && moment(hdate).format('DD-MM-YYYY')}
+                  value={hdate && moment(new Date(hdate)).format('DD-MM-YYYY')}
                   style={{height:40,backgroundColor:theme.colors.accent}}
                   disabled={true}
               />
             </View>
-            <Text style={theme.applabel}>Remark 100 (char)</Text>
+            <Text style={theme.applabel}>Remark (max 100 char)</Text>
             <TextInput
               keyboardType='default'
               multiline={true}

@@ -2,18 +2,18 @@ import React,{ useEffect, useState } from 'react'
 import { ScrollView, View } from 'react-native'
 import { Card, Title, Text, TextInput, withTheme } from 'react-native-paper'
 import { useDispatch, useSelector } from 'react-redux';
+import moment from 'moment';
 import Dropdown from '../../components/utils/Dropdown';
 import CustomButtons from '../../components/utils/CustomButtons';
 import Authorities from '../Reusable/Authorities';
-import { getEmpWFH, insertAppForm } from '../../components/redux/actions/employeeActions';
+import { getEmpLWP, insertAppForm } from '../../components/redux/actions/employeeActions';
 import Toast from 'react-native-toast-message';
 import Datepicker from '../../components/utils/Datepicker';
-import moment from 'moment';
 
-const WFH = ({theme,navigation,route}) => {
+const LWP = ({theme,navigation,route}) => {
 
     const {ecode} =  route.params;
-    const result = useSelector((state) => state.employee.empwfh)
+    const result = useSelector((state) => state.employee.emplwp)
       
     const filterDur = result && result.Duration.filter(item => {
         return item.selection == '1'
@@ -22,7 +22,7 @@ const WFH = ({theme,navigation,route}) => {
     const fiternames = [];
     const MulDaySH = [];
     const MulDayFH = [];
-    for(var i in filterDur) {
+    for(var i in filterDur) {        
         fiternames.push(filterDur[i].Id)
         filterDur[i].MultipleDayDuration.filter(item => {
             if((item.selection == '1' && item.Id == 'MultipleDaySecondHalf') || item.Id == 'MultipleFullDay') {
@@ -36,7 +36,7 @@ const WFH = ({theme,navigation,route}) => {
 
     const dispatch = useDispatch();
     useEffect(() => {                      
-        dispatch(getEmpWFH(ecode))
+        dispatch(getEmpLWP(ecode))
     },[])    
     
     const [duid, setDuid] = useState('');
@@ -44,9 +44,8 @@ const WFH = ({theme,navigation,route}) => {
     const [tdate, setTdate] = useState(); 
     const [duration, setDuration] = useState(''); 
     const [durmultiple, setDurmultiple] = useState(''); 
-    const [reason, setReason] = useState('');
-    
-   
+    const [reason, setReason] = useState(''); 
+       
     const submitEntry = () => {
         
         if(duid == 'MultipleDay' ? 
@@ -67,10 +66,7 @@ const WFH = ({theme,navigation,route}) => {
         else {
             const FDate = moment(fdate).format('DD/MM/YYYY')
             const TDate = moment(tdate).format('DD/MM/YYYY')
-            dispatch(insertAppForm(
-                `WFHApplyForEmployee?EmpCode=${ecode}&Duration=${duration ? duration : duid}&Durationmultple=${durmultiple}
-                &Fromdate=${FDate}&Todate=${TDate ? TDate : FDate}&Reason=${reason}`
-            ));            
+            dispatch(insertAppForm(`LWPApplyForEmployee?EmpCode=${ecode}&Duration=${duration ? duration : duid}&Durationmultple=${durmultiple}&Fromdate=${FDate}&Todate=${TDate ? TDate : FDate}&Reason=${reason}`));            
         }
     }
     //  const hdate = date.split("~")[1];
@@ -80,7 +76,7 @@ const WFH = ({theme,navigation,route}) => {
         <View style={theme.container}>
             <Authorities recom={result && result.Recommender} sanc={result && result.Sanctioner} />
             <Card style={theme.card} elevation={5}>          
-            <Title style={theme.appheading}>WFH Details</Title>
+            <Title style={theme.appheading}>LWP Details</Title>
             <View>
                 <Text style={theme.applabel}>Duration</Text>
                 <Dropdown data={fiternames} text="--Select--" setValue={setDuid} />
@@ -107,7 +103,7 @@ const WFH = ({theme,navigation,route}) => {
             </View>
             </Card>
             <Card style={theme.card} elevation={5}>
-                <Text style={theme.applabel}>WFH Reason</Text>
+                <Text style={theme.applabel}>LWP Reason</Text>
                 <TextInput
                     keyboardType='default'
                     multiline={true}
@@ -124,4 +120,4 @@ const WFH = ({theme,navigation,route}) => {
   )
 }
 
-export default withTheme(WFH)
+export default withTheme(LWP)

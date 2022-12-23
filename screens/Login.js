@@ -117,9 +117,9 @@ function Login() {
                                 />
                             </Card.Content>
                             <View style={styles.action}>
-                                <CustomButtons title="Login" pressHandler={pressHandler}></CustomButtons>
+                                <CustomButtons title="Login" pressHandler={pressHandler} style={{width:'100%'}}></CustomButtons>
                                 <Text style={{marginHorizontal:20}} />
-                                <CustomButtons title="Reset" pressHandler={resetHandler}></CustomButtons>                                
+                                <CustomButtons title="Reset" pressHandler={resetHandler} style={{width:'100%'}}></CustomButtons>                                
                             </View>
                         </Card>
                 </View>

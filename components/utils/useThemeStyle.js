@@ -88,8 +88,14 @@ const useThemeStyle = () => {
             borderWidth: 1,
             borderRadius:5,
         },
+        appheading:{
+            color:primary,
+            fontSize:22,
+            marginBottom:5
+        },
         applabel:{
-            fontSize:15
+            fontSize:15,
+            marginBottom:3
         }
     };
 

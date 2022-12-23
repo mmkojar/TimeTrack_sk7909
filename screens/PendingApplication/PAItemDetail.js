@@ -31,9 +31,9 @@ const PAItemsDetail = ({navigation,route}) => {
       <View>
         <DetailScreen entries={entries} title={apptype} type="pa" />
         <View style={styles.action}>
-            <CustomButtons title="Approve" pressHandler={pressHandler}></CustomButtons>
+            <CustomButtons title="Approve" pressHandler={pressHandler}  style={{width:'100%'}}></CustomButtons>
             <View style={{marginHorizontal:40}} />
-            <CustomButtons title="Reject" pressHandler={pressHandler}></CustomButtons>                                
+            <CustomButtons title="Reject" pressHandler={pressHandler}  style={{width:'100%'}}></CustomButtons>                                
         </View>
       </View>
     )
@@ -42,7 +42,7 @@ const PAItemsDetail = ({navigation,route}) => {
 const styles = StyleSheet.create({
   action : {
       display:'flex',
-      flexDirection:'row',                
+      flexDirection:'row',
       marginTop:30,
       alignSelf:'center',
   }
