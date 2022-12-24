@@ -45,15 +45,15 @@ const OutDoor = ({theme,navigation,route}) => {
     const [odstart, setOdstart] = useState(''); 
     const [odend, setOdend] = useState(''); 
     const [nextday, setNextDay] = useState(false); 
-    const [fdate, setFdate] = useState();
-    const [tdate, setTdate] = useState(); 
+    const [fdate, setFdate] = useState(moment(new Date()).format('DD/MM/YYYY'));
+    const [tdate, setTdate] = useState(moment(new Date()).format('DD/MM/YYYY'));
     const [reason, setReason] = useState(''); 
     
     const submitEntry = () => {
         
         if(duid == 'MultipleDay' ? 
-            fdate == '' || tdate == '' ||  reason == "" || duid == "" ||  duration == "" || durmultiple == "" : 
-            duid == '' ||  fdate == "" || odstart == "" || odend == '' || reason == ""
+            reason == "" || duid == "" ||  duration == "" || durmultiple == "" : 
+            duid == '' ||  odstart == "" || odend == '' || reason == ""
         ){
             Toast.show({
                 type: 'error',
@@ -67,11 +67,9 @@ const OutDoor = ({theme,navigation,route}) => {
             });
         }
         else {
-            const FDate = moment(fdate).format('DD/MM/YYYY')
-            const TDate = moment(tdate).format('DD/MM/YYYY')
             dispatch(insertAppForm(
               `ApplyODEntryEmployee?EmpCode=${ecode}&Duration=${duration ? duration : duid}&Durationmultple=${durmultiple}
-              &ODStart=${odstart}&ODEnd=${odend}&NextDay=${nextday == true ? '1' : '0'}&Fromdate=${FDate}&Todate=${TDate ? TDate : FDate}&Reason=${reason}`
+              &ODStart=${odstart}&ODEnd=${odend}&NextDay=${nextday == true ? '1' : '0'}&Fromdate=${fdate}&Todate=${tdate ? tdate : fdate}&Reason=${reason}`
             ));
         }
     }

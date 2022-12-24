@@ -6,7 +6,7 @@ import moment from 'moment';
 import Dropdown from '../../components/utils/Dropdown';
 import CustomButtons from '../../components/utils/CustomButtons';
 import Authorities from '../Reusable/Authorities';
-import { getEmpManual, insertAppForm } from '../../components/redux/actions/employeeActions';
+import { getEmpManual, getEmpManualDate, insertAppForm } from '../../components/redux/actions/employeeActions';
 import Toast from 'react-native-toast-message';
 import Datepicker from '../../components/utils/Datepicker';
 
@@ -14,6 +14,16 @@ const Manual = ({theme,navigation,route}) => {
 
     const {ecode} =  route.params;
     const result = useSelector((state) => state.employee.empmanual)
+    const datefilter = useSelector((state) => state.employee.empmanualdate)
+         
+    const [duid, setDuid] = useState('');    
+    const [fdate, setFdate] = useState('');
+    const [shift, setShift] = useState('');
+    const [login, setLogin] = useState(''); 
+    const [logout, setLogout] = useState(''); 
+    const [nextday, setNextDay] = useState(false);
+    const [reason, setReason] = useState('');
+    const [remark, setRemark] = useState('');
           
     const shiftcode = [];
     for(var i in result&&result.ShiftDetails) {
@@ -21,26 +31,19 @@ const Manual = ({theme,navigation,route}) => {
           shiftcode.push(result.ShiftDetails[i].selection)
         }
     }
-
     const reasonmaster = [];
     for(var i in result&&result.ManualReasonMaster) {
         reasonmaster.push(result.ManualReasonMaster[i].selection)
     }
 
+    // console.log("datefilter:--",datefilter);
+    // console.log(Object.keys(datefilter)[0]);
     const dispatch = useDispatch();
     useEffect(() => {
         dispatch(getEmpManual(ecode))
+        dispatch(getEmpManualDate(ecode,fdate));
     },[])    
-    
-    const [duid, setDuid] = useState('');    
-    const [fdate, setFdate] = useState();
-    const [shift, setShift] = useState('');
-    const [login, setLogin] = useState(''); 
-    const [logout, setLogout] = useState(''); 
-    const [nextday, setNextDay] = useState(false);
-    const [reason, setReason] = useState(''); 
-    const [remark, setRemark] = useState(''); 
-    
+       
     const submitEntry = () => {
         
        /*  if(duid == 'MultipleDay' ? 
@@ -73,21 +76,21 @@ const Manual = ({theme,navigation,route}) => {
     <ScrollView>
       <View style={theme.container}>
           <Authorities recom={result && result.Recommender} sanc={result && result.Sanctioner} />
-          <Card style={theme.card} elevation={5}>          
+          <Card style={theme.card} elevation={5}>
             <Title style={theme.appheading}>Manual Entry Details</Title>
             {/* <View> */}
               <View style={{display:'flex',flexDirection:'row'}}>
                 <View style={{width:'48%'}}>
                     <Text style={theme.applabel}>Select Date</Text>
-                    <Datepicker
+                      <Datepicker
                             date1={fdate}
                             setState1={setFdate}
-                        />
+                      />
                 </View>
                 <View style={{marginLeft:10,width:'48%'}}>
                     <Text style={theme.applabel}>Select Shift</Text>
                     <Dropdown data={shiftcode} text="--Select--" setValue={setShift}/>
-                    <Text>
+                    <Text style={{color:'red'}}>
                       {
                         shift == 'G' ?
                         result.ShiftDetails[1].selection : 

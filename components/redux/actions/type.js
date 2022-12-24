@@ -16,6 +16,7 @@ export const INSERT_ATTEND = 'INSERT_ATTEND';
 export const GET_EMP_LEAVE = 'GET_EMP_LEAVE';
 export const GET_EMP_OD = 'GET_EMP_OD';
 export const GET_EMP_MANUAL = 'GET_EMP_MANUAL';
+export const GET_MANUAL_DATE = 'GET_MANUAL_DATE';
 export const GET_EMP_COFF = 'GET_EMP_COFF';
 export const GET_EMP_LWP = 'GET_EMP_LWP';
 export const GET_EMP_SL = 'GET_EMP_SL';

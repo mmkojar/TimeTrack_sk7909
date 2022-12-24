@@ -4,20 +4,22 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import moment from 'moment';
 
 
-const Datepicker = ({theme,datecount,date1,date2,setState1,setState2,placeholder1,placeholder2,style,maxdate,mode}) => {
+const Datepicker = ({theme,datecount,date1,date2,setState1,setState2,placeholder1,placeholder2,style,mode}) => {
 
     //For Datepicker
     const [show,setShow] = useState(false);
     const [pickno,setPickno] = useState('');
+    const [unix, setUnix] = useState(moment(new Date()).valueOf());
 
-    const onPickerChange = (event, selectedDate) => {
+    const onPickerChange = (event, selectedDate) => {        
         setShow(false);
+        setUnix(event.nativeEvent.timestamp);
         if(event.type == 'set') {
             if(mode == 'time') {
                 var currentDate = moment(selectedDate).format('HH:mm');
             }
             else {
-                var currentDate = moment(selectedDate).format('YYYY-MM-DD');
+                var currentDate = moment(selectedDate).format('DD/MM/YYYY');
             }
             pickno == '1' ? setState1(currentDate) : setState2(currentDate);
         }               
@@ -26,9 +28,8 @@ const Datepicker = ({theme,datecount,date1,date2,setState1,setState2,placeholder
     const showPicker = (no) => {
         setPickno(no);
         setShow(true)
-    }
-
-    if(!mode) {
+    }    
+    /* if(!mode) {
         var unix1 =  moment(date1).valueOf();
         var unix2 =  moment(date2).valueOf();
         
@@ -37,19 +38,11 @@ const Datepicker = ({theme,datecount,date1,date2,setState1,setState2,placeholder
     else {
         var unix1 =  date1;
         var unix2 =  date2;
-    }   
+    } */
 
     return (
         <>
-        {
-            show &&     
-            (
-                mode ? 
-                <DateTimePicker onChange={onPickerChange} value={new Date()} mode={mode && mode}/> 
-                : 
-                <DateTimePicker onChange={onPickerChange} value={new Date(unix)} maximumDate={maxdate && maxdate} />
-            )
-        }
+        { show && <DateTimePicker onChange={onPickerChange} value={new Date(unix)} mode={mode && mode}/> }
         {
             datecount == '2' ?
             <>
@@ -57,15 +50,15 @@ const Datepicker = ({theme,datecount,date1,date2,setState1,setState2,placeholder
                     style={[{fontSize:14,height:45},style && style]}
                     onPressIn={() => showPicker('1')}                    
                     placeholder={placeholder1 && placeholder1}
-                    value={mode ? unix1 : moment(unix1).format('DD/MM/YYYY')}
+                    value={date1}
                     caretHidden={true}
                     showSoftInputOnFocus={false}
                 />
                 <TextInput
                     style={[{fontSize:14,height:45},style && style]}
                     onPressIn={() => showPicker('2')}
-                    placeholder={placeholder2 && placeholder2}
-                    value={mode ? unix2 : moment(unix2).format('DD/MM/YYYY')}
+                    placeholder={placeholder2 && placeholder2}                    
+                    value={date2}
                     caretHidden={true}
                     showSoftInputOnFocus={false}
                 /> 
@@ -74,8 +67,8 @@ const Datepicker = ({theme,datecount,date1,date2,setState1,setState2,placeholder
             <TextInput
                 style={[{fontSize:14,height:45},style && style]}
                 onPressIn={() => showPicker('1')}
-                placeholder={placeholder1 && placeholder1}
-                value={mode ? unix1 : moment(unix1).format('DD/MM/YYYY')}
+                placeholder={placeholder1 && placeholder1}                
+                value={date1}
                 caretHidden={true}
                 showSoftInputOnFocus={false}
             />

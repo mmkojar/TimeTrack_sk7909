@@ -29,7 +29,7 @@ const Shortleave = ({theme,navigation,route}) => {
         dispatch(getEmpSL(ecode))
     },[])    
     
-    const [fdate, setFdate] = useState();
+    const [fdate, setFdate] = useState(moment(new Date()).format('DD/MM/YYYY'));    
     const [duration, setDuration] = useState('');
     const [intime, setIntime] = useState(''); 
     const [outtime, setOuttime] = useState('');
@@ -37,7 +37,7 @@ const Shortleave = ({theme,navigation,route}) => {
     const [reason, setReason] = useState('');
        
     const submitEntry = () => {
-        if(fdate == '' || duration == '' ||  intime == "" || outtime == "" ||  sltype == "" || reason == ""){
+        if(duration == '' ||  intime == "" || outtime == "" ||  sltype == "" || reason == ""){
             Toast.show({
                 type: 'error',
                 text1:'Fill All fields',
@@ -49,9 +49,8 @@ const Shortleave = ({theme,navigation,route}) => {
                 text1:'Incorrect Time',
             });
         }
-        else {
-            const FDate = moment(fdate).format('DD/MM/YYYY')
-            dispatch(insertAppForm(`ShortLeaveApplyForEmployee?EmpCode=${ecode}&Duration=${duration}&SLType=${sltype}&Fromdate=${FDate}&Todate=${FDate}&Reason=${reason}&Intime=${intime}&Outtime=${outtime}`));            
+        else {            
+            dispatch(insertAppForm(`ShortLeaveApplyForEmployee?EmpCode=${ecode}&Duration=${duration}&SLType=${sltype}&Fromdate=${fdate}&Todate=${fdate}&Reason=${reason}&Intime=${intime}&Outtime=${outtime}`));            
         }
     }
     //  const hdate = date.split("~")[1];

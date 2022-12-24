@@ -23,8 +23,8 @@ const SelfCard = ({navigation,route}) => {
         dispatch(getTimeCardOnLoad(empcode));        
     },[])
     
-    const [date1,setDate1] = useState(moment().startOf('month').format('YYYY-MM-DD'));
-    const [date2,setDate2] = useState(moment().format('YYYY-MM-DD'));
+    const [date1,setDate1] = useState(moment().startOf('month').format('DD/MM/YYYY'));
+    const [date2,setDate2] = useState(moment().format('DD/MM/YYYY'));
 
     const pressHandler = (date) => {
         navigation.navigate('DSelfCard',{
@@ -40,7 +40,7 @@ const SelfCard = ({navigation,route}) => {
             });
         }
         else {
-            dispatch(getTimeCardSelfFilter(empcode,moment(date1).format('DD/MM/YYYY'),moment(date2).format('DD/MM/YYYY')))
+            dispatch(getTimeCardSelfFilter(empcode,date1,date2))
         }
     }
 

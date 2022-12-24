@@ -40,8 +40,8 @@ const LWP = ({theme,navigation,route}) => {
     },[])    
     
     const [duid, setDuid] = useState('');
-    const [fdate, setFdate] = useState(); 
-    const [tdate, setTdate] = useState(); 
+    const [fdate, setFdate] = useState(moment(new Date()).format('DD/MM/YYYY'));
+    const [tdate, setTdate] = useState(moment(new Date()).format('DD/MM/YYYY')); 
     const [duration, setDuration] = useState(''); 
     const [durmultiple, setDurmultiple] = useState(''); 
     const [reason, setReason] = useState(''); 
@@ -49,8 +49,8 @@ const LWP = ({theme,navigation,route}) => {
     const submitEntry = () => {
         
         if(duid == 'MultipleDay' ? 
-            fdate == '' || tdate == '' ||  reason == "" || duid == "" ||  duration == "" || durmultiple == "" : 
-            fdate == '' ||  reason == "" || duid == "" 
+            reason == "" || duid == "" ||  duration == "" || durmultiple == "" : 
+            reason == "" || duid == "" 
         ){
             Toast.show({
                 type: 'error',
@@ -64,9 +64,7 @@ const LWP = ({theme,navigation,route}) => {
             });
         }
         else {
-            const FDate = moment(fdate).format('DD/MM/YYYY')
-            const TDate = moment(tdate).format('DD/MM/YYYY')
-            dispatch(insertAppForm(`LWPApplyForEmployee?EmpCode=${ecode}&Duration=${duration ? duration : duid}&Durationmultple=${durmultiple}&Fromdate=${FDate}&Todate=${TDate ? TDate : FDate}&Reason=${reason}`));            
+            dispatch(insertAppForm(`LWPApplyForEmployee?EmpCode=${ecode}&Duration=${duration ? duration : duid}&Durationmultple=${durmultiple}&Fromdate=${fdate}&Todate=${tdate ? tdate : fdate}&Reason=${reason}`));            
         }
     }
     //  const hdate = date.split("~")[1];

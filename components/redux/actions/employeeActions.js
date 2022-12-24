@@ -4,7 +4,7 @@ import {
     HOD_REPORTEE, TCARD_ONLOAD, TCARD_SELF, DT_TCARD_SELF, GET_GRAPH, RG_LIST, RG_ITEMS, 
     RG_DETAILS, PEND_COUNT, CANC_COUNT, HOD_PEND_COUNT, HOD_CANC_COUNT, PEND_LIST, 
     CANC_LIST, HOD_PEND_LIST, HOD_CANC_LIST, DETAIL_HOD_LIST, ATTEND_LOGS, INSERT_ATTEND, 
-    MARK_EMP_LOGS, GET_EMP_HOLIDAY, INS_APPS, GET_EMP_WFH, GET_EMP_LWP, GET_EMP_LEAVE, GET_EMP_OD, GET_EMP_MANUAL, GET_EMP_COFF, GET_EMP_SL
+    MARK_EMP_LOGS, GET_EMP_HOLIDAY, INS_APPS, GET_EMP_WFH, GET_EMP_LWP, GET_EMP_LEAVE, GET_EMP_OD, GET_EMP_MANUAL, GET_EMP_COFF, GET_EMP_SL, GET_MANUAL_DATE
 } from './type';
 import Config from '../../utils/Config';
 import Toast from 'react-native-toast-message';
@@ -70,6 +70,10 @@ export const getEmpOD = (empcode) => (dispatch) => {
 }
 export const getEmpManual = (empcode) => (dispatch) => {
     fetchAxios(dispatch,`ManualEntryForEmployee?EmpCode=${empcode}`,GET_EMP_MANUAL);
+}
+export const getEmpManualDate = (empcode,date) => (dispatch) => {
+    
+    fetchAxios(dispatch,`ManualEntryForEmployeeWithdate?EmpCode=${empcode}&ManualDate=${date}`,GET_MANUAL_DATE);
 }
 /* export const getEmpCoff = (empcode) => (dispatch) => {
     fetchAxios(dispatch,`GetODEntryEmployee?EmpCode=${empcode}`,GET_EMP_COFF);
