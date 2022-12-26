@@ -3,7 +3,6 @@ import { View, FlatList } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux'
 import { getRegisterList } from '../../components/redux/actions/employeeActions'
 import useThemeStyle from '../../components/utils/useThemeStyle';
-import Dtheader from '../Reusable/Dtheader';
 import LoopItems from '../Reusable/LoopItems';
 
 const Applist = ({navigation}) => {

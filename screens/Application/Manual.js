@@ -6,99 +6,148 @@ import moment from 'moment';
 import Dropdown from '../../components/utils/Dropdown';
 import CustomButtons from '../../components/utils/CustomButtons';
 import Authorities from '../Reusable/Authorities';
-import { getEmpManual, getEmpManualDate, insertAppForm } from '../../components/redux/actions/employeeActions';
+import { getEmpManual, insertAppForm } from '../../components/redux/actions/employeeActions';
 import Toast from 'react-native-toast-message';
 import Datepicker from '../../components/utils/Datepicker';
+import DateTimePicker from '@react-native-community/datetimepicker';
+import { START_LOADER, STOP_LOADER } from '../../components/redux/actions/type';
+import Config from '../../components/utils/Config';
 
 const Manual = ({theme,navigation,route}) => {
 
-    const {ecode} =  route.params;
-    const result = useSelector((state) => state.employee.empmanual)
-    const datefilter = useSelector((state) => state.employee.empmanualdate)
+  const {ecode} =  route.params;
+  const result = useSelector((state) => state.employee.empmanual)
          
-    const [duid, setDuid] = useState('');    
-    const [fdate, setFdate] = useState('');
-    const [shift, setShift] = useState('');
-    const [login, setLogin] = useState(''); 
-    const [logout, setLogout] = useState(''); 
-    const [nextday, setNextDay] = useState(false);
-    const [reason, setReason] = useState('');
-    const [remark, setRemark] = useState('');
-          
-    const shiftcode = [];
-    for(var i in result&&result.ShiftDetails) {
-        if(result.ShiftDetails[i].Id == 'ShiftCode') {
-          shiftcode.push(result.ShiftDetails[i].selection)
-        }
-    }
-    const reasonmaster = [];
-    for(var i in result&&result.ManualReasonMaster) {
-        reasonmaster.push(result.ManualReasonMaster[i].selection)
-    }
+  const [duid, setDuid] = useState('');    
+  const [fdate, setFdate] = useState('');
+  const [shift, setShift] = useState('');
+  const [shiftime, setShiftime] = useState('');
+  const [login, setLogin] = useState(''); 
+  const [logout, setLogout] = useState('');
+  const [nextday, setNextDay] = useState(false);
+  const [reason, setReason] = useState('');
+  const [remark, setRemark] = useState('');
+  const [checkey, setCheckey] = useState('');
+  
+  const shiftcode = [];
+  for(var i in result&&result.ShiftDetails) {
+      if(result.ShiftDetails[i].Id == 'ShiftCode') {
+        shiftcode.push(result.ShiftDetails[i].selection)
+      }
+  }
+  const reasonmaster = [];
+  for(var i in result&&result.ManualReasonMaster) {
+      reasonmaster.push(result.ManualReasonMaster[i].selection)
+  }
 
-    // console.log("datefilter:--",datefilter);
-    // console.log(Object.keys(datefilter)[0]);
-    const dispatch = useDispatch();
-    useEffect(() => {
-        dispatch(getEmpManual(ecode))
-        dispatch(getEmpManualDate(ecode,fdate));
-    },[])    
-       
-    const submitEntry = () => {
-        
-       /*  if(duid == 'MultipleDay' ? 
-            fdate == '' || tdate == '' ||  reason == "" || duid == "" ||  duration == "" || durmultiple == "" : 
-            duid == '' ||  fdate == "" || odstart == "" || odend == '' || reason == ""
-        ){
-            Toast.show({
-                type: 'error',
-                text1:'Fill All fields',
-            });
-        }
-        else if(duid == 'MultipleDay' ? (fdate > tdate) : (odstart > odend)) {
-            Toast.show({
-                type: 'error',
-                text1:`Incorrect ${duid == 'MultipleDay' ? 'Dates' : 'Time'}`,
-            });
-        }
-        else {
-            const FDate = moment(fdate).format('DD/MM/YYYY')
-            const TDate = moment(tdate).format('DD/MM/YYYY')
-            dispatch(insertAppForm(
-              `ApplyODEntryEmployee?EmpCode=${ecode}&Duration=${duration ? duration : duid}&Durationmultple=${durmultiple}
-              &ODStart=${odstart}&ODEnd=${odend}&NextDay=${nextday == true ? '1' : '0'}&Fromdate=${fdate}&Todate=${tdate ? tdate : fdate}&Reason=${reason}`
-            ));
-        } */
-    }
-    //  const hdate = date.split("~")[1];
-    
+  const [show,setShow] = useState(false);
+  const [unix, setUnix] = useState(moment(new Date()).valueOf());
+
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getEmpManual(ecode))
+
+    result.ShiftDetails.filter((item,index) => {                                                      
+      if(item.selection == shift) {                                
+        setShiftime(result.ShiftDetails[index+1].selection)
+      }
+    })
+
+  },[ecode,shift])
+
+
+  const onPickerChange = (event, selectedDate) => {
+      setShow(false);
+      setUnix(event.nativeEvent.timestamp);
+      if(event.type == 'set') {
+          var currentDate = moment(selectedDate).format('DD/MM/YYYY');
+          setFdate(currentDate);
+          dispatch({ type: START_LOADER });
+          fetch(Config.clientUrl+`ManualEntryForEmployeeWithdate?EmpCode=${ecode}&ManualDate=${currentDate}`,{
+            method:'GET'
+          })
+          .then(res => res.json())
+          .then((result) => {
+              dispatch({ type: STOP_LOADER });
+              setCheckey(Object.keys(result)[0]);
+              if(Object.keys(result)[0] !== 'MSG') {
+                setShift(result.Shift[0].selection)
+                setLogin(result.Login[0].selection)
+                setLogout(result.Logout[0].selection)
+                // console.log(`"${moment(selectedDate).format('YYYY-MM-DD')} ${result.Login[0].selection}"`);
+                // var a = moment(selectedDate).format('YYYY-MM-DD');
+                // console.log(new Date(`"${a} ${result.Login[0].selection}"`));
+                // console.log(moment(new Date((moment(selectedDate).format('YYYY-MM-DD')+", "+result.Login[0].selection)).valueOf())
+              }
+              else {
+                Toast.show({ type:'error', text1:result.MSG })
+                setShift('')
+                setLogin('')
+                setLogout('')
+                setShiftime('');
+              }
+          })
+      }
+  };
+  const submitEntry = () => {
+      if(fdate == '' || reason == "" || remark == ""){
+          Toast.show({
+              type: 'error',
+              text1:'Fill All fields',
+          });
+      }
+      else if(login > logout) {
+          Toast.show({
+              type: 'error',
+              text1:'Incorrect Time',
+          });
+      }
+      else {
+          dispatch(insertAppForm(
+            `ApplyManualEntryEmployee?EmpCode=${ecode}&Fromdate=${fdate}&Todate=${fdate}&ShiftCode=${shift}&Reason=${reason}&Login=${login}&LogOut=${logout}&NextDay=${nextday}
+              &Login1=${login}&LogOut1=${logout}&NextDay1=${nextday}&LoginOG=${login}&LogoutOG=${logout}&Remark=${remark}`
+          ));
+          setFdate('')
+          setShift('')
+          setShiftime('');
+          setLogin('')
+          setLogout('')
+          setNextDay(false)
+          setReason('')
+          setRemark('')
+      }
+  }
+
   return (
     <ScrollView>
       <View style={theme.container}>
-          <Authorities recom={result && result.Recommender} sanc={result && result.Sanctioner} />
+          <Authorities recom={result && result.SanctionerList[0].Recommender} sanc={result && result.SanctionerList[0].Sanctioner} />
           <Card style={theme.card} elevation={5}>
             <Title style={theme.appheading}>Manual Entry Details</Title>
             {/* <View> */}
               <View style={{display:'flex',flexDirection:'row'}}>
                 <View style={{width:'48%'}}>
                     <Text style={theme.applabel}>Select Date</Text>
-                      <Datepicker
-                            date1={fdate}
-                            setState1={setFdate}
-                      />
+                        <TextInput
+                            style={[{fontSize:14,height:45}]}
+                            onPressIn={() => setShow(true)}
+                            value={fdate}
+                            caretHidden={true}
+                            showSoftInputOnFocus={false}
+                        />
+                      { show && <DateTimePicker onChange={onPickerChange} value={new Date(unix)} /> }
                 </View>
                 <View style={{marginLeft:10,width:'48%'}}>
                     <Text style={theme.applabel}>Select Shift</Text>
-                    <Dropdown data={shiftcode} text="--Select--" setValue={setShift}/>
-                    <Text style={{color:'red'}}>
-                      {
-                        shift == 'G' ?
-                        result.ShiftDetails[1].selection : 
-                        shift == 'G1' 
-                        ? result.ShiftDetails[3].selection : ''
-                      }
-
-                    </Text>
+                    <Dropdown data={shiftcode} text={`${shift ? shift : '--Select--'}`} setValue={setShift}/>
+                    
+                    {
+                      shiftime&&
+                      <Text style={{color:'red'}}>
+                        {shiftime}
+                      </Text>
+                    }
+                    
                 </View>
               </View>
               <View style={{marginVertical:10,display:'flex',flexDirection:'row'}}>
@@ -144,7 +193,10 @@ const Manual = ({theme,navigation,route}) => {
                   onChangeText={(val) => setRemark(val)}
               /> 
           </Card>
-          <CustomButtons title="Submit" pressHandler={submitEntry} />
+          {
+            checkey !== 'MSG' &&
+            <CustomButtons title="Submit" pressHandler={submitEntry} />
+          }
       </View>
     </ScrollView>
   )

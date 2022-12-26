@@ -160,7 +160,7 @@ function MarkAttendance({ navigation, route }) {
                   // cameraContainerStyle={{width:250}}
                 />
               </Modal>
-              <Modal visible={boxvisible} onDismiss={() => setBoxVisible(false)} contentContainerStyle={{backgroundColor:'#ffffff',borderRadius:5,padding:20,marginHorizontal:40}}>
+              <Modal visible={boxvisible} onDismiss={() => setBoxVisible(false)} contentContainerStyle={{backgroundColor:'#ffffff',borderRadius:5,padding:14,marginHorizontal:40}}>
                   <Text style={{color:theme.colors.primary,fontSize:20,marginBottom:10}}>Remark</Text>
                   <TextInput                   
                     style={[theme.textinput,{height:0}]} 
@@ -172,7 +172,6 @@ function MarkAttendance({ navigation, route }) {
                     textAlignVertical="top"
                     onChangeText={val => setRemark(val)}
                   />
-                  <Text></Text>
                 <CustomButtons title="Submit" pressHandler={addAttend}></CustomButtons>
               </Modal>
           </Portal>

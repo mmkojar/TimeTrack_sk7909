@@ -6,6 +6,7 @@ import { getPendingCount, getCancelCount, getHODPendingCount, getHODCancelCount 
 import useThemeStyle from '../../components/utils/useThemeStyle';
 import Dtheader from '../Reusable/Dtheader';
 import Nodatafound from '../Reusable/Nodatafound';
+import { useIsFocused } from '@react-navigation/native';
 
 const PAList = ({navigation,route}) => {
 
@@ -33,21 +34,21 @@ const PAList = ({navigation,route}) => {
   }
 
   const dispatch = useDispatch();   
-
+  const isFocused = useIsFocused();
   useEffect(() => {
-    if(hodtype === 'self' && pdtype === "Pending Approval") {
-      dispatch(getPendingCount('GetEmployeePendingCount',ecode));      
-    }
-    else if(hodtype === 'self' && pdtype === "Pending Cancellation") {
-      dispatch(getCancelCount('GetEmployeeCancellationPendingCount',ecode));     
-    }
-    else if(hodtype === 'team' && pdtype === "Pending Approval") {
-      dispatch(getHODPendingCount('GetHODHomePagePendingCount',ecode));
-    }
-    else if(hodtype === 'team' && pdtype === "Pending Cancellation") {
-      dispatch(getHODCancelCount('GetHODHomePageCancellationPendingCount',ecode));
-    }
-  },[])    
+      if(hodtype === 'self' && pdtype === "Pending Approval") {
+        dispatch(getPendingCount('GetEmployeePendingCount',ecode));      
+      }
+      else if(hodtype === 'self' && pdtype === "Pending Cancellation") {
+        dispatch(getCancelCount('GetEmployeeCancellationPendingCount',ecode));
+      }
+      else if(hodtype === 'team' && pdtype === "Pending Approval") {
+        dispatch(getHODPendingCount('GetHODHomePagePendingCount',ecode));
+      }
+      else if(hodtype === 'team' && pdtype === "Pending Cancellation") {
+        dispatch(getHODCancelCount('GetHODHomePageCancellationPendingCount',ecode));
+      }
+  },[isFocused])    
 
     let paresult = {};
     paarray && paarray.map((pa) => {

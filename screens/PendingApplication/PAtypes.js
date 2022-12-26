@@ -5,6 +5,7 @@ import {  useDispatch, useSelector } from 'react-redux'
 import { getPendingCount, getCancelCount, getHODPendingCount, getHODCancelCount } from '../../components/redux/actions/employeeActions'
 import useThemeStyle from '../../components/utils/useThemeStyle';
 import LoopItems from '../Reusable/LoopItems';
+import { useIsFocused } from '@react-navigation/native';
 
 const PAtypes = ({navigation,route}) => {
 
@@ -35,8 +36,8 @@ const PAtypes = ({navigation,route}) => {
     }
   }
 
-  const dispatch = useDispatch();   
-
+  const dispatch = useDispatch();
+  const isFocused = useIsFocused();
   useEffect(() => {
     if(type == 'self') {
       dispatch(getPendingCount(api1,ecode));
@@ -46,7 +47,7 @@ const PAtypes = ({navigation,route}) => {
       dispatch(getHODPendingCount(api1,ecode));
       dispatch(getHODCancelCount(api2,ecode));
     }
-  },[])
+  },[isFocused])
 
   return (
     <View style={theme.container}>
@@ -59,7 +60,7 @@ const PAtypes = ({navigation,route}) => {
                   hodtype:type,
                   pdtype:"Pending Approval"
                 }}                
-                ctitle={`Pending Approvals ${pdobject && pdobject['Total Pending Application']}`}
+                ctitle={`Pending Approvals ${pdobject ? pdobject['Total Pending Application'] : '0'}`}
           />
           <LoopItems
                 type="card" 
@@ -70,7 +71,7 @@ const PAtypes = ({navigation,route}) => {
                   hodtype:type,
                   pdtype:"Pending Cancellation"
                 }}                
-                ctitle={`Pending Cancellation ${canobject && canobject['Total Pending Application']}`}
+                ctitle={`Pending Cancellation ${canobject ? canobject['Total Pending Application'] : '0'}`}
           />
     </View>
   )

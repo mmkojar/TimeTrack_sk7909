@@ -36,24 +36,8 @@ import PAItemDetailScreen from '../screens/PendingApplication/PAItemDetail';
 import HolidayScreen from '../screens/Holiday';
 import NoticeScreen from '../screens/Notice';
 import NotificationScreen from '../screens/Notification';
-// import AttendeeProfile from '../screens/AttendeeProfile';
-// import DelegatesScreen from '../screens/Delegates';
-// import ChatBoxScreen from '../screens/ChatBox';
-// import EventOverviewScreen from '../screens/Event_overview';
-// import ChatListScreen from '../screens/ChatList';
-// import NotificationScreen from '../screens/Notifications';
-// import AgendaScreen from '../screens/Agenda';
-// import AgendaDetailScreen from '../screens/AgendaDetail';
-// import SpeakersScreen from '../screens/Speakers';
-// import SponsorsScreen from '../screens/Sponsors';
-// import ExhibitorsScreen from '../screens/Exhibitors';
-// import GalleryScreen from '../screens/Gallery';
-// import FAQScreen from '../screens/FAQ';
-// import SupportScreen from '../screens/Support';
-// import PollsScreen from '../screens/Polling';
-// import PollViewScreen from '../screens/PollView';
-// import ScanQR from '../screens/ScanQR';
-// import useThemeStyle from './utils/useThemeStyle';
+import Headericon from './utils/Headericon';
+
 
 const Stack = createStackNavigator();
 
@@ -81,7 +65,10 @@ const Nav = ({color, refer}) => {
                     },
                     cardStyle:{
                         backgroundColor:'#FFFFFF'
-                    }
+                    },
+                    headerRight: () => (
+                        route.name !=='Home' && <Headericon/>                    
+                    )
                 })}
             >
             <Stack.Screen name="Home" component={HomeScreen}

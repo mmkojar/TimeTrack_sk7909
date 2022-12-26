@@ -50,7 +50,7 @@ const Holiday = ({theme,navigation,route}) => {
           <Title style={theme.appheading}>Holiday Details</Title>
           <View>
             <Text style={theme.applabel}>Holiday Name</Text>
-            <Dropdown data={filterYes} text="--Select--" setValue={setHolname} />
+            <Dropdown data={filterYes}  setValue={setHolname} />
             <View style={{marginVertical:10}}>
               <Text style={theme.applabel}>Holiday Date</Text>            
               <TextInput

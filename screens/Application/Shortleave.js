@@ -29,13 +29,13 @@ const Shortleave = ({theme,navigation,route}) => {
         dispatch(getEmpSL(ecode))
     },[])    
     
-    const [fdate, setFdate] = useState(moment(new Date()).format('DD/MM/YYYY'));    
+    const [fdate, setFdate] = useState(moment(new Date()).format('DD/MM/YYYY'));
     const [duration, setDuration] = useState('');
-    const [intime, setIntime] = useState(''); 
+    const [intime, setIntime] = useState('');
     const [outtime, setOuttime] = useState('');
-    const [sltype, setSltype] = useState(''); 
+    const [sltype, setSltype] = useState('');
     const [reason, setReason] = useState('');
-       
+
     const submitEntry = () => {
         if(duration == '' ||  intime == "" || outtime == "" ||  sltype == "" || reason == ""){
             Toast.show({
@@ -51,6 +51,12 @@ const Shortleave = ({theme,navigation,route}) => {
         }
         else {            
             dispatch(insertAppForm(`ShortLeaveApplyForEmployee?EmpCode=${ecode}&Duration=${duration}&SLType=${sltype}&Fromdate=${fdate}&Todate=${fdate}&Reason=${reason}&Intime=${intime}&Outtime=${outtime}`));            
+            setFdate('')
+            setDuration('')
+            setSltype('')
+            setIntime('')
+            setOuttime('')
+            setReason('')
         }
     }
     //  const hdate = date.split("~")[1];
@@ -73,7 +79,7 @@ const Shortleave = ({theme,navigation,route}) => {
                       </View>
                       <View style={{marginLeft:10,width:'62%'}}>
                         <Text style={theme.applabel}>Duration</Text>
-                        <Dropdown data={fiternames} text="--Select--" setValue={setDuration} />
+                        <Dropdown data={fiternames}  setValue={setDuration} />
                       </View>
                   </View>
                   <View style={{marginVertical:10,display:'flex',flexDirection:'row'}}>
@@ -95,7 +101,7 @@ const Shortleave = ({theme,navigation,route}) => {
                       </View>
                   </View>
                   <Text style={theme.applabel}>SL Type</Text>
-                  <Dropdown data={fitertypes} text="--Select--" setValue={setSltype} style={{width:'48%'}}/>
+                  <Dropdown data={fitertypes}  setValue={setSltype} style={{width:'48%'}}/>
                 </Card>
                 <Card style={theme.card} elevation={5}>
                     <Text style={theme.applabel}>Leave Reason</Text>

@@ -4,7 +4,7 @@ import {
     HOD_REPORTEE, TCARD_ONLOAD, TCARD_SELF, DT_TCARD_SELF, GET_GRAPH, RG_LIST, RG_ITEMS, 
     RG_DETAILS, PEND_COUNT, CANC_COUNT, HOD_PEND_COUNT, HOD_CANC_COUNT, PEND_LIST, 
     CANC_LIST, HOD_PEND_LIST, HOD_CANC_LIST, DETAIL_HOD_LIST, ATTEND_LOGS, INSERT_ATTEND, 
-    MARK_EMP_LOGS, GET_EMP_HOLIDAY, INS_APPS, GET_EMP_WFH, GET_EMP_LWP, GET_EMP_LEAVE, GET_EMP_OD, GET_EMP_MANUAL, GET_EMP_COFF, GET_EMP_SL, GET_MANUAL_DATE
+    MARK_EMP_LOGS, GET_EMP_HOLIDAY, INS_APPS, GET_EMP_WFH, GET_EMP_LWP, GET_EMP_LEAVE, GET_EMP_OD, GET_EMP_MANUAL, GET_EMP_COFF, GET_EMP_SL, GET_MANUAL_DATE, LEAVE_ACTION
 } from './type';
 import Config from '../../utils/Config';
 import Toast from 'react-native-toast-message';
@@ -62,18 +62,15 @@ export const insertAttendance = (empcode,type,lang,lati,accuracy,pdate,remark,qr
 
 // Applications
 
-/* export const getEmpLeave = (empcode) => (dispatch) => {
-    fetchAxios(dispatch,`GetHolidayForEmployee?EmpCode=${empcode}`,GET_EMP_LEAVE);
-} */
+export const getEmpLeave = (empcode) => (dispatch) => {
+    fetchAxios(dispatch,`GetLeaveCodeForEmployee?EmpCode=${empcode}`,GET_EMP_LEAVE);
+}
 export const getEmpOD = (empcode) => (dispatch) => {
     fetchAxios(dispatch,`GetODEntryEmployee?EmpCode=${empcode}`,GET_EMP_OD);
 }
 export const getEmpManual = (empcode) => (dispatch) => {
-    fetchAxios(dispatch,`ManualEntryForEmployee?EmpCode=${empcode}`,GET_EMP_MANUAL);
-}
-export const getEmpManualDate = (empcode,date) => (dispatch) => {
     
-    fetchAxios(dispatch,`ManualEntryForEmployeeWithdate?EmpCode=${empcode}&ManualDate=${date}`,GET_MANUAL_DATE);
+    fetchAxios(dispatch,`ManualEntryForEmployee?EmpCode=${empcode}`,GET_EMP_MANUAL);
 }
 /* export const getEmpCoff = (empcode) => (dispatch) => {
     fetchAxios(dispatch,`GetODEntryEmployee?EmpCode=${empcode}`,GET_EMP_COFF);
@@ -217,6 +214,10 @@ export const getDetailHODList = (empcode,Id,ltype) => (dispatch) => {
     fetchAxios(dispatch,`GETDetailedHODApplicationList?EmpCode=${empcode}&Id=${Id}&AppType=${ltype}`,DETAIL_HOD_LIST);
 }
 
+export const addLeaveaction = (path) => (dispatch) => {
+    fetchAxios(dispatch,`${path}`,LEAVE_ACTION);
+}
+
 const fetchAxios = (dispatch,param,action) => {
     
     dispatch({ type: START_LOADER });
@@ -224,7 +225,7 @@ const fetchAxios = (dispatch,param,action) => {
     axios.get(Config.clientUrl+param)
     .then((res) => {
         // console.log(res.data);
-        if(action == UPDT_NOTIFI || action == INSERT_ATTEND) {
+        if(action == UPDT_NOTIFI || action == INSERT_ATTEND || action == LEAVE_ACTION) {
             dispatch({ type: action });
         }
         else if(action == INS_APPS) {

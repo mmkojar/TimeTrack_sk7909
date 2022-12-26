@@ -6,6 +6,7 @@ import useThemeStyle from '../../components/utils/useThemeStyle';
 import Dtheader from '../Reusable/Dtheader';
 import LoopItems from '../Reusable/LoopItems';
 import Nodatafound from '../Reusable/Nodatafound';
+import { useIsFocused } from '@react-navigation/native';
 
 const PAListItems = ({navigation,route}) => {
 
@@ -39,7 +40,7 @@ const PAListItems = ({navigation,route}) => {
   }
 
   const dispatch = useDispatch();
-
+  const isFocused = useIsFocused();
   useEffect(() => {
     if(hodtype === 'self' && pdtype === "Pending Approval") {
       dispatch(getPendingList('GetPendingApplicationListForSelf',ecode,apptype));      
@@ -53,9 +54,9 @@ const PAListItems = ({navigation,route}) => {
     else if(hodtype === 'team' && pdtype === "Pending Cancellation") {
       dispatch(getHODCancelList('GETHODCancellationPendingApplicationList',ecode,apptype));
     }
-  },[])
+  },[isFocused])
  
-  const filterkey = palistarray && Object.keys(palistarray[0]).filter(item => (item !== 'Recommended_Status' && item !== 'Sanctioned_Status'));
+  const filterkey = palistarray && palistarray.length>0 && Object.keys(palistarray[0]).filter(item => (item !== 'Recommended_Status' && item !== 'Sanctioned_Status'));
   
   const finalplist = palistarray && palistarray.map((obj) => {
       const newObj = {};
@@ -82,8 +83,9 @@ const PAListItems = ({navigation,route}) => {
                   navigation={hodtype == 'team' && navigation}
                   naviTo={hodtype == 'team' && "PAItemDetail"}
                   naviObj={hodtype == 'team' && {
-                      empcode:ecode,
+                      ecode:ecode,
                       apptype:apptype,
+                      pdtype:pdtype,
                       id:item.Id
                   }}
                   dttable={Object.values(item).filter((it,index) => index !== 0)}

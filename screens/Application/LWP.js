@@ -65,9 +65,14 @@ const LWP = ({theme,navigation,route}) => {
         }
         else {
             dispatch(insertAppForm(`LWPApplyForEmployee?EmpCode=${ecode}&Duration=${duration ? duration : duid}&Durationmultple=${durmultiple}&Fromdate=${fdate}&Todate=${tdate ? tdate : fdate}&Reason=${reason}`));            
+            setDuid('')
+            setDuration('')
+            setDurmultiple('')
+            setFdate('')
+            setTdate('')
+            setReason('')
         }
     }
-    //  const hdate = date.split("~")[1];
 
   return (
     <ScrollView>
@@ -77,7 +82,7 @@ const LWP = ({theme,navigation,route}) => {
             <Title style={theme.appheading}>LWP Details</Title>
             <View>
                 <Text style={theme.applabel}>Duration</Text>
-                <Dropdown data={fiternames} text="--Select--" setValue={setDuid} />
+                <Dropdown data={fiternames}  setValue={setDuid} />
                 <View style={{marginVertical:10,width:'75%'}}>
                     <Text style={theme.applabel}>{duid == 'MultipleDay' ? 'Dates' : 'Date'}</Text>
                     <Datepicker
@@ -94,8 +99,8 @@ const LWP = ({theme,navigation,route}) => {
                 {
                     duid == 'MultipleDay' &&
                     <View style={{alignItems:'flex-end',marginTop:-120}}>
-                        <Dropdown data={MulDaySH} text="--Select--" setValue={setDuration} style={{width:'65%',marginBottom:10}}/>
-                        <Dropdown data={MulDayFH} text="--Select--" setValue={setDurmultiple} style={{width:'65%'}}/>
+                        <Dropdown data={MulDaySH}  setValue={setDuration} style={{width:'65%',marginBottom:10}}/>
+                        <Dropdown data={MulDayFH}  setValue={setDurmultiple} style={{width:'65%'}}/>
                     </View>
                 }
             </View>

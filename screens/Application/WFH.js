@@ -41,7 +41,7 @@ const WFH = ({theme,navigation,route}) => {
     
     const [duid, setDuid] = useState('');
     const [fdate, setFdate] = useState(moment(new Date()).format('DD/MM/YYYY')); 
-    const [tdate, setTdate] = useState();
+    const [tdate, setTdate] = useState(moment(new Date()).format('DD/MM/YYYY')); 
     const [duration, setDuration] = useState(''); 
     const [durmultiple, setDurmultiple] = useState(''); 
     const [reason, setReason] = useState('');
@@ -64,12 +64,16 @@ const WFH = ({theme,navigation,route}) => {
             });
         }
         else {
-            // const FDate = moment(fdate).format('DD/MM/YYYY')
-            // const TDate = moment(tdate).format('DD/MM/YYYY')
-            /* dispatch(insertAppForm(
+            dispatch(insertAppForm(
                 `WFHApplyForEmployee?EmpCode=${ecode}&Duration=${duration ? duration : duid}&Durationmultple=${durmultiple}
                 &Fromdate=${fdate}&Todate=${tdate ? tdate : fdate}&Reason=${reason}`
-            )); */            
+            ));
+            setDuid('')
+            setDuration('')
+            setDurmultiple('')
+            setFdate('')
+            setTdate('')
+            setReason('')
         }
     }
     //  const hdate = date.split("~")[1];
@@ -82,7 +86,7 @@ const WFH = ({theme,navigation,route}) => {
             <Title style={theme.appheading}>WFH Details</Title>
             <View>
                 <Text style={theme.applabel}>Duration</Text>
-                <Dropdown data={fiternames} text="--Select--" setValue={setDuid} />
+                <Dropdown data={fiternames}  setValue={setDuid} />
                 <View style={{marginVertical:10,width:'75%'}}>
                     <Text style={theme.applabel}>{duid == 'MultipleDay' ? 'Dates' : 'Date'}</Text>
                     <Datepicker
@@ -99,8 +103,8 @@ const WFH = ({theme,navigation,route}) => {
                 {
                     duid == 'MultipleDay' &&
                     <View style={{alignItems:'flex-end',marginTop:-120}}>
-                        <Dropdown data={MulDaySH} text="--Select--" setValue={setDuration} style={{width:'65%',marginBottom:10}}/>
-                        <Dropdown data={MulDayFH} text="--Select--" setValue={setDurmultiple} style={{width:'65%'}}/>
+                        <Dropdown data={MulDaySH}  setValue={setDuration} style={{width:'65%',marginBottom:10}}/>
+                        <Dropdown data={MulDayFH}  setValue={setDurmultiple} style={{width:'65%'}}/>
                     </View>
                 }
             </View>

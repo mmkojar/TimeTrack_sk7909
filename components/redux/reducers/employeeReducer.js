@@ -3,7 +3,7 @@ import {
     TCARD_ONLOAD, TCARD_SELF, DT_TCARD_SELF, GET_GRAPH, RG_DETAILS, RG_ITEMS, RG_LIST, PEND_COUNT, 
     CANC_COUNT, HOD_PEND_COUNT, HOD_CANC_COUNT, CANC_LIST, HOD_PEND_LIST, HOD_CANC_LIST, PEND_LIST, 
     DETAIL_HOD_LIST, ATTEND_LOGS, INSERT_ATTEND, MARK_EMP_LOGS, 
-    GET_EMP_HOLIDAY, INS_APPS, GET_EMP_WFH, GET_EMP_LWP, GET_EMP_LEAVE, GET_EMP_OD, GET_EMP_MANUAL, GET_EMP_COFF, GET_EMP_SL, GET_MANUAL_DATE
+    GET_EMP_HOLIDAY, INS_APPS, GET_EMP_WFH, GET_EMP_LWP, GET_EMP_LEAVE, GET_EMP_OD, GET_EMP_MANUAL, GET_EMP_COFF, GET_EMP_SL, LEAVE_ACTION
 } from '../actions/type';
 
 const initialState = {
@@ -27,6 +27,7 @@ export default function (state = initialState, action) {
         case ATTEND_LOGS: return { ...state, attlogs: action.payload }
         case MARK_EMP_LOGS: return { ...state, markemplogs: action.payload }    
         case INSERT_ATTEND:
+        case LEAVE_ACTION:
         case UPDT_NOTIFI: return { ...state }
         // App Register
         case RG_LIST: return { ...state, reglist: action.payload }
@@ -46,8 +47,7 @@ export default function (state = initialState, action) {
         case INS_APPS: return { ...state, insempdata: action.payload }
         case GET_EMP_LEAVE: return { ...state, empleave: action.payload }
         case GET_EMP_OD: return { ...state, empod: action.payload }
-        case GET_EMP_MANUAL: return { ...state, empmanual: action.payload }
-        case GET_MANUAL_DATE: return { ...state, empmanualdate: action.payload }
+        case GET_EMP_MANUAL: return { ...state, empmanual: action.payload }        
         case GET_EMP_COFF: return { ...state, empcoff: action.payload }
         case GET_EMP_LWP: return { ...state, emplwp: action.payload }
         case GET_EMP_SL: return { ...state, empsl: action.payload }
