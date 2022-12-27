@@ -12,10 +12,9 @@ const Headericon = () => {
                 navigate('Home');
             }}>
             <FontAwesome5
-            name="home"
-            size={20}
-            color="#fff"
-            style={{marginRight:20}}
+                name="home"
+                size={16}
+                color="#fff"
             />
         </Button>
     </View>

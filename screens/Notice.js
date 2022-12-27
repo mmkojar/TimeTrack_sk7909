@@ -8,7 +8,7 @@ import useThemeStyle from '../components/utils/useThemeStyle';
 const Notice = () => {
 
   const [theme] = useThemeStyle();
-  const empcode = useSelector((state) => state.auth.empcode)
+  const { userid:empcode } = useSelector((state) => state.auth.logininfo)
   const notice = useSelector((state) => state.employee.notice)
   const dispatch = useDispatch();
   

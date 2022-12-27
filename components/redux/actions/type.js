@@ -7,6 +7,8 @@ export const HOME_SETTINGS = 'HOME_SETTINGS';
 // Login
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
 export const HOME_PAGE = 'HOME_PAGE';
+export const EMPLOYEE_INFO = 'EMPLOYEE_INFO';
+// Graph
 export const GET_GRAPH = 'GET_GRAPH';
 // Mark Attendance
 export const ATTEND_LOGS = 'ATTEND_LOGS';

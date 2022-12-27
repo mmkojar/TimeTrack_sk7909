@@ -3,61 +3,79 @@ import {  View,StyleSheet,Image,ScrollView,Pressable, Dimensions, Platform  } fr
 import { Button,Card,Avatar,Text } from 'react-native-paper';
 import useThemeStyle from '../components/utils/useThemeStyle';
 import { useDispatch, useSelector } from 'react-redux';
-import { validRegisterUser, GetHomePageForEmployee } from '../components/redux/actions/authActions';
+import { getHPEmployeeInfo, getHomePageInfo,logoutAction } from '../components/redux/actions/authActions';
 import { appPermissions } from '../services/AppPermissions';
 import { PERMISSIONS } from 'react-native-permissions';
+import { useIsFocused } from '@react-navigation/native';
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
 function Home({navigation}) {
      
     const [theme] = useThemeStyle();
-    const authuser = useSelector((state) => state.auth.user);
-    const empcode = useSelector((state) => state.auth.empcode)
-    const { HomepageSettings: settings, ValidRegisterUser: vru } = useSelector((state) => state.auth.homepage);
-    
+    const { userid, password, key, isHod } = useSelector((state) => state.auth.logininfo)
+    const authuser = useSelector((state) => state.auth.empinfo);
+    const result = useSelector((state) => state.auth.hpsettings);
+        
     var hps = {};
-    for (var i in settings) {
-        Object.assign(hps,settings[i]);
+    for (var i in result&&result.homepagesetts) {
+        Object.assign(hps,result.homepagesetts[i]);
     }
-    const isHod = useSelector((state) => state.auth.isHod)
-    const LogoTitle = () => {
-        return (
-          <Image
-            style={{ width: 250, height: 50 }}
-            source={{uri:vru.find(item => item.CLogo).CLogo}}
-          />
-        );
-      }
+
+    // const LogoTitle = () => {
+    //     return (
+    //       <Image
+    //         style={{ width: 250, height: 50 }}
+    //         source={{uri:vru.find(item => item.CLogo).CLogo}}
+    //       />
+    //     );
+    // }
     React.useLayoutEffect(() => {
         navigation.setOptions({
            // headerTitle: (props) => <LogoTitle {...props} /> 
+           headerRight: () => (
+            <View>
+                <Button onPress={() => {
+                    dispatch(logoutAction());
+                    // navigation.navigate('Login')
+                  }}>
+                  <FontAwesome5
+                    name="user-circle"
+                    size={21}
+                    color="#fff"
+                    style={{marginRight:20}}
+                  />
+                </Button>
+            </View>
+          )
         });
     }, [navigation]);
 
     const dispatch = useDispatch();
+    const isFocused = useIsFocused();
     
     useEffect(() => {
-            dispatch(GetHomePageForEmployee(empcode,isHod));        
-            dispatch(validRegisterUser(empcode,empcode,'Https@123'));
-      },[])
+        dispatch(getHomePageInfo(userid,password,key));
+        dispatch(getHPEmployeeInfo(userid));
+    },[dispatch,userid,password,key,isFocused])
 
     const handleTimeCard = () => {
         if(isHod === 'true') {
-            navigation.navigate('IsHod',{ecode:empcode})
+            navigation.navigate('IsHod',{ecode:userid})
         }
         else {
-            navigation.navigate('SelfCard',{ecode:empcode})
+            navigation.navigate('SelfCard',{ecode:userid})
         }
     }
 
     const handlePA = () => {
         if(isHod == 'true') {
             navigation.navigate('PAIsHod',{
-                ecode:empcode
+                ecode:userid
             })
         }
         else {
             navigation.navigate('PAtypes',{
-                ecode:empcode,
+                ecode:userid,
                 type:'self',
                 api1:'GetEmployeePendingCount',
                 api2:'GetEmployeeCancellationPendingCount'
@@ -67,27 +85,29 @@ function Home({navigation}) {
 
     const checkPermi = () => {
         if(Platform.OS ==  'android') {
-            appPermissions.requestMultiple([PERMISSIONS.ANDROID.CAMERA,PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION],'MarkAtt',{ecode:empcode});
+            appPermissions.requestMultiple([PERMISSIONS.ANDROID.CAMERA,PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION],'MarkAtt',{ecode:userid});
         }
         if(Platform.OS ==  'ios') {
-            appPermissions.requestMultiple([PERMISSIONS.IOS.CAMERA,PERMISSIONS.IOS.ACCESS_FINE_LOCATION],'MarkAtt',{ecode:empcode});
+            appPermissions.requestMultiple([PERMISSIONS.IOS.CAMERA,PERMISSIONS.IOS.ACCESS_FINE_LOCATION],'MarkAtt',{ecode:userid});
         }
     }
             
-    return (
-        <ScrollView>
-             {/* Display User Info */}
-            <View>
-                <Card.Title
-                    style={[theme.cardTitle,{height:100,marginHorizontal:0,borderRadius:0,backgroundColor:theme.colors.primary}]}
-                    title={authuser && authuser[0].EmpName}
-                    titleStyle={{fontSize:20,marginTop:0,color:'#fff',textAlign:'center'}}
-                    subtitle={'Todays In Time: '+ authuser[2].TodaysInTime}
-                    subtitleStyle={{fontSize:16,textAlign:'center',color:'#fff'}}
-                    left={(props) => <Avatar.Image size={80} source={authuser[1].ProfilePic ? {uri: authuser[1].ProfilePic} : require('../assets/user.png')} style={{marginLeft:20}} />}
-                />
-            </View>
-            <View style={styles.container}>
+    return (        
+        <View style={styles.container}>
+            <ScrollView>
+                {/* Display User Info */}
+                <View>
+                    <Card.Title
+                        style={[theme.cardTitle,{height:100,marginHorizontal:0,borderRadius:0,backgroundColor:theme.colors.primary}]}
+                        title={authuser && authuser[0].EmpName}
+                        titleStyle={{fontSize:20,marginTop:0,color:'#fff',textAlign:'center'}}
+                        subtitle={authuser && 'Todays In Time: '+ authuser[2].TodaysInTime}
+                        subtitleStyle={{fontSize:16,textAlign:'center',color:'#fff'}}
+                        left={(props) => <Avatar.Image size={80} source={authuser ? {uri: authuser[1].ProfilePic} : require('../assets/user.png')} style={{marginLeft:20}} />}
+                    />
+                </View>
+            
+                <View style={styles.cardstyles}>
                 {
                     hps['Attendance-Chart'] == 1 &&  <Pressable onPress={() => navigation.navigate('AtttendanceChart')}>
                         <Card style={styles.innerItem} elevation={3}>
@@ -197,9 +217,12 @@ function Home({navigation}) {
                         </Card>
                     </Pressable>
                 }
-                
+                </View>                
+            </ScrollView>
+            <View style={{alignItems:'center',paddingVertical:10}}>
+                <Text style={{fontSize:18}}>Vertex System &copy;2022</Text>
             </View>
-        </ScrollView>
+        </View>
     )
 }
 
@@ -208,18 +231,18 @@ const width = Dimensions.get('window').width;
 const styles = StyleSheet.create({
     container:{
         flex:1,
-        flexDirection:'row',        
-        flexWrap: 'wrap',        
+    },
+    cardstyles:{        
+        flexDirection:'row',
+        flexWrap: 'wrap',
         justifyContent:'center',
-        backgroundColor:"#fff",
     },
     innerItem:{
         width:width/3.3,
         height:126,
-        justifyContent:'center',
-        // padding:10,
+        justifyContent:'center',       
         margin:3,
-        borderRadius:5,       
+        borderRadius:5,
     },
     image:{
         width:54,

@@ -10,9 +10,8 @@ import moment from 'moment';
 const Holiday = () => {
 
   const [theme] = useThemeStyle();
-  const empcode = useSelector((state) => state.auth.empcode)
-  const holidaylist = useSelector((state) => state.employee.holiday)
-  
+  const { userid:empcode } = useSelector((state) => state.auth.logininfo)
+  const holidaylist = useSelector((state) => state.employee.holiday)  
   const dispatch = useDispatch();
   
   useEffect(() => {

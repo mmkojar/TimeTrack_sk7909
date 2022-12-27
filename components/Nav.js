@@ -43,8 +43,6 @@ const Stack = createStackNavigator();
 
 const Nav = ({color, refer}) => {
      
-//   const [theme] = useThemeStyle();
-
   const authData = useSelector((state) => state.auth);
   const { isAuthenticated } = authData;
   

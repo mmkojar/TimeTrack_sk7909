@@ -10,7 +10,7 @@ import moment from 'moment'
 const Notification = () => {
 
   const [theme] = useThemeStyle();
-  const empcode = useSelector((state) => state.auth.empcode)
+  const { userid:empcode } = useSelector((state) => state.auth.logininfo)
   const notifi = useSelector((state) => state.employee.notify)
   
   const dispatch = useDispatch();

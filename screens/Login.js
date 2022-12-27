@@ -3,13 +3,13 @@ import {  View,  StyleSheet, Alert, Platform, TouchableWithoutFeedback, Keyboard
 import { Card,TextInput,Text, Snackbar} from 'react-native-paper';
 import CustomButtons from '../components/utils/CustomButtons';
 import { useDispatch } from 'react-redux';
-import { validRegisterUser } from '../components/redux/actions/authActions';
+import { GetEmployeeDevice, validRegisterUser } from '../components/redux/actions/authActions';
 import DeviceInfo from 'react-native-device-info';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 // import { fcmService } from '../services/FCMService';
 import useThemeStyle from '../components/utils/useThemeStyle';
 // import Config from '../components/utils/Config';
-// import MsgAlerts from '../components/utils/MsgAlerts';
+import Toast from 'react-native-toast-message';
 
 function Login() {
 
@@ -22,41 +22,38 @@ function Login() {
         SetToken(token);
     } */
 
-    const [userid,SetUserid] = useState('');
-    const [password,SetPassword] = useState('');
-    const [key,SetKey] = useState('');
+    const [userid,SetUserid] = useState('RT1505');
+    const [password,SetPassword] = useState('RT1505');
+    const [key,SetKey] = useState('Https@123');
+    const [token,SetToken] = useState('token123');
     const [isPasswordSecure, setIsPasswordSecure] = useState(true);
     const [isKeySecure, setIsKeySecure] = useState(true);
     const [deviceId, setDeviceId] = useState(true);
+    
 
     DeviceInfo.getUniqueId().then((uniquid) => {
         setDeviceId(uniquid);
     })   
     const dispatch = useDispatch();
-   
+
     const pressHandler = (e) => {
         
         e.preventDefault();
-        if(userid == '') {
-            // <MsgAlerts show={true} msg="Enter User Id"/>
-            Alert.alert('Error','Enter User Id',[
-                {text: 'OK'}
-              ],{cancelable:true})
+        if(userid == '') {            
+            Toast.show({ type: 'error', text1:'Enter User Id' });            
         }
         else if(password == '' ) {
-            Alert.alert('Error','Enter password Id',[
-                {text: 'OK'}
-              ],{cancelable:true})
+            Toast.show({ 'error': type, text1:'Enter password' });            
         }
         else if(key == '') {
-            Alert.alert('Error','Enter key',[
-                {text: 'OK'}
-              ],{cancelable:true})
+            Toast.show({ 'error': type, text1:'Enter key' });            
         }
         else {            
-            Keyboard.dismiss();            
-            // console.log(token);            
-            dispatch(validRegisterUser(userid,password,key,deviceId));
+            Keyboard.dismiss();
+            var deviceype = Platform.OS == 'ios' ? 'I' : 'A';
+            // console.log(token);
+            dispatch(validRegisterUser(userid,password,key,deviceId,deviceype,token));
+            // dispatch(GetEmployeeDevice(userid,deviceId,deviceype,token))
         }
     }
 

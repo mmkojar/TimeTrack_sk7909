@@ -8,7 +8,7 @@ import LoopItems from '../Reusable/LoopItems';
 
 const RegisterList = ({navigation}) => {
 
-  const empcode = useSelector((state) => state.auth.empcode)
+  const { userid:empcode } = useSelector((state) => state.auth.logininfo)
   const result = useSelector((state) => state.employee.reglist)
   const [theme] = useThemeStyle(); 
   const dispatch = useDispatch();

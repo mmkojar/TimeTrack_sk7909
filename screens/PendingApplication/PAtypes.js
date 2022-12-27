@@ -1,6 +1,6 @@
 import React, { useEffect, memo } from 'react'
 import { View } from 'react-native'
-import { Badge } from 'react-native-paper';
+import { Avatar } from 'react-native-paper';
 import {  useDispatch, useSelector } from 'react-redux'
 import { getPendingCount, getCancelCount, getHODPendingCount, getHODCancelCount } from '../../components/redux/actions/employeeActions'
 import useThemeStyle from '../../components/utils/useThemeStyle';
@@ -12,8 +12,8 @@ const PAtypes = ({navigation,route}) => {
   const [theme] = useThemeStyle();
   const { ecode, api1, api2, type } = route.params;
   
-  const pdobject = {};
-  const canobject = {};
+  const pdobject = {'Total Pending Application':'0'};
+  const canobject = {'Total Pending Application':'0'};
   
   if(type == 'self') {
     const pdresult = useSelector((state) => state.employee.pdcount)
@@ -35,7 +35,7 @@ const PAtypes = ({navigation,route}) => {
       Object.assign(canobject,...hodcanresult.GetHODHomePageCancellationPendingCount[i]['Cancellation Pending Application']);
     }
   }
-
+  
   const dispatch = useDispatch();
   const isFocused = useIsFocused();
   useEffect(() => {
@@ -59,8 +59,9 @@ const PAtypes = ({navigation,route}) => {
                   ecode:ecode,
                   hodtype:type,
                   pdtype:"Pending Approval"
-                }}                
-                ctitle={`Pending Approvals ${pdobject ? pdobject['Total Pending Application'] : '0'}`}
+                }}
+                // ctitle={<Avatar.Text size={30} label={`${pdobject['Total Pending Application']}`} />}
+                ctitle={`Pending Approvals ${pdobject['Total Pending Application']}`}
           />
           <LoopItems
                 type="card" 
@@ -71,7 +72,7 @@ const PAtypes = ({navigation,route}) => {
                   hodtype:type,
                   pdtype:"Pending Cancellation"
                 }}                
-                ctitle={`Pending Cancellation ${canobject ? canobject['Total Pending Application'] : '0'}`}
+                ctitle={`Pending Cancellation ${canobject['Total Pending Application']}`}
           />
     </View>
   )

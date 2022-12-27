@@ -1,125 +1,138 @@
 import axios from 'axios';
-import { Alert, Platform } from 'react-native';
-import { START_LOADER, STOP_LOADER, LOGIN_SUCCESS, HOME_PAGE } from './type';
+import { START_LOADER, STOP_LOADER, LOGIN_SUCCESS, EMPLOYEE_INFO, HOME_PAGE, LOGOUT_SUCCESS } from './type';
 import Config from '../../utils/Config';
+import Toast from 'react-native-toast-message';
+import storage from 'redux-persist/lib/storage'
 
-//  ------Login Action------
-export const validRegisterUser = (userid,password,key,deviceId) => (dispatch) => {
+const Toaster = (type,text) => {
+    Toast.show({ type: type, text1:text });
+}
 
-    dispatch({
-        type: START_LOADER,
-    });
-    
+export const validRegisterUser = (userid,password,key,deviceId,deviceype,token) => (dispatch) => {
+
+    dispatch({ type: START_LOADER });
+
     axios.get(Config.serverUrl+`ValidRegisterUser?userid=${userid}&password=${password}&key=${key}`
     )
     .then((res) => {
         const checkStatus = res.data.ValidRegisterUser.find(item => item.Status).Status;        
-        if(checkStatus == 'active') {
-            dispatch({
-                type: HOME_PAGE,
-                payload: res.data
-            })
-            dispatch(ValidEmployeeUser(userid,password,deviceId))
+        if(checkStatus == 'active') {            
+            dispatch(ValidEmployeeUser(userid,password,key,deviceId,deviceype,token))
         }
         else {
-            Alert.alert('Error','Invalid Key',[
-                {text: 'OK'}
-              ],{cancelable:true})
-            dispatch({
-                type: STOP_LOADER,
-            });
+            Toaster('error','Invalid Key')
+            dispatch({ type: STOP_LOADER });
         }  
     })
     .catch((err) => {
-        dispatch({
-            type: STOP_LOADER,
-        });
-        Toast.show({ type: 'error', text1:'Server Error. Please try again after sometime' });
+        dispatch({ type: STOP_LOADER });
+        Toaster('error','Server Error. Please try again after sometime');
     });
 };
 
-export const ValidEmployeeUser = (userid,password,deviceId) => (dispatch) => {
-
+export const ValidEmployeeUser = (userid,password,key,deviceId,deviceype,token) => (dispatch) => {
+   
     axios.get(Config.clientUrl+`ValidEmployeeUser?userid=${userid}&password=${password}`
     )
-    .then((res) => {
-        // console.log(res.data);
+    .then((res) => {        
         if(res.data.Active == 'true') {
-            var deviceype = Platform.OS == 'ios' ? 'I' : 'A';
-            var token = 'token';
-            dispatch(GetEmployeeDevice(userid,deviceId,deviceype,token,res.data.IsHod))
+            dispatch(GetEmployeeDevice(userid,password,key,res.data.IsHod,deviceId,deviceype,token))
         }
         else {
-            Alert.alert('Error','No User Found',[
-                {text: 'OK'}
-              ],{cancelable:true})
-                    
-            dispatch({
-                type: STOP_LOADER,
-            });
+            Toaster('error','No User Found')
+            dispatch({ type: STOP_LOADER });
         }
     })
     .catch((err) => {
-        dispatch({
-            type: STOP_LOADER,
-        });
-        Toast.show({ type: 'error', text1:'Server Error. Please try again after sometime' });
+        dispatch({ type: STOP_LOADER });
+        Toaster('error','Server Error. Please try again after sometime');
     });
 }
 
-export const GetEmployeeDevice = (userid,deviceId,deviceype,token,isHod) => (dispatch) => {
+export const GetEmployeeDevice = (userid,password,key,isHod,deviceId,deviceype,token) => (dispatch) => {
+    // console.log(userid,password,key,isHod,deviceId,deviceype,token);
     axios.get(Config.clientUrl+`GetEmployeeDevice?userid=${userid}&deviceid=${deviceId}&DeviceType=${deviceype}&TokenNumber=${token}`
     )
     .then((res) => {
-        // console.log("GetEmployeeDevice:",res.data);
         if(res.data.Active == 'Success') {
-            dispatch(GetHomePageForEmployee(userid,isHod));
-        }
-        else {
-            Alert.alert('Error',res.data.Active,[
-                {text: 'OK'}
-              ],{cancelable:true})
+            const logincreds = {
+                userid:userid,
+                password:password,
+                key:key,
+                isHod:isHod
+            }
             dispatch({
-                type: STOP_LOADER,
+                type: LOGIN_SUCCESS,
+                payload: logincreds,
             });
         }
+        else {
+            Toaster('error',res.data.Active)            
+        }
+        dispatch({ type: STOP_LOADER });
     })
     .catch((err) => {
-        Toast.show({ type: 'error', text1:'Server Error. Please try again after sometime' });
-        dispatch({
-            type: STOP_LOADER,
-        });
+        Toaster('error','Server Error. Please try again after sometime');
+        dispatch({ type: STOP_LOADER });
     });
 }
 
-export const GetHomePageForEmployee = (userid,isHod) => (dispatch) => {
-    axios.get(Config.clientUrl+`GetHomePageForEmployee2?EmpCode=${userid}`)
-    .then((res) => {
-        // console.log("GetHomePageForEmployee:",res.data.GetHomePageForEmployee);
-        dispatch({
-            type: LOGIN_SUCCESS,
-            payload: [res.data.GetHomePageForEmployee,userid,isHod],
-        });
-        dispatch({
-            type: STOP_LOADER,
-        });
-         /* if(res.data.status === "true") {
-            dispatch({
-                type: LOGIN_SUCCESS,
-                payload: res.data,
-            });
-            AsyncStorage.setItem('userId',res.data.data.user_id);
+// HP Info
+export const getHomePageInfo = (userid,password,key) => (dispatch) => {
+
+    dispatch({ type: START_LOADER });
+    axios.get(Config.serverUrl+`ValidRegisterUser?userid=${userid}&password=${password}&key=${key}`)
+    .then((res) => {        
+        const result = {
+            homepagesetts:res.data.HomepageSettings,
+            validreguser:res.data.ValidRegisterUser
         }
-        if(res.data.status === "false") {
-            dispatch({
-                type: LOGIN_FAIL,
-            });
-        } */
+        dispatch({
+            type: HOME_PAGE,
+            payload: result
+        })  
     })
     .catch((err) => {
-        Toast.show({ type: 'error', text1:'Server Error. Please try again after sometime' });
+        dispatch({ type: STOP_LOADER });
+        Toaster('error','Server Error. Please try again after sometime');
+    });
+};
+
+
+export const getHPEmployeeInfo = (userid) => (dispatch) => {
+    
+    axios.get(Config.clientUrl+`GetHomePageForEmployee2?EmpCode=${userid}`)
+    .then((res) => {
+        dispatch({
+            type: EMPLOYEE_INFO,
+            payload: res.data.GetHomePageForEmployee
+        })
+        dispatch({ type: STOP_LOADER });
+    })
+    .catch((err) => {
+        Toaster('error','Server Error. Please try again after sometime');
+        dispatch({ type: STOP_LOADER });
+    });
+}
+
+//logout
+export const logoutAction = () => (dispatch) => {
+    
+    dispatch({
+        type: START_LOADER,
+    });    
+    try {
+        storage.removeItem('persist:root')
+        dispatch({
+            type: LOGOUT_SUCCESS,
+        });
         dispatch({
             type: STOP_LOADER,
         });
-    });
-}
+    } catch(err) {
+        dispatch({
+            type: STOP_LOADER,
+        });
+        alert(err);
+    }    
+};

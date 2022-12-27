@@ -98,7 +98,7 @@ const PAItemsDetail = ({theme,navigation,route}) => {
           </Modal>
         </Portal>
           {
-            result.GetDetailedRegisterForHOD && result.GetDetailedRegisterForHOD.length > 0 &&
+            result && result.GetDetailedRegisterForHOD && result.GetDetailedRegisterForHOD.length > 0 &&
               <View style={styles.action}>
                 <View style={{flex: 1}}>
                   <CustomButtons title="Approve" pressHandler={() => pressHandler('1')}  style={{width:'100%',backgroundColor:'green'}}></CustomButtons>

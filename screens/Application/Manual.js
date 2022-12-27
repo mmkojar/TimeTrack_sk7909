@@ -17,8 +17,7 @@ const Manual = ({theme,navigation,route}) => {
 
   const {ecode} =  route.params;
   const result = useSelector((state) => state.employee.empmanual)
-         
-  const [duid, setDuid] = useState('');    
+             
   const [fdate, setFdate] = useState('');
   const [shift, setShift] = useState('');
   const [shiftime, setShiftime] = useState('');
@@ -47,7 +46,7 @@ const Manual = ({theme,navigation,route}) => {
   useEffect(() => {
     dispatch(getEmpManual(ecode))
 
-    result.ShiftDetails.filter((item,index) => {                                                      
+    result&&result.ShiftDetails.filter((item,index) => {
       if(item.selection == shift) {                                
         setShiftime(result.ShiftDetails[index+1].selection)
       }

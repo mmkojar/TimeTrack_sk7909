@@ -1,5 +1,5 @@
 import React,{ useEffect, useState, memo } from 'react'
-import { View, FlatList, StyleSheet, ScrollView, BackHandler } from 'react-native'
+import { View, FlatList, StyleSheet, ScrollView, BackHandler,Dimensions } from 'react-native'
 // import { TextInput, DataTable, IconButton, Text } from 'react-native-paper';
 import { useDispatch, useSelector } from 'react-redux'
 import { getGraph } from '../components/redux/actions/employeeActions'
@@ -7,11 +7,12 @@ import useThemeStyle from '../components/utils/useThemeStyle';
 import SelectDropdown from 'react-native-select-dropdown'
 // import { Doughnut } from 'react-chartjs-2/dist';
 import moment from 'moment';
+import { ProgressChart } from "react-native-chart-kit";
 
 const AtttendanceChart = ({navigation}) => {
 
   const [theme] = useThemeStyle();
-  const empcode = useSelector((state) => state.auth.empcode)
+  const { userid:empcode } = useSelector((state) => state.auth.logininfo)
   const result = useSelector((state) => state.employee.graph)
 
   const dispatch = useDispatch();
@@ -40,7 +41,7 @@ const AtttendanceChart = ({navigation}) => {
     const [month,setMonth] = useState(cmonth);
     const [year,setYear] = useState(cyear);
    
-    const dohnurtdata = {
+    /* const dohnurtdata = {
       labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
       datasets: [
         {
@@ -65,11 +66,22 @@ const AtttendanceChart = ({navigation}) => {
           borderWidth: 1,
         },
       ],
+    }; */
+    const screenWidth = Dimensions.get("window").width;
+    const data = {
+      labels: ["Swim", "Bike", "Run","a","b"], // optional
+      data: [0.4, 0.6, 0.8,0.2,0.2]
     };
-
-    console.log(month && month);
-    console.log(year && year);
-
+    const chartConfig = {
+      backgroundGradientFrom: "#1E2923",
+      // backgroundGradientFromOpacity: 0,
+      backgroundGradientTo: "#08130D",
+      backgroundGradientToOpacity: 0.5,
+      color: (opacity = 1) => `rgba(26, 255, 146, ${opacity})`,
+      strokeWidth: 2, // optional, default 3
+      barPercentage: 0.5,
+      useShadowColorFromDataset: false // optional
+    };
   return (
     <ScrollView>
       <View style={theme.container}>
@@ -93,8 +105,19 @@ const AtttendanceChart = ({navigation}) => {
                 // onBlur={selectHandler}
               />     
           </View>
-          <View style={{flex:1,justifyContent:'center'}}>
+          <View style={{flex:1,justifyContent:'center',marginTop:100}}>
             {/* <Doughnut data={dohnurtdata} /> */}
+            <ProgressChart
+              data={data}
+              width={screenWidth}
+              height={300}
+              chartConfig={chartConfig}
+              // accessor={"population"}
+              // backgroundColor={"transparent"}
+              // strokeWidth={10}
+              // radius={10}
+              // hideLegend={false}              
+            />
           </View>
       </View>
     </ScrollView>
