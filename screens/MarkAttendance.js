@@ -74,6 +74,7 @@ function MarkAttendance({ navigation, route }) {
       setBoxVisible(true);
     }
     else if(checkAttType == '3') {
+       setQrVisible(true)
         /* if(accuracy > checkgeorange ) {
           Alert.alert('Error','QR is Out of range',[
             {text: 'OK', onPress: () => {
@@ -112,7 +113,7 @@ function MarkAttendance({ navigation, route }) {
   };
 
   const onQrSuccess = e => {
-    console.log(e.data);
+    
     setGeoLocation();
       if(getqrValue.indexOf(e.data) == '-1') {
         Alert.alert('Error','Invalid QR Value',[
@@ -136,10 +137,40 @@ function MarkAttendance({ navigation, route }) {
     }
     else {
       setBoxVisible(false);
-      // dispatch(insertAttendance(ecode,type,longi,lati,accuracy,punchdate,remark,qrvalue))
+      dispatch(insertAttendance(ecode,type,longi,lati,accuracy,punchdate,remark,qrvalue))
       dispatch(getTodaysAttLogs(ecode));
-      console.warn(ecode,type,longi,lati,accuracy,punchdate,remark,qrvalue);
+      // console.warn(ecode,type,longi,lati,accuracy,punchdate,remark,qrvalue);
     }
+  }
+
+  const HomeIn = ({type}) => {
+    return (
+      <Pressable onPress={() => openModals(type)}>
+        <Image
+          style={styles.image}
+          source={require('../assets/home.png')} />
+      </Pressable>
+    )
+  }
+
+  const CUST = ({type}) => {
+    return (
+      <Pressable onPress={() => openModals(type)}>
+        <Image
+          style={styles.image}
+          source={require('../assets/cust.png')} />
+      </Pressable>
+    )
+  }
+
+  const OFFICE = ({type}) => {
+    return (
+      <Pressable onPress={() => openModals(type)}>
+        <Image
+          style={styles.image}
+          source={require('../assets/office.png')} />
+      </Pressable>
+    )
   }
 
   const header = ['Login Time', 'Type', 'Location'];
@@ -182,41 +213,22 @@ function MarkAttendance({ navigation, route }) {
             <View style={[styles.action]}>         
               <Text style={{ fontSize: 24, textAlignVertical:'center',paddingRight:30}}>IN</Text>
               {markemplogs && markemplogs.ButtonPair == '1' ?
-                <Pressable onPress={() => openModals('HOME-IN')}>
-                  <Image
-                    style={styles.image}
-                    source={require('../assets/in.png')} />
-                </Pressable>
+                   <Pressable onPress={() => openModals('HOME-IN')}>
+                    <Image
+                      style={styles.image}
+                      source={require(`../assets/in.png`)} 
+                    />
+                  </Pressable>
                 : markemplogs && markemplogs.ButtonPair == '2' ?
                   <>
-                  <Pressable onPress={() => openModals('HOME-IN')}>
-                    <Image
-                      style={styles.image}
-                      source={require('../assets/home.png')} />
-                  </Pressable>
-                  <Pressable onPress={() => openModals('CUST-IN')}>
-                    <Image
-                      style={styles.image}
-                      source={require('../assets/cust.png')} /> 
-                  </Pressable>
+                 <HomeIn type='HOME-IN' />
+                 <CUST type='CUST-IN' />
                   </> 
                 : markemplogs && markemplogs.ButtonPair == '3' ?
                   <>
-                    <Pressable onPress={() => openModals('HOME-IN')}>
-                      <Image
-                        style={styles.image}
-                        source={require('../assets/home.png')} />
-                    </Pressable>
-                    <Pressable onPress={() => openModals('CUST-IN')}>
-                      <Image
-                        style={styles.image}
-                        source={require('../assets/cust.png')} /> 
-                    </Pressable>
-                    <Pressable onPress={() => openModals('OFFICE-IN')}>
-                    <Image
-                      style={styles.image}
-                      source={require('../assets/office.png')} /> 
-                    </Pressable>
+                    <HomeIn type='HOME-IN' />
+                    <CUST type='CUST-IN' />
+                    <OFFICE type='OFFICE-IN' />
                   </> 
                 : null
                 }
@@ -232,34 +244,14 @@ function MarkAttendance({ navigation, route }) {
                 </Pressable>
                 : markemplogs && markemplogs.ButtonPair == '2' ?
                   <>
-                    <Pressable onPress={() => openModals('HOME-OUT')}>
-                      <Image
-                        style={styles.image}
-                        source={require('../assets/home.png')} />
-                    </Pressable>
-                    <Pressable onPress={() => openModals('CUST-OUT')}>
-                      <Image
-                        style={styles.image}
-                        source={require('../assets/cust.png')} /> 
-                    </Pressable>
+                    <HomeIn type='HOME-OUT' />
+                    <CUST type='CUST-OUT' />
                 </>
                 : markemplogs && markemplogs.ButtonPair == '3' ?
                   <>
-                    <Pressable onPress={() => openModals('HOME-OUT')}>
-                      <Image
-                        style={styles.image}
-                        source={require('../assets/home.png')} />
-                    </Pressable>
-                    <Pressable onPress={() => openModals('CUST-OUT')}>
-                      <Image
-                        style={styles.image}
-                        source={require('../assets/cust.png')} /> 
-                    </Pressable>
-                    <Pressable onPress={() => openModals('OFFICE-OUT')}>
-                    <Image
-                      style={styles.image}
-                      source={require('../assets/office.png')} /> 
-                    </Pressable>
+                    <HomeIn type='HOME-OUT' />
+                    <CUST type='CUST-OUT' />
+                    <OFFICE type='OFFICE-OUT' />
                   </> 
                 : null
                 }

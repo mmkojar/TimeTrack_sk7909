@@ -1,21 +1,28 @@
 import React, {useEffect} from 'react'
-import {  View,StyleSheet,Image,ScrollView,Pressable, Dimensions, Platform  } from 'react-native';
-import { Button,Card,Avatar,Text } from 'react-native-paper';
+import {  View,StyleSheet,Image,ScrollView,Pressable, Dimensions, Platform } from 'react-native';
+import { Card,Avatar,Text } from 'react-native-paper';
 import useThemeStyle from '../components/utils/useThemeStyle';
 import { useDispatch, useSelector } from 'react-redux';
-import { getHPEmployeeInfo, getHomePageInfo,logoutAction } from '../components/redux/actions/authActions';
+import { getHPEmployeeInfo, getHomePageInfo } from '../components/redux/actions/authActions';
 import { appPermissions } from '../services/AppPermissions';
 import { PERMISSIONS } from 'react-native-permissions';
 import { useIsFocused } from '@react-navigation/native';
-import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
 function Home({navigation}) {
      
     const [theme] = useThemeStyle();
-    const { userid, password, key, isHod } = useSelector((state) => state.auth.logininfo)
+    const authData = useSelector((state) => state.auth.logininfo)
     const authuser = useSelector((state) => state.auth.empinfo);
     const result = useSelector((state) => state.auth.hpsettings);
-        
+    
+    let checkey = authuser && Object.keys(authuser[0])[0]
+    // let checkStatus = result && result.validreguser.find(item => item.Status).Status;
+
+    let userid = authData&&authData.userid
+    let password = authData&&authData.password
+    let key = authData&&authData.key
+    let isHod = authData&&authData.isHod
+    
     var hps = {};
     for (var i in result&&result.homepagesetts) {
         Object.assign(hps,result.homepagesetts[i]);
@@ -29,13 +36,18 @@ function Home({navigation}) {
     //       />
     //     );
     // }
-    React.useLayoutEffect(() => {
+   /*  React.useLayoutEffect(() => {
         navigation.setOptions({
            // headerTitle: (props) => <LogoTitle {...props} /> 
            headerRight: () => (
             <View>
                 <Button onPress={() => {
-                    dispatch(logoutAction());
+                    Alert.alert('Message','Are You Sure?',[
+                    {text: 'Yes', onPress:() => {                
+                        dispatch(logoutAction());
+                    }},
+                    {text:'No'}
+                    ],{cancelable:true})
                     // navigation.navigate('Login')
                   }}>
                   <FontAwesome5
@@ -48,15 +60,16 @@ function Home({navigation}) {
             </View>
           )
         });
-    }, [navigation]);
-
+    }, [navigation]); */
+         
     const dispatch = useDispatch();
     const isFocused = useIsFocused();
     
     useEffect(() => {
         dispatch(getHomePageInfo(userid,password,key));
         dispatch(getHPEmployeeInfo(userid));
-    },[dispatch,userid,password,key,isFocused])
+        
+    },[isFocused,userid,password,key])
 
     const handleTimeCard = () => {
         if(isHod === 'true') {
@@ -96,16 +109,20 @@ function Home({navigation}) {
         <View style={styles.container}>
             <ScrollView>
                 {/* Display User Info */}
-                <View>
-                    <Card.Title
-                        style={[theme.cardTitle,{height:100,marginHorizontal:0,borderRadius:0,backgroundColor:theme.colors.primary}]}
-                        title={authuser && authuser[0].EmpName}
-                        titleStyle={{fontSize:20,marginTop:0,color:'#fff',textAlign:'center'}}
-                        subtitle={authuser && 'Todays In Time: '+ authuser[2].TodaysInTime}
-                        subtitleStyle={{fontSize:16,textAlign:'center',color:'#fff'}}
-                        left={(props) => <Avatar.Image size={80} source={authuser ? {uri: authuser[1].ProfilePic} : require('../assets/user.png')} style={{marginLeft:20}} />}
-                    />
-                </View>
+                {
+                    checkey!=='Status' &&
+                    <View>
+                        <Card.Title
+                            style={[theme.cardTitle,{height:100,marginHorizontal:0,borderRadius:0,backgroundColor:theme.colors.primary}]}
+                            title={authuser && authuser[0].EmpName}
+                            titleStyle={{fontSize:20,marginTop:0,color:'#fff',textAlign:'center'}}
+                            subtitle={'Todays In Time: '+ (authuser && authuser[2].TodaysInTime)}
+                            subtitleStyle={{fontSize:16,textAlign:'center',color:'#fff'}}
+                            left={(props) => <Avatar.Image size={80} source={authuser ? {uri: authuser[1].ProfilePic} : require('../assets/user.png')} style={{marginLeft:20}} />}
+                        />
+                    </View>
+                }
+               
             
                 <View style={styles.cardstyles}>
                 {
@@ -221,6 +238,14 @@ function Home({navigation}) {
             </ScrollView>
             <View style={{alignItems:'center',paddingVertical:10}}>
                 <Text style={{fontSize:18}}>Vertex System &copy;2022</Text>
+                {/* {
+                    checkStatus!=='Invalid' &&
+                    <Image
+                        style={{ width: 300, height: 50 }}
+                        source={{uri:result&&result.validreguser.find(item => item.CLogo).CLogo}}
+                    />
+                } */}
+                
             </View>
         </View>
     )

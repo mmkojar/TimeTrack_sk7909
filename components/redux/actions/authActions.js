@@ -2,7 +2,7 @@ import axios from 'axios';
 import { START_LOADER, STOP_LOADER, LOGIN_SUCCESS, EMPLOYEE_INFO, HOME_PAGE, LOGOUT_SUCCESS } from './type';
 import Config from '../../utils/Config';
 import Toast from 'react-native-toast-message';
-import storage from 'redux-persist/lib/storage'
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Toaster = (type,text) => {
     Toast.show({ type: type, text1:text });
@@ -91,6 +91,7 @@ export const getHomePageInfo = (userid,password,key) => (dispatch) => {
             type: HOME_PAGE,
             payload: result
         })  
+        dispatch({ type: STOP_LOADER });
     })
     .catch((err) => {
         dispatch({ type: STOP_LOADER });
@@ -100,7 +101,8 @@ export const getHomePageInfo = (userid,password,key) => (dispatch) => {
 
 
 export const getHPEmployeeInfo = (userid) => (dispatch) => {
-    
+
+    dispatch({ type: START_LOADER });
     axios.get(Config.clientUrl+`GetHomePageForEmployee2?EmpCode=${userid}`)
     .then((res) => {
         dispatch({
@@ -122,17 +124,13 @@ export const logoutAction = () => (dispatch) => {
         type: START_LOADER,
     });    
     try {
-        storage.removeItem('persist:root')
+        AsyncStorage.removeItem('root')
         dispatch({
             type: LOGOUT_SUCCESS,
         });
-        dispatch({
-            type: STOP_LOADER,
-        });
+        dispatch({ type: STOP_LOADER });
     } catch(err) {
-        dispatch({
-            type: STOP_LOADER,
-        });
-        alert(err);
+        dispatch({ type: STOP_LOADER });
+        Toaster('error','Server Error. Please try again after sometime');
     }    
 };

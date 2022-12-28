@@ -1,5 +1,6 @@
 import React, { Fragment, useEffect } from 'react';
 import { Provider as PaperProvider, withTheme } from 'react-native-paper';
+import { Alert,BackHandler } from 'react-native';
 import Nav from './components/Nav';
 import Spinner from './components/utils/Spinner';
 import { navigationRef, navigate } from './services/RootNavigation';
@@ -13,9 +14,32 @@ import toastConfig from './components/utils/useToast';
 const App = () => {
 
   const [theme ] = useThemeStyle();
+  
+  // function handleBackButtonClick() {
+  //   Alert.alert(
+  //       'Exit!',
+  //       'Are you sure you want to exit the app?', [{
+  //           text: 'Cancel',
+  //           onPress: () => console.log('Cancel Pressed'),
+  //           style: 'cancel'
+  //       }, {
+  //           text: 'OK',
+  //           onPress: () => BackHandler.exitApp()
+  //       }, ], {
+  //           cancelable: false
+  //       }
+  //    )
+  //    return true;
+  // }
 
   useEffect(() => {
+    // if(navigationRef.current.canGoBack() === false) {
+    //   BackHandler.addEventListener("hardwareBackPress", handleBackButtonClick);
+    // }    
     SplashScreen.hide();
+      // return () => {
+      //     BackHandler.removeEventListener("hardwareBackPress", handleBackButtonClick);
+      // };
   },[])
 
 return (

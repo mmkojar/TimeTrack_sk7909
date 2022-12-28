@@ -25,14 +25,13 @@ export default function (state = initialState, action) {
                 ...state,
                 empinfo:action.payload
             }
-        case AUTH_ERROR:
         case LOGOUT_SUCCESS:
             return {
-                ...state,
+                state:undefined,
                 isAuthenticated: false,
-                logininfo:null,
-                empinfo:null,
-                hpsettings:null
+                // logininfo:null,
+                // empinfo:null,
+                // hpsettings:null                
             };
         default:
             return state;

@@ -65,7 +65,7 @@ const Nav = ({color, refer}) => {
                         backgroundColor:'#FFFFFF'
                     },
                     headerRight: () => (
-                        route.name !=='Home' && <Headericon/>                    
+                        <Headericon name={route.name} />                    
                     )
                 })}
             >

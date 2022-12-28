@@ -6,6 +6,7 @@ export const CLEAR_DATA = 'CLEAR_DATA';
 export const HOME_SETTINGS = 'HOME_SETTINGS';
 // Login
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
+export const LOGIN_INFO = 'LOGIN_INFO';
 export const HOME_PAGE = 'HOME_PAGE';
 export const EMPLOYEE_INFO = 'EMPLOYEE_INFO';
 // Graph
