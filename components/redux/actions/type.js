@@ -17,6 +17,7 @@ export const MARK_EMP_LOGS = 'MARK_EMP_LOGS';
 export const INSERT_ATTEND = 'INSERT_ATTEND';
 // Applications
 export const GET_EMP_LEAVE = 'GET_EMP_LEAVE';
+export const LEAVE_BAL = 'LEAVE_BAL';
 export const GET_EMP_OD = 'GET_EMP_OD';
 export const GET_EMP_MANUAL = 'GET_EMP_MANUAL';
 export const GET_EMP_COFF = 'GET_EMP_COFF';
@@ -24,7 +25,7 @@ export const GET_EMP_LWP = 'GET_EMP_LWP';
 export const GET_EMP_SL = 'GET_EMP_SL';
 export const GET_EMP_WFH = 'GET_EMP_WFH';
 export const GET_EMP_HOLIDAY = 'GET_EMP_HOLIDAY';
-export const INS_APPS = 'INS_APPS';
+export const APP_ACTIONS = 'APP_ACTIONS';
 // TimeCard
 export const HOD_REPORTEE = 'HOD_REPORTEE';
 export const TCARD_ONLOAD = 'TCARD_ONLOAD';

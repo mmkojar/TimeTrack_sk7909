@@ -4,7 +4,7 @@ import {
     HOD_REPORTEE, TCARD_ONLOAD, TCARD_SELF, DT_TCARD_SELF, GET_GRAPH, RG_LIST, RG_ITEMS, 
     RG_DETAILS, PEND_COUNT, CANC_COUNT, HOD_PEND_COUNT, HOD_CANC_COUNT, PEND_LIST, 
     CANC_LIST, HOD_PEND_LIST, HOD_CANC_LIST, DETAIL_HOD_LIST, ATTEND_LOGS, INSERT_ATTEND, 
-    MARK_EMP_LOGS, GET_EMP_HOLIDAY, INS_APPS, GET_EMP_WFH, GET_EMP_LWP, GET_EMP_LEAVE, GET_EMP_OD, GET_EMP_MANUAL, GET_EMP_COFF, GET_EMP_SL, GET_MANUAL_DATE, LEAVE_ACTION
+    MARK_EMP_LOGS, GET_EMP_HOLIDAY, APP_ACTIONS, GET_EMP_WFH, GET_EMP_LWP, GET_EMP_LEAVE, GET_EMP_OD, GET_EMP_MANUAL, GET_EMP_COFF, GET_EMP_SL, GET_MANUAL_DATE, LEAVE_ACTION, LEAVE_BAL
 } from './type';
 import Config from '../../utils/Config';
 import Toast from 'react-native-toast-message';
@@ -65,6 +65,9 @@ export const insertAttendance = (empcode,type,lang,lati,accuracy,pdate,remark,qr
 export const getEmpLeave = (empcode) => (dispatch) => {
     fetchAxios(dispatch,`GetLeaveCodeForEmployee?EmpCode=${empcode}`,GET_EMP_LEAVE);
 }
+export const getLeaveBal = (empcode) => (dispatch) => {
+    fetchAxios(dispatch,`LeaveBalance?EmpCode=${empcode}`,LEAVE_BAL);
+}
 export const getEmpOD = (empcode) => (dispatch) => {
     fetchAxios(dispatch,`GetODEntryEmployee?EmpCode=${empcode}`,GET_EMP_OD);
 }
@@ -89,7 +92,7 @@ export const getEmpHoliday = (empcode) => (dispatch) => {
 }
 
 export const insertAppForm = (fullpath) => (dispatch) => {    
-    fetchAxios(dispatch,`${fullpath}`,INS_APPS);
+    fetchAxios(dispatch,`${fullpath}`,APP_ACTIONS);
 }
 
 // TimeCard
@@ -228,7 +231,7 @@ const fetchAxios = (dispatch,param,action) => {
         if(action == UPDT_NOTIFI || action == INSERT_ATTEND || action == LEAVE_ACTION) {
             dispatch({ type: action });
         }
-        else if(action == INS_APPS) {
+        else if(action == APP_ACTIONS) {
             if(res.data.Success == '0') {
                 Toast.show({ type: 'error', text1:res.data.MSG });
             }

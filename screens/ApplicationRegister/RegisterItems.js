@@ -6,24 +6,25 @@ import useThemeStyle from '../../components/utils/useThemeStyle';
 import Dtheader from '../Reusable/Dtheader';
 import LoopItems from '../Reusable/LoopItems';
 import Nodatafound from '../Reusable/Nodatafound';
+import { useIsFocused } from '@react-navigation/native';
 
 const RegisterItems = ({navigation,route}) => {
 
   const [theme] = useThemeStyle();
   const { api,ecode,title } = route.params;
   const result = useSelector((state) => state.employee.regitem)
-  
-  const dispatch = useDispatch();
-
-    React.useLayoutEffect(() => {
+   
+  React.useLayoutEffect(() => {
       navigation.setOptions({
         title:title,
       });
   }, [navigation]);
 
+  const dispatch = useDispatch();
+  const isFocused = useIsFocused();
   useEffect(() => {
     dispatch(getRegisterItems(api,ecode));
-  },[])
+  },[isFocused])
 
   const checkKey = result && Object.keys(result)[0];
   const headtitles = (checkKey == 'GetTimeCardForPageLoad') && Object.keys(result.GetTimeCardForPageLoad[0]);

@@ -30,16 +30,19 @@ const LoopItems = (props) => {
           dttable.map((item,index) => {
             if(dttable.length == '4') {
                 if(index == '1' || index == '2') {
-                  var styles = 'flex-start';
-                }                
+                  var styles = {justifyContent:'flex-start'};
+                }
+                else if(index == '0') {
+                  var styles = {justifyContent:'center',marginLeft:-10};                  
+                }
                 else {
-                  var styles = 'center';
+                  var styles = {justifyContent:'center'};
                 }
             }
             else {
-              var styles = 'center';
+              var styles = {justifyContent:'center'};
             }
-            return <DataTable.Cell key={index} textStyle={{fontSize:12}} style={{justifyContent:styles}}>{item}</DataTable.Cell>
+            return <DataTable.Cell key={index} textStyle={{fontSize:12}} style={styles}>{item}</DataTable.Cell>
           })
       }
     </DataTable.Row>

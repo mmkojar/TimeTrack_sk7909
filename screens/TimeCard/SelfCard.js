@@ -94,7 +94,7 @@ const styles = StyleSheet.create({
     filter:{    
       display:'flex',
       flexDirection:'row',
-    //   marginHorizontal:-5,
+      marginHorizontal:-5,
       justifyContent:'space-evenly',
     }
   })

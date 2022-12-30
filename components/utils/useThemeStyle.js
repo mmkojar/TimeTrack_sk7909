@@ -7,13 +7,13 @@ const useThemeStyle = () => {
     const fontConfig = {
         ios: {
           regular: {
-            fontFamily: Platform.OS == 'ios' ?  'FontAwesome' : 'VarelaRound-Regular',
+            fontFamily: 'VarelaRound-Regular',
             fontWeight: 'normal',
           }
         },
         android: {
           regular: {
-            fontFamily: Platform.OS == 'ios' ?  'FontAwesome' : 'VarelaRound-Regular',
+            fontFamily: 'VarelaRound-Regular',
             fontWeight: 'normal',
           },
         }

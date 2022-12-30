@@ -1,6 +1,6 @@
 import React,{ useEffect, useRef, useState } from 'react'
-import { ScrollView, View } from 'react-native'
-import { Card, Title, Text, TextInput, Checkbox, withTheme } from 'react-native-paper'
+import { ScrollView, View, Pressable } from 'react-native'
+import { Card, Title, Text, TextInput,  withTheme } from 'react-native-paper'
 import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
 import Dropdown from '../../components/utils/Dropdown';
@@ -15,10 +15,15 @@ const Leave = ({theme,navigation,route}) => {
 
     const {ecode} =  route.params;
     const result = useSelector((state) => state.employee.empleave)
+    const checkKey = result && Object.keys(result)[0];
 
     const dispatch = useDispatch();
     useEffect(() => {
-        dispatch(getEmpLeave(ecode))
+      if(checkKey == 'msg') {
+          navigation.goBack();
+          Toast.show({ type: 'error', text1:'NO Record found For Leave' });
+      }
+      dispatch(getEmpLeave(ecode))
     },[])
 
     const [fdate, setFdate] = useState(moment(new Date()).format('DD/MM/YYYY'));
@@ -38,10 +43,10 @@ const Leave = ({theme,navigation,route}) => {
     const filterduid = [];
     const MulDaySH = [];
     const MulDayFH = [];
-    for(var i in result&&result.Leave) {
+    for(var i in (checkKey !== 'msg')&&result&&result.Leave) {
       filtertypes.push(result.Leave[i].Name)
     }
-    result&&result.Leave.filter((item,index) => {
+    (checkKey !== 'msg')&&result&&result.Leave.filter((item,index) => {
       if(item.Name == ltype) {
         if(item.ApplyLeave == '1') {
             filtertask.push('Apply Leave')          
@@ -100,8 +105,11 @@ const Leave = ({theme,navigation,route}) => {
     <ScrollView>
       <View style={theme.container}>
           <Authorities recom={result && result.Recommender} sanc={result && result.Sanctioner} />
-          <Card style={theme.card} elevation={5}>          
+          <Card style={theme.card} elevation={5}>                      
             <Title style={theme.appheading}>Leave Details</Title>            
+            <Pressable onPress={() => navigation.navigate('LeaveBal',{ecode:ecode})}>
+                <Text style={{color:'red',fontSize:16,textAlign:'right',marginTop:-30}}>Leave Balance</Text>
+            </Pressable>
               <View style={{display:'flex',flexDirection:'row'}}>
                 <View style={{width:'48%'}}>
                     <Text style={theme.applabel}>Leave Type</Text>

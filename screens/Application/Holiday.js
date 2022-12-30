@@ -14,14 +14,19 @@ const Holiday = ({theme,navigation,route}) => {
   const {ecode} =  route.params;
   
   const result = useSelector((state) => state.employee.empholiday)
-  
+  const checkKey = result && Object.keys(result)[0];
+
   const filterYes = [];
-  for(var i in result && result.OptionalHolidays) {
+  for(var i in (checkKey !== 'msg') && result && result.OptionalHolidays) {
     filterYes.push(result.OptionalHolidays[i].HolidayName);
   }
 
   const dispatch = useDispatch();
   useEffect(() => {
+    if(checkKey == 'msg') {
+        navigation.goBack();
+        Toast.show({ type: 'error', text1:'NO Record found For Holiday' });
+    }
     dispatch(getEmpHoliday(ecode))
   },[])
 

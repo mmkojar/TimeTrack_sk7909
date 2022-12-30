@@ -8,7 +8,6 @@ import com.facebook.react.ReactActivity;
 import com.facebook.react.ReactActivityDelegate;
 import com.facebook.react.ReactRootView;
 import org.devio.rn.splashscreen.SplashScreen;
-import com.surialabs.rn.geofencing.GeoFencingPackage;
 
 public class MainActivity extends ReactActivity {
 
@@ -29,11 +28,10 @@ public class MainActivity extends ReactActivity {
 
   // @Override
   protected List<ReactPackage> getPackages() {
-        return Arrays.<ReactPackage>asList(
-            new MainReactPackage(),
-            new GeoFencingPackage() // <-- 
-        );
-    }
+      return Arrays.<ReactPackage>asList(
+          new MainReactPackage() 
+      );
+  }
   /**
    * Returns the instance of the {@link ReactActivityDelegate}. There the RootView is created and
    * you can specify the renderer you wish to use - the new renderer (Fabric) or the old renderer

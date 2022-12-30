@@ -14,8 +14,9 @@ const WFH = ({theme,navigation,route}) => {
 
     const {ecode} =  route.params;
     const result = useSelector((state) => state.employee.empwfh)
-      
-    const filterDur = result && result.Duration.filter(item => {
+    const checkKey = result && Object.keys(result)[0];
+
+    const filterDur = (checkKey !== 'msg')&&result &&result.Duration.filter(item => {
         return item.selection == '1'
     })
     
@@ -35,7 +36,11 @@ const WFH = ({theme,navigation,route}) => {
     }
 
     const dispatch = useDispatch();
-    useEffect(() => {                      
+    useEffect(() => {        
+        if(checkKey == 'msg') {
+            navigation.goBack();
+            Toast.show({ type: 'error', text1:'NO Record found For WFH' });
+        }              
         dispatch(getEmpWFH(ecode))
     },[])    
     

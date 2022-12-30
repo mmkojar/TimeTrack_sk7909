@@ -8,7 +8,7 @@ import SelectDropdown from 'react-native-select-dropdown'
 // import { Doughnut } from 'react-chartjs-2/dist';
 import moment from 'moment';
 import { BarChart } from "react-native-chart-kit";
-import { Text } from 'react-native-paper';
+import { Card, Text } from 'react-native-paper';
 import Nodatafound from './Reusable/Nodatafound';
 
 const AtttendanceChart = ({navigation}) => {
@@ -51,17 +51,17 @@ const AtttendanceChart = ({navigation}) => {
       ]
     };
     const chartConfig = {
-      backgroundGradientFrom: "#1E2923",
+      backgroundGradientFrom: "#fff",
       // backgroundGradientFromOpacity: 1,
-      backgroundGradientTo: "#08130D",
+      backgroundGradientTo: "#fff",
       backgroundGradientToOpacity: 0.5,
-      color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+      color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,      
       // strokeWidth: 10, // optional, default 3
       barPercentage: 0.5,
       useShadowColorFromDataset: false // optional
     };
   return (
-    <ScrollView>
+    // <ScrollView>
       <View style={theme.container}>
           <View style={styles.filter}>
               <SelectDropdown
@@ -88,23 +88,26 @@ const AtttendanceChart = ({navigation}) => {
               />     
           </View>
           <Text style={{textAlign:'center',marginTop:20,fontSize:16}}>{month}-{year}</Text>
-          <View style={{flex:1,justifyContent:'center',marginVertical:50}}>
             {
-              Object.keys(paresult).length > 0 ?
-              <BarChart
-                data={data}
-                width={screenWidth}
-                height={400}
-                fromZero={true}
-                chartConfig={chartConfig}
-              />
+                Object.keys(paresult).length > 0 ?
+                <View style={{flex:1,justifyContent:'center'}}>
+                  <Card elevation={3}>
+                    <BarChart
+                      data={data}
+                      width={screenWidth}
+                      height={400}
+                      fromZero={true}
+                      chartConfig={chartConfig}
+                      // yAxisLabel="No Of Days"
+                      />
+                    </Card>
+                </View>
               :
               <Nodatafound />
             }
             
-          </View>         
       </View>
-    </ScrollView>
+    // </ScrollView>
   )
 }
 const styles = StyleSheet.create({

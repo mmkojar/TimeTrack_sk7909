@@ -15,7 +15,7 @@ const toastConfig = {
         contentContainerStyle={{ paddingHorizontal: 10 }}
         text1NumberOfLines={10}
         text1Style={{
-          fontSize: 16,
+          fontSize: 14,
           fontWeight: '400',  
           fontFamily:'VarelaRound-Regular'                  
         }}
@@ -31,7 +31,7 @@ const toastConfig = {
         style={{ borderLeftColor: 'red' }}
         text1NumberOfLines={10}
         text1Style={{
-            fontSize: 16,
+            fontSize: 14,
             fontWeight: '400',
             fontFamily:'VarelaRound-Regular'                    
         }}

@@ -29,6 +29,8 @@ const Dropdown = ({theme,data,text,refval,setValue,style,disable}) => {
             buttonTextStyle={{fontSize:16,fontFamily:'VarelaRound-Regular'}}
             dropdownStyle={{borderRadius:10,marginTop:-30}}
             rowTextStyle={{fontSize:14,fontFamily:'VarelaRound-Regular'}}
+            selectedRowStyle={{backgroundColor:theme.colors.primary}}
+            selectedRowTextStyle={{color:'#fff'}}
             onSelect={(item) => onSelect(item)}
             // onBlur={selectHandler}
         />  

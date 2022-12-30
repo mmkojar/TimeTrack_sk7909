@@ -17,6 +17,7 @@ const Manual = ({theme,navigation,route}) => {
 
   const {ecode} =  route.params;
   const result = useSelector((state) => state.employee.empmanual)
+  const checkKey = result && Object.keys(result)[0];
              
   const [fdate, setFdate] = useState('');
   const [shift, setShift] = useState('');
@@ -29,13 +30,13 @@ const Manual = ({theme,navigation,route}) => {
   const [checkey, setCheckey] = useState('');
   
   const shiftcode = [];
-  for(var i in result&&result.ShiftDetails) {
+  for(var i in (checkKey !== 'msg')&&result&&result.ShiftDetails) {
       if(result.ShiftDetails[i].Id == 'ShiftCode') {
         shiftcode.push(result.ShiftDetails[i].selection)
       }
   }
   const reasonmaster = [];
-  for(var i in result&&result.ManualReasonMaster) {
+  for(var i in (checkKey !== 'msg')&&result&&result.ManualReasonMaster) {
       reasonmaster.push(result.ManualReasonMaster[i].selection)
   }
 
@@ -44,13 +45,20 @@ const Manual = ({theme,navigation,route}) => {
 
   const dispatch = useDispatch();
   useEffect(() => {
+    if(checkKey == 'msg') {
+      navigation.goBack();
+      Toast.show({ type: 'error', text1:'NO Record found For Leave' });
+    }
+    else {
+      result&&result.ShiftDetails.filter((item,index) => {
+        if(item.selection == shift) {                                
+          setShiftime(result.ShiftDetails[index+1].selection)
+        }
+      })
+    }
     dispatch(getEmpManual(ecode))
 
-    result&&result.ShiftDetails.filter((item,index) => {
-      if(item.selection == shift) {                                
-        setShiftime(result.ShiftDetails[index+1].selection)
-      }
-    })
+    
 
   },[ecode,shift])
 

@@ -14,19 +14,24 @@ const Shortleave = ({theme,navigation,route}) => {
 
     const {ecode} =  route.params;
     const result = useSelector((state) => state.employee.empsl)
-              
+    const checkKey = result && Object.keys(result)[0];
+
     const fiternames = [];
-    for(var i in result && result.Duration) {
+    for(var i in (checkKey !== 'msg')&&result&&result.Duration) {
         fiternames.push(result.Duration[i].selection)        
     }
     const fitertypes = [];
-    for(var i in result && result.Type) {
+    for(var i in (checkKey !== 'msg')&&result&&result.Type) {
       fitertypes.push(result.Type[i].selection)
     }
     
     const dispatch = useDispatch();
     useEffect(() => {
-        dispatch(getEmpSL(ecode))
+      if(checkKey == 'msg') {
+        navigation.goBack();
+        Toast.show({ type: 'error', text1:'NO Record found For ShortLeave' });
+      }
+      dispatch(getEmpSL(ecode))
     },[])    
     
     const [fdate, setFdate] = useState(moment(new Date()).format('DD/MM/YYYY'));

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Alert, View } from 'react-native';
+import {  Alert, View } from 'react-native';
 import { Button } from 'react-native-paper';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 // import { useDispatch } from 'react-redux';
@@ -15,15 +15,16 @@ const Headericon = ({name}) => {
         <View>
             {
                 name !== 'Home' ?
-                <Button onPress={() => {
+                <Button  onPress={() => {
                     navigate('Home');
                 }}>
-                <FontAwesome5
-                    name="home"
-                    size={16}
-                    color="#fff"
-                />
-                </Button>               
+                    <FontAwesome5
+                        name="home"
+                        size={16}
+                        color="#fff"
+                        style={{marginRight:20}}
+                    />     
+                </Button>
                 :
                 null
                 // <Button onPress={() => {

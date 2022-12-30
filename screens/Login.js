@@ -22,9 +22,9 @@ function Login() {
         SetToken(token);
     } */
 
-    const [userid,SetUserid] = useState('RT1505');
-    const [password,SetPassword] = useState('RT1505');
-    const [key,SetKey] = useState('Https@123');
+    const [userid,SetUserid] = useState('');
+    const [password,SetPassword] = useState('');
+    const [key,SetKey] = useState('');
     const [token,SetToken] = useState('token123');
     const [isPasswordSecure, setIsPasswordSecure] = useState(true);
     const [isKeySecure, setIsKeySecure] = useState(true);

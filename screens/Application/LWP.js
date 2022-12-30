@@ -14,15 +14,16 @@ const LWP = ({theme,navigation,route}) => {
 
     const {ecode} =  route.params;
     const result = useSelector((state) => state.employee.emplwp)
-      
-    const filterDur = result && result.Duration.filter(item => {
+    const checkKey = result && Object.keys(result)[0];
+
+    const filterDur = (checkKey !== 'msg') && result && result.Duration.filter(item => {
         return item.selection == '1'
     })
     
     const fiternames = [];
     const MulDaySH = [];
     const MulDayFH = [];
-    for(var i in filterDur) {        
+    for(var i in filterDur) {
         fiternames.push(filterDur[i].Id)
         filterDur[i].MultipleDayDuration.filter(item => {
             if((item.selection == '1' && item.Id == 'MultipleDaySecondHalf') || item.Id == 'MultipleFullDay') {
@@ -35,7 +36,11 @@ const LWP = ({theme,navigation,route}) => {
     }
 
     const dispatch = useDispatch();
-    useEffect(() => {                      
+    useEffect(() => {
+        if(checkKey == 'msg') {
+            navigation.goBack();
+            Toast.show({ type: 'error', text1:'NO Record found For LWP' });
+        }        
         dispatch(getEmpLWP(ecode))
     },[])    
     

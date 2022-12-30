@@ -14,8 +14,9 @@ const OutDoor = ({theme,navigation,route}) => {
 
     const {ecode} =  route.params;
     const result = useSelector((state) => state.employee.empod)
+    const checkKey = result && result[0] && Object.keys(result[0])[0];
       
-    const filterDur = result && result.Duration.filter(item => {
+    const filterDur = (checkKey !== 'msg') && result && result.Duration.filter(item => {
         return item.selection == '1'
     })
 
@@ -36,6 +37,10 @@ const OutDoor = ({theme,navigation,route}) => {
 
     const dispatch = useDispatch();
     useEffect(() => {
+        if(checkKey == 'msg') {
+            navigation.goBack();
+            Toast.show({ type: 'error', text1:'NO Record found For OutDoor' });
+        }  
         dispatch(getEmpOD(ecode))
     },[])    
     

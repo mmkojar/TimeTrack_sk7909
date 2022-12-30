@@ -9,6 +9,7 @@ import AtttendanceChartScreen from '../screens/AtttendanceChart';
 //App screens
 import AppScreen from '../screens/Application/Applist';
 import LeaveAppsScreen from '../screens/Application/Leave';
+import LeaveBalScreen from '../screens/Application/LeaveBal';
 import ODAppsScreen from '../screens/Application/OutDoor';
 import ManualAppsScreen from '../screens/Application/Manual';
 import CoffAppsScreen from '../screens/Application/Coff';
@@ -57,7 +58,9 @@ const Nav = ({color, refer}) => {
                         backgroundColor: color,
                     },
                     headerTintColor:'#fff',
-                    headerTitleAlign:'left',
+                    headerTitleAlign:'center',
+                    // headerBackTitle:"Back",
+                    headerBackTitleVisible:false,
                     headerTitleStyle: {
                         fontFamily:'VarelaRound-Regular'
                     },
@@ -90,6 +93,10 @@ const Nav = ({color, refer}) => {
                 options={{
                 title:'Leave Application',                   
                 }} />
+            <Stack.Screen name="LeaveBal" component={LeaveBalScreen} 
+                options={{
+                title:'Leave Balance',                   
+                }} />    
             <Stack.Screen name="OdRegister" component={ODAppsScreen} 
                 options={{
                 title:'OutDoor Application',                   

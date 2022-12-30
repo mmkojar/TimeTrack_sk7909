@@ -95,13 +95,12 @@ function Home({navigation}) {
             })
         }
     }
-
     const checkPermi = () => {
         if(Platform.OS ==  'android') {
             appPermissions.requestMultiple([PERMISSIONS.ANDROID.CAMERA,PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION],'MarkAtt',{ecode:userid});
         }
         if(Platform.OS ==  'ios') {
-            appPermissions.requestMultiple([PERMISSIONS.IOS.CAMERA,PERMISSIONS.IOS.ACCESS_FINE_LOCATION],'MarkAtt',{ecode:userid});
+            appPermissions.requestMultiple([PERMISSIONS.IOS.CAMERA,PERMISSIONS.IOS.LOCATION_WHEN_IN_USE],'MarkAtt',{ecode:userid});
         }
     }
             
@@ -133,7 +132,7 @@ function Home({navigation}) {
                                     source={require('../assets/icons/8.png')}
                                 >
                                 </Image>
-                                <Text style={theme.homeIconText}>Attendance Chart</Text>
+                                <Text style={theme.homeIconText}>Attendance {"\n"}Chart</Text>
                         </Card>
                     </Pressable>
                 }
@@ -158,7 +157,7 @@ function Home({navigation}) {
                                     source={require('../assets/icons/5.png')}
                                 >
                                 </Image>
-                                <Text style={theme.homeIconText}>Mark My Attendance</Text>
+                                <Text style={theme.homeIconText}>Mark My {"\n"}Attendance</Text>
                         </Card>
                     </Pressable>
                 }
@@ -182,19 +181,19 @@ function Home({navigation}) {
                                     source={require('../assets/icons/2.png')}
                                 >
                                 </Image>
-                                <Text style={theme.homeIconText}>Pending Application</Text>
+                                <Text style={theme.homeIconText}>Pending {"\n"}Application</Text>
                         </Card>
                     </Pressable>
                 } 
                 {
                     hps['Application-Register'] == 1 && <Pressable onPress={() => navigation.navigate('RgList')}>
-                        <Card style={styles.innerItem} elevation={5}>
+                        <Card style={styles.innerItem} elevation={3}>
                             <Image
                                 style={styles.image}                                
                                 source={require('../assets/icons/3.png')}
                             >
                             </Image>
-                            <Text style={theme.homeIconText}>Application Register</Text>
+                            <Text style={theme.homeIconText}>Application {"\n"}Register</Text>
                         </Card>
                     </Pressable>
                 }
@@ -225,6 +224,10 @@ function Home({navigation}) {
                 {
                     hps['Notification'] == 1 && <Pressable onPress={() => navigation.navigate('Notification')}>
                         <Card style={styles.innerItem} elevation={3}>
+                            {
+                                checkey!=='Status' && 
+                                <Avatar.Text label={authuser && authuser[3].NotificationCount} size={22} style={{position:'absolute',top:-14,right:10}}/>
+                            }
                             <Image
                                 style={styles.image}                                
                                 source={require('../assets/icons/9.png')}
@@ -267,6 +270,7 @@ const styles = StyleSheet.create({
         height:126,
         justifyContent:'center',       
         margin:3,
+        marginHorizontal:4,
         borderRadius:5,
     },
     image:{

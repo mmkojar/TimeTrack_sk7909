@@ -10,7 +10,7 @@ const Dtheader = ({headtitle}) => {
             <DataTable.Header style={{backgroundColor:'#91c4f0'}}>
                  {
                     headtitle && headtitle.map((item,index) => {
-                        return <DataTable.Title key={index} textStyle={{fontSize:size}} style={{justifyContent:'center'}}>{item.replace('_',' ')}</DataTable.Title>    
+                        return <DataTable.Title key={index} textStyle={{fontSize:size,color:'#000'}} style={{justifyContent:'center'}}>{item.replace('_',' ')}</DataTable.Title>    
                     })
                 }
             </DataTable.Header>

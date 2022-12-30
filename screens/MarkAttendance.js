@@ -9,14 +9,14 @@ import LoopItems from './Reusable/LoopItems';
 import Nodatafound from './Reusable/Nodatafound';
 import CustomButtons from '../components/utils/CustomButtons';
 import Geolocation from 'react-native-geolocation-service';
-// import GeoFencing from 'react-native-geo-fencing';
 import QRCodeScanner from 'react-native-qrcode-scanner';
+// import Boundary, { Events } from 'react-native-boundary';
+// import Toast from 'react-native-toast-message';
 
 function MarkAttendance({ navigation, route }) {
 
   const [theme] = useThemeStyle();
   const { ecode } = route.params;
-
 
   const result = useSelector((state) => state.employee.attlogs);
   const result1 = useSelector((state) => state.employee.markemplogs);
@@ -45,7 +45,7 @@ function MarkAttendance({ navigation, route }) {
   const setGeoLocation = () => {
     Geolocation.getCurrentPosition(
       (position) => {
-        console.log(position);
+        // console.log(position);
         setLati(position.coords.latitude)
         setLongi(position.coords.longitude)
         setAccuracy(position.coords.accuracy)
@@ -74,38 +74,29 @@ function MarkAttendance({ navigation, route }) {
       setBoxVisible(true);
     }
     else if(checkAttType == '3') {
-       setQrVisible(true)
-        /* if(accuracy > checkgeorange ) {
-          Alert.alert('Error','QR is Out of range',[
-            {text: 'OK', onPress: () => {
-              if(scanner.current.reactivate()) {
-                setQrVisible(false)
-              }
-            }}
-          ],{cancelable:true})
-        } */
-        /* const polygon = [
-          { lat: 19.1746729, lng: 72.8457607 },
-          // { lat: 3.3091633559540123, lng: 101.66198730468757 },
-          // { lat: 3.091150714460597,  lng: 101.92977905273438 },
-          // { lat: 2.7222113428196213, lng: 101.74850463867188 },
-          // { lat: 2.7153526167685347, lng: 101.47933959960938 },
-          { lat: 19.1746729, lng: 72.8457607 } // last point has to be same as first point
-        ];
-        Geolocation.getCurrentPosition(
-          (position) => {
-            let point = {
-              lat: position.coords.latitude,
-              lng: position.coords.longitude
-            };
-       
-            GeoFencing.containsLocation(point, polygon)
-              .then(() => console.log('point is within polygon'))
-              .catch(() => console.log('point is NOT within polygon'))
-          },
-          (error) => alert(error.message),
-          { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
-        ); */
+      //  setQrVisible(true)
+        // const BoundaryData = [        
+        //   {
+        //     lat: 40.9736396,
+        //     lng: 29.0454794,
+        //     radius: 100,
+        //     id: 'Company',
+        //   },
+        // ];
+        // BoundaryData.map((boundary) => {
+        //   Boundary.add(boundary)
+        //     .then(() => console.log('success!'))
+        //     .catch((e) => console.log(e));
+        // });
+        // Boundary.on(Events.ENTER, (id) => {
+        //   console.warn('Enter Boundary ', id);
+        //   // state.isEnter=true;
+        // });
+        // Boundary.on(Events.EXIT, (id) => {
+        //   console.warn('Exit Boundary ', id);
+        //   // state.isEnter=false;
+        // });        
+
     }
     else {
       setQrVisible(true)

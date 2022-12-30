@@ -30,12 +30,7 @@ const PAItemsDetail = ({theme,navigation,route}) => {
     const [boxvisible, setBoxVisible] = useState(false);
 
     const redirect = (type,text) => {
-      navigation.navigate('PAListItem', {
-          ecode:ecode,
-          hodtype: 'team',
-          apptype: apptype,
-          pdtype:pdtype
-      })
+      navigation.goBack();
       Toast.show({
         type:type,
         text1:text
