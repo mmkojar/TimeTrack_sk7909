@@ -13,28 +13,20 @@ const Datepicker = ({theme,datecount,date1,date2,setState1,setState2,placeholder
     const [pickno,setPickno] = useState('');
     const [unix, setUnix] = useState(moment(new Date()).valueOf());
 
-    const [picker1,setPicker1] = useState(moment().format('DD/MM/YYYY'));    
-    const [picker2,setPicker2] = useState(moment().format('DD/MM/YYYY'));
-
     const onPickerChange = (event, selectedDate) => {
         
-        setUnix(event.nativeEvent.timestamp);        
-        if(mode == 'time') {
-            var currentDate = moment(selectedDate).format('HH:mm');
-        }
-        else {
-            var currentDate = moment(selectedDate).format('DD/MM/YYYY');
-        }
-        if(Platform.OS == 'android'){
-            setShow(false);
-            if(event.type == 'set') {                
-                pickno == '1' ? setState1(currentDate) : setState2(currentDate);
+        Platform.OS == 'android' && setShow(false);
+        setUnix(event.nativeEvent.timestamp);
+        
+        if(event.type == 'set') {
+            if(mode == 'time') {
+                var currentDate = moment(selectedDate).format('HH:mm');
             }
-        }
-        if(Platform.OS == 'ios') {
-            pickno == '1' ? setPicker1(currentDate) : setPicker2(currentDate);
-        }
-                  
+            else {
+                var currentDate = moment(selectedDate).format('DD/MM/YYYY');
+            }
+            pickno == '1' ? setState1(currentDate) : setState2(currentDate);
+        }               
     };
 
     const showPicker = (no) => {
@@ -62,10 +54,10 @@ const Datepicker = ({theme,datecount,date1,date2,setState1,setState2,placeholder
         setShow(false);
     }
     let value = new Date(unix);
-    const handleIOSCancel = () => {
-        setShow(false);
-        // pickno == '1' ? setState1('') : setState2('');
-    }
+    // const handleIOSCancel = () => {
+    //     setShow(false);
+    //     // pickno == '1' ? setState1('') : setState2('');
+    // }
 
     return (
         <>
@@ -99,7 +91,7 @@ const Datepicker = ({theme,datecount,date1,date2,setState1,setState2,placeholder
                     style={[{fontSize:14,height:45},style && style]}
                     onPressIn={() => showPicker('1')}                    
                     placeholder={placeholder1 && placeholder1}
-                    value={Platform.OS='android' ? date1 : picker1}
+                    value={date1}
                     caretHidden={true}
                     showSoftInputOnFocus={false}
                     editable={Platform.OS == 'ios' ? false : true}
@@ -108,7 +100,7 @@ const Datepicker = ({theme,datecount,date1,date2,setState1,setState2,placeholder
                     style={[{fontSize:14,height:45},style && style]}
                     onPressIn={() => showPicker('2')}
                     placeholder={placeholder2 && placeholder2}                    
-                    value={Platform.OS='android' ? date2 : picker2}
+                    value={date2}
                     caretHidden={true}
                     showSoftInputOnFocus={false}
                     editable={Platform.OS == 'ios' ? false : true}
@@ -119,7 +111,7 @@ const Datepicker = ({theme,datecount,date1,date2,setState1,setState2,placeholder
                 style={[{fontSize:14,height:45},style && style]}
                 onPressIn={() => showPicker('1')}
                 placeholder={placeholder1 && placeholder1}                
-                value={Platform.OS='android' ? date1 : picker1}
+                value={date1}
                 caretHidden={true}
                 showSoftInputOnFocus={false}
                 editable={Platform.OS == 'ios' ? false : true}
