@@ -9,6 +9,8 @@ import useThemeStyle from './components/utils/useThemeStyle';
 import SplashScreen from 'react-native-splash-screen'
 import Toast from 'react-native-toast-message';
 import toastConfig from './components/utils/useToast';
+import { fcmService } from './services/FCMService';
+import { localNotificationService } from './services/LocalNotificationService';
 //  const { store } = factory();
 
 const App = () => {
@@ -36,13 +38,46 @@ const App = () => {
     // if(navigationRef.current.canGoBack() === false) {
     //   BackHandler.addEventListener("hardwareBackPress", handleBackButtonClick);
     // }    
+    fcmService.registerAppWithFCM();
+    fcmService.register(onRegister,onNotification,onOpenNotification)
+    fcmService.getToken(onRegister)
+    localNotificationService.createChannel()
+    localNotificationService.configure(onOpenNotification);
+    // console.log(localNotificationService.getAllChannels());
     SplashScreen.hide();
       // return () => {
       //     BackHandler.removeEventListener("hardwareBackPress", handleBackButtonClick);
       // };
   },[])
 
-return (
+  const onRegister = (token) => {
+    
+  }
+
+  const onNotification = (notify) => {
+    // console.log("notify:-",notify);
+    const options = {
+      soundName: 'default',
+      playSound: true,
+      priority:'high'
+    }
+    // if(navigationRef.current.getCurrentRoute().name !== 'ChatBox') {
+      localNotificationService.showNotification(
+        notify.title,
+        notify.body,
+        notify,
+        options,
+      )
+    // }
+  }; 
+
+  const onOpenNotification = async (notify) => {
+    // check for auth    
+    // notify.userInteraction == true && console.log("notify2-",notify);
+    navigate(notify.data.type)
+  };
+
+  return (
       <PaperProvider theme={theme}>
         <Fragment>
           <Nav color={theme.colors.primary} refer={navigationRef}/>

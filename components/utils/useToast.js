@@ -16,7 +16,7 @@ const toastConfig = {
         text1NumberOfLines={10}
         text1Style={{
           fontSize: 14,
-          fontWeight: '400',  
+          fontWeight: '400',
           fontFamily:'VarelaRound-Regular'                  
         }}
       />

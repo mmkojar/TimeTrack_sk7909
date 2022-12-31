@@ -1,5 +1,5 @@
 import React,{ useEffect, useState } from 'react'
-import { ScrollView, View } from 'react-native'
+import { Platform, ScrollView, View } from 'react-native'
 import { Card, Title, Text, TextInput, Checkbox, withTheme } from 'react-native-paper'
 import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
@@ -9,6 +9,7 @@ import Authorities from '../Reusable/Authorities';
 import { getEmpOD, insertAppForm } from '../../components/redux/actions/employeeActions';
 import Toast from 'react-native-toast-message';
 import Datepicker from '../../components/utils/Datepicker';
+import MultipleDay from '../Reusable/MultipleDay';
 
 const OutDoor = ({theme,navigation,route}) => {
 
@@ -88,6 +89,7 @@ const OutDoor = ({theme,navigation,route}) => {
         }
     }
     //  const hdate = date.split("~")[1];
+    
   return (
     <ScrollView>
       <View style={theme.container}>
@@ -97,55 +99,50 @@ const OutDoor = ({theme,navigation,route}) => {
             <View>
               <Text style={theme.applabel}>Duration</Text>
               <Dropdown data={fiternames}  setValue={setDuid} />
-              <View style={{marginVertical:10,width:'75%'}}>
-                  <Text style={theme.applabel}>{duid == 'MultipleDay' ? 'Dates' : 'Date'}</Text>
-                  <Datepicker
-                      datecount={duid == 'MultipleDay' ? '2' : '1'}
-                      date1={fdate}
-                      date2={tdate}
-                      setState1={setFdate}
-                      setState2={setTdate}
-                      style={{width:'45%',marginBottom:duid == 'MultipleDay' ? 10 : 0}}
-                  />
-              </View>
               {
-                  duid == 'MultipleDay' ?                
-                    <View style={{alignItems:'flex-end',marginTop:-120}}>
-                        <Dropdown data={MulDaySH}  setValue={setDuration} style={{width:'65%',marginBottom:10}}/>
-                        <Dropdown data={MulDayFH}  setValue={setDurmultiple} style={{width:'65%'}}/>
-                    </View> 
-                  :
-                  <>
-                      <View style={{display:'flex',flexDirection:'row'}}>
-                          <View style={{width:'48%'}}>
-                            <Text style={theme.applabel}>Start Time</Text>              
-                            <Datepicker
-                                date1={odstart}
-                                mode="time"
-                                setState1={setOdstart}                    
-                            />
-                          </View>
-                          <View style={{marginLeft:10,width:'48%'}}>
-                            <Text style={theme.applabel}>End Time</Text>
-                            <Datepicker
-                                date1={odend}
-                                setState1={setOdend}
-                                mode="time"                    
-                            />
-                          </View>
-                      </View>
-                      <Checkbox.Item
-                        status={nextday ? 'checked' : 'unchecked'}
-                        onPress={() =>  setNextDay(!nextday) }
-                        color={theme.colors.primary}
-                        position="leading"
-                        label="Select if out punch is on next day"
-                        style={{marginLeft:-24}}
-                        labelStyle={{marginRight:50}}
-                      />   
-                  </>
-              }
-                        
+                duid == 'MultipleDay' ?
+                <MultipleDay duid={duid} fdate={fdate} tdate={tdate} setFdate={setFdate} setTdate={setTdate} 
+                MulDaySH={MulDaySH} MulDayFH={MulDayFH} setDuration={setDuration} setDurmultiple={setDurmultiple}/>               
+                :
+                <>
+                <View style={{marginVertical:10,width:'75%'}}>
+                    <Text style={theme.applabel}>Date</Text>
+                    <Datepicker
+                        datecount='1'
+                        date1={fdate}
+                        setState1={setFdate}
+                        style={{width:'45%'}}
+                    />
+                </View>
+                <View style={{display:'flex',flexDirection:'row'}}>
+                    <View style={{width:'48%'}}>
+                        <Text style={theme.applabel}>Start Time</Text>              
+                        <Datepicker
+                            date1={odstart}
+                            mode="time"
+                            setState1={setOdstart}                    
+                        />
+                    </View>
+                    <View style={{marginLeft:10,width:'48%'}}>
+                        <Text style={theme.applabel}>End Time</Text>
+                        <Datepicker
+                            date1={odend}
+                            setState1={setOdend}
+                            mode="time"                    
+                        />
+                    </View>
+                </View>
+                <Checkbox.Item
+                    status={nextday ? 'checked' : Platform.OS=='ios' ? 'indeterminate' : 'unchecked'}
+                    onPress={() =>  setNextDay(!nextday) }
+                    color={theme.colors.primary}
+                    position="leading"
+                    label="Select if out punch is on next day"
+                    style={{marginLeft:-24}}
+                    labelStyle={{marginRight:50}}
+                />   
+                </>
+              }                        
             </View>
           </Card>
           <Card style={theme.card} elevation={5}>

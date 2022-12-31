@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1525577107",
+    "project_id": "timetrack-c1df0",
+    "storage_bucket": "timetrack-c1df0.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1525577107:android:c1cc56dcd3b64015d0a466",
+        "android_client_info": {
+          "package_name": "com.timetrack"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1525577107-r3o5h0a5dg9urbtduns0boqnu57gimfo.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC8MJTgJeomGV6lYn1pk68JnfUFqP_qIBQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1525577107-r3o5h0a5dg9urbtduns0boqnu57gimfo.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

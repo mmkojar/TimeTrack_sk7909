@@ -9,6 +9,7 @@ import Authorities from '../Reusable/Authorities';
 import { getEmpLWP, insertAppForm } from '../../components/redux/actions/employeeActions';
 import Toast from 'react-native-toast-message';
 import Datepicker from '../../components/utils/Datepicker';
+import MultipleDay from '../Reusable/MultipleDay';
 
 const LWP = ({theme,navigation,route}) => {
 
@@ -42,7 +43,7 @@ const LWP = ({theme,navigation,route}) => {
             Toast.show({ type: 'error', text1:'NO Record found For LWP' });
         }        
         dispatch(getEmpLWP(ecode))
-    },[])    
+    },[])
     
     const [duid, setDuid] = useState('');
     const [fdate, setFdate] = useState(moment(new Date()).format('DD/MM/YYYY'));
@@ -88,24 +89,19 @@ const LWP = ({theme,navigation,route}) => {
             <View>
                 <Text style={theme.applabel}>Duration</Text>
                 <Dropdown data={fiternames}  setValue={setDuid} />
-                <View style={{marginVertical:10,width:'75%'}}>
-                    <Text style={theme.applabel}>{duid == 'MultipleDay' ? 'Dates' : 'Date'}</Text>
-                    <Datepicker
-                        datecount={duid == 'MultipleDay' ? '2' : '1'}
-                        date1={fdate}
-                        date2={tdate}
-                        setState1={setFdate}
-                        setState2={setTdate}
-                        placeholder1="From Date"
-                        placeholder2="To Date"
-                        style={{width:'45%',marginBottom:10}}
-                    />
-                </View>
                 {
-                    duid == 'MultipleDay' &&
-                    <View style={{alignItems:'flex-end',marginTop:-120}}>
-                        <Dropdown data={MulDaySH}  setValue={setDuration} style={{width:'65%',marginBottom:10}}/>
-                        <Dropdown data={MulDayFH}  setValue={setDurmultiple} style={{width:'65%'}}/>
+                    duid == 'MultipleDay' ?
+                    <MultipleDay duid={duid} fdate={fdate} tdate={tdate} setFdate={setFdate} setTdate={setTdate} 
+                    MulDaySH={MulDaySH} MulDayFH={MulDayFH} setDuration={setDuration} setDurmultiple={setDurmultiple}/>               
+                    :
+                    <View style={{marginVertical:10,width:'75%'}}>
+                        <Text style={theme.applabel}>Date</Text>
+                        <Datepicker
+                            datecount='1'
+                            date1={fdate}
+                            setState1={setFdate}
+                            style={{width:'45%'}}
+                        />
                     </View>
                 }
             </View>

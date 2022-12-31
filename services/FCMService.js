@@ -74,7 +74,7 @@ class FCMService {
                 } else {
                     notification = remoteMessage.data
                 }
-                onNotification(notification);
+                onNotification(remoteMessage.notification);
             }
         });
 

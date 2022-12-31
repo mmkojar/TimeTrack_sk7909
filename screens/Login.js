@@ -6,7 +6,7 @@ import { useDispatch } from 'react-redux';
 import { GetEmployeeDevice, validRegisterUser } from '../components/redux/actions/authActions';
 import DeviceInfo from 'react-native-device-info';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
-// import { fcmService } from '../services/FCMService';
+import { fcmService } from '../services/FCMService';
 import useThemeStyle from '../components/utils/useThemeStyle';
 // import Config from '../components/utils/Config';
 import Toast from 'react-native-toast-message';
@@ -15,17 +15,19 @@ function Login() {
 
     const [theme] = useThemeStyle();
     useEffect(() => {
-        // fcmService.getToken(onRegister)
+        fcmService.getToken(onRegister)
     }, [])
 
-    /* const onRegister = (token) => {
+    const [token,SetToken] = useState('');
+    const onRegister = (token) => {
         SetToken(token);
-    } */
+    }
+    // console.log("token:--",token);
 
     const [userid,SetUserid] = useState('');
     const [password,SetPassword] = useState('');
     const [key,SetKey] = useState('');
-    const [token,SetToken] = useState('token123');
+    
     const [isPasswordSecure, setIsPasswordSecure] = useState(true);
     const [isKeySecure, setIsKeySecure] = useState(true);
     const [deviceId, setDeviceId] = useState(true);

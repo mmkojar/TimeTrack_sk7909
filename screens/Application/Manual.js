@@ -1,5 +1,5 @@
 import React,{ useEffect, useState } from 'react'
-import { ScrollView, View } from 'react-native'
+import { Platform, ScrollView, View } from 'react-native'
 import { Card, Title, Text, TextInput, Checkbox, withTheme } from 'react-native-paper'
 import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
@@ -75,9 +75,10 @@ const Manual = ({theme,navigation,route}) => {
           })
           .then(res => res.json())
           .then((result) => {
+            console.log(result);
               dispatch({ type: STOP_LOADER });
               setCheckey(Object.keys(result)[0]);
-              if(Object.keys(result)[0] !== 'MSG') {
+              if(Object.keys(result)[0] !== 'msg') {
                 setShift(result.Shift[0].selection)
                 setLogin(result.Login[0].selection)
                 setLogout(result.Logout[0].selection)
@@ -87,7 +88,7 @@ const Manual = ({theme,navigation,route}) => {
                 // console.log(moment(new Date((moment(selectedDate).format('YYYY-MM-DD')+", "+result.Login[0].selection)).valueOf())
               }
               else {
-                Toast.show({ type:'error', text1:result.MSG })
+                Toast.show({ type:'error', text1:result.msg })
                 setShift('')
                 setLogin('')
                 setLogout('')
@@ -141,6 +142,7 @@ const Manual = ({theme,navigation,route}) => {
                             value={fdate}
                             caretHidden={true}
                             showSoftInputOnFocus={false}
+                            editable={Platform.OS == 'ios' ? false : true}
                         />
                       { show && <DateTimePicker onChange={onPickerChange} value={new Date(unix)} /> }
                 </View>
@@ -176,7 +178,7 @@ const Manual = ({theme,navigation,route}) => {
                   </View>
               </View>
               <Checkbox.Item
-                  status={nextday ? 'checked' : 'unchecked'}
+                  status={nextday ? 'checked' : Platform.OS=='ios' ? 'indeterminate' : 'unchecked'}
                   onPress={() =>  setNextDay(!nextday) }
                   color={theme.colors.primary}
                   position="leading"
@@ -201,7 +203,7 @@ const Manual = ({theme,navigation,route}) => {
               /> 
           </Card>
           {
-            checkey !== 'MSG' &&
+            checkey !== 'msg' &&
             <CustomButtons title="Submit" pressHandler={submitEntry} />
           }
       </View>

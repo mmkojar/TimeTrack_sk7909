@@ -10,6 +10,7 @@ import { getEmpLeave, insertAppForm } from '../../components/redux/actions/emplo
 import Toast from 'react-native-toast-message';
 import Datepicker from '../../components/utils/Datepicker';
 import SelectDropdown from 'react-native-select-dropdown';
+import MultipleDay from '../Reusable/MultipleDay';
 
 const Leave = ({theme,navigation,route}) => {
 
@@ -150,23 +151,20 @@ const Leave = ({theme,navigation,route}) => {
                     <Text style={theme.applabel}>Duration</Text>
                     <Dropdown refval={duraDropdownRef} data={filterduid}  setValue={setDuid} disable={filterduid.length == 0 && true}/>
                   </View>
-                  <View style={{marginVertical:duid == 'MultipleDay' ? 10 : 0,width:'75%'}}>
-                      <Text style={theme.applabel}>{duid == 'MultipleDay' ? 'Dates' : 'Date'}</Text>
-                      <Datepicker
-                          datecount={duid == 'MultipleDay' ? '2' : '1'}
-                          date1={fdate}
-                          date2={tdate}
-                          setState1={setFdate}
-                          setState2={setTdate}
-                          style={{width:'45%',marginBottom:duid == 'MultipleDay' ? 10 : 0}}
-                      />
-                  </View>
                   {
-                      duid == 'MultipleDay' &&                
-                        <View style={{alignItems:'flex-end',marginTop:-120}}>
-                            <Dropdown data={MulDaySH}  setValue={setDuration} style={{width:'65%',marginBottom:10}}/>
-                            <Dropdown data={MulDayFH}  setValue={setDurmultiple} style={{width:'65%'}}/>
-                        </View>
+                    duid == 'MultipleDay' ?
+                    <MultipleDay duid={duid} fdate={fdate} tdate={tdate} setFdate={setFdate} setTdate={setTdate} 
+                    MulDaySH={MulDaySH} MulDayFH={MulDayFH} setDuration={setDuration} setDurmultiple={setDurmultiple}/>               
+                    :
+                    <View style={{marginVertical:10,width:'75%'}}>
+                        <Text style={theme.applabel}>Date</Text>
+                        <Datepicker
+                            datecount='1'
+                            date1={fdate}
+                            setState1={setFdate}
+                            style={{width:'45%'}}
+                        />
+                    </View>
                   }
                   </>
                 }                              

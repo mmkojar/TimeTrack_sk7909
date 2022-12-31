@@ -233,10 +233,10 @@ const fetchAxios = (dispatch,param,action) => {
         }
         else if(action == APP_ACTIONS) {
             if(res.data.Success == '0') {
-                Toast.show({ type: 'error', text1:res.data.MSG });
+                Toast.show({ type: 'error', text1:res.data.msg });
             }
             else {
-                Toast.show({ type: 'success', text1:res.data.MSG });
+                Toast.show({ type: 'success', text1:res.data.msg });
             }
         }
         else {

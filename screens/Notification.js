@@ -18,14 +18,16 @@ const Notification = () => {
   useEffect(() => {
     dispatch(getNotification(empcode));
     
-  },[])
+  },[empcode])
 
   const handlePress = (item) => {
     dispatch(updateNotification(empcode,item.id,'1','0'))
+    dispatch(getNotification(empcode));
   }
 
   const handleDelete = (item) => {
     dispatch(updateNotification(empcode,item.id,'0','1'))
+    dispatch(getNotification(empcode));
   }
 
   return (
@@ -36,20 +38,25 @@ const Notification = () => {
             data={notifi && notifi.Notification}
             keyExtractor={(item,index) => index}
             renderItem={({item}) => (
-                  <Card style={[theme.card,{backgroundColor:`${item.IsRead == '0' ? theme.colors.accent : '#fff'}`}]} elevation={5} onPress={handlePress(item)}>
+                  <Card style={[theme.card,{padding:10,backgroundColor:`${item.IsRead == '0' ? theme.colors.accent : '#fff'}`}]} elevation={3}
+                    onPress={() => handlePress(item)}
+                    >
                       <Card.Title 
-                        style={{marginTop:-20,marginLeft:-15,marginBottom:-20}}
-                        title={item.Application_Type}  
-                        right={(props) => <Text {...props} >{moment(item.NotificationDate).format('DD-MMM-YYYY h:mm')}</Text>}
+                        style={{marginTop:-10,marginLeft:-15}}
+                        title={item.Application_Type}
+                        titleStyle={{color:theme.colors.primary}}
+                        subtitle={moment(item.NotificationDate).format('DD-MMM-YYYY h:mm')}
+                        subtitleStyle={{color:'#000'}}
+                        right={(props) => 
+                          <IconButton                            
+                            icon="delete"
+                            iconColor='#000'
+                            size={20}
+                            onPress={() => handleDelete(item)}
+                          />
+                      }
                       />                    
-                      <Paragraph style={{alignSelf:'flex-start'}}>{item.Notification_message}</Paragraph>
-                      <IconButton
-                        style={{justifyContent:'flex-end'}}
-                        icon="delete"
-                        iconColor='#000'
-                        size={20}
-                        onPress={handleDelete(item)}
-                      />
+                      <Paragraph>{item.Notification_message}</Paragraph>                    
                   </Card>
         )}
         />

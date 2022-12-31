@@ -48,8 +48,8 @@ class LocalNotificationService {
     createChannel = () => {
         PushNotification.createChannel(
             {
-                channelId: "eventapp-id", // (required)
-                channelName: "eventapp channel", // (required)
+                channelId: "timetrack-id", // (required)
+                channelName: "timetrack channel", // (required)
             },
             // (created) => console.log(`createChannel returned '${created}'`) // (optional) callback returns whether the channel was created, false means it already existed.
         );
@@ -71,7 +71,7 @@ class LocalNotificationService {
         PushNotification.localNotification({
             /* Android Only Properties */
             ...this.buildAndroidNotification(title, message, data, options),
-            channelId: "eventapp-id",
+            channelId: "timetrack-id",
             title : title || "",
             message : message || "",
             playSound : options.playSound || true,

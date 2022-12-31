@@ -30,34 +30,19 @@ const Datepicker = ({theme,datecount,date1,date2,setState1,setState2,placeholder
     };
 
     const showPicker = (no) => {
+        console.log(no)
         setPickno(no);
         setShow(true)
-        setVisible(true);
+        Platform.OS == 'ios' && setVisible(true);
     }    
-    /* if(!mode) {
-        var unix1 =  moment(date1).valueOf();
-        var unix2 =  moment(date2).valueOf();
-        
-        var unix =  pickno == '1' ? unix1 : unix2;
-    }
-    else {
-        var unix1 =  date1;
-        var unix2 =  date2;
-    } */
-    let display = Platform.OS == 'ios' ? 'inline' : 'default';
-
     // For Modal
-    const [visible, setVisible] = React.useState(false);
-    const hideModal = () => setVisible(false);
+    const [visible, setVisible] = React.useState(false);    
 
-    const handleIOSOK = () => {
+    const handleIOSCancel = () => {
         setShow(false);
+        setUnix(moment(new Date()).valueOf());
+        pickno == '1' ? setState1(moment().format('DD/MM/YYYY')) : setState2(moment().format('DD/MM/YYYY'));
     }
-    let value = new Date(unix);
-    // const handleIOSCancel = () => {
-    //     setShow(false);
-    //     // pickno == '1' ? setState1('') : setState2('');
-    // }
 
     return (
         <>
@@ -67,20 +52,20 @@ const Datepicker = ({theme,datecount,date1,date2,setState1,setState2,placeholder
             (
                 Platform.OS == 'ios' ?
                 <Portal>
-                    <Modal visible={visible} onDismiss={hideModal} contentContainerStyle={styles.modal}>
-                        <DateTimePicker onChange={onPickerChange} value={value} mode={mode && mode} display={display} /> 
+                    <Modal visible={visible} dismissable={false} contentContainerStyle={styles.modal}>
+                        <DateTimePicker onChange={onPickerChange} value={new Date(unix)} mode={mode && mode} display={Platform.OS == 'ios' ? 'inline' : 'default'} /> 
                         <View style={styles.action}>
-                            {/* <View style={{width:'48%'}}>
+                            <View style={{width:'48%'}}>
                                 <CustomButtons title="Cancel" pressHandler={handleIOSCancel} style={{width:'100%',marginTop:0}}></CustomButtons>
-                            </View> */}
+                            </View>
                             <View style={{marginLeft:10,width:'48%'}}>
-                                <CustomButtons title="OK" pressHandler={handleIOSOK} style={{width:'100%',marginTop:0}}></CustomButtons>
+                                <CustomButtons title="OK" pressHandler={() => setShow(false)} style={{width:'100%',marginTop:0}}></CustomButtons>
                             </View>
                         </View>
                     </Modal>
                 </Portal>
                 :
-                <DateTimePicker onChange={onPickerChange} value={new Date(unix)} mode={mode && mode} display={display}/>            
+                <DateTimePicker onChange={onPickerChange} value={new Date(unix)} mode={mode && mode} display={Platform.OS == 'ios' ? 'inline' : 'default'}/>            
             )
         }
        
@@ -127,7 +112,7 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
         padding:10,
         marginHorizontal:20,
-        borderRadius:10
+        borderRadius:10,
     },
     action : {
         display:'flex',

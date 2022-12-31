@@ -268,7 +268,7 @@ const styles = StyleSheet.create({
     innerItem:{
         width:width/3.3,
         height:126,
-        justifyContent:'center',       
+        justifyContent:'center',
         margin:3,
         marginHorizontal:4,
         borderRadius:5,
