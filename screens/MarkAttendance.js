@@ -51,7 +51,7 @@ function MarkAttendance({ navigation, route }) {
         setAccuracy(position.coords.accuracy)
       },
       (error) => {
-        console.log(error.code, error.message);
+        // console.log(error.code, error.message);
         Alert.alert('Error',error.message,[
           {text: 'Go Back', onPress: () => navigation.navigate('Home')}
         ],{cancelable:false})

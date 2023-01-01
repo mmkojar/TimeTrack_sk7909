@@ -1,8 +1,5 @@
 import  { BaseToast, ErrorToast } from 'react-native-toast-message';
 
-/*
-  1. Create the config
-*/
 const toastConfig = {
     /*
       Overwrite 'success' type,
@@ -28,7 +25,8 @@ const toastConfig = {
     error: (props) => (
       <ErrorToast
         {...props}
-        style={{ borderLeftColor: 'red' }}
+        style={{ borderLeftColor: 'red', borderColor:'#e6e7e8',borderWidth:1 }}
+        contentContainerStyle={{ paddingHorizontal: 10 }}
         text1NumberOfLines={10}
         text1Style={{
             fontSize: 14,

@@ -1,5 +1,5 @@
 import React,{ useEffect, useState } from 'react'
-import { ScrollView, View } from 'react-native'
+import { ScrollView,KeyboardAvoidingView,Platform, TouchableWithoutFeedback, View } from 'react-native'
 import { Card, Title, Text, TextInput, withTheme } from 'react-native-paper'
 import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
@@ -82,44 +82,49 @@ const LWP = ({theme,navigation,route}) => {
 
   return (
     <ScrollView>
-        <View style={theme.container}>
-            <Authorities recom={result && result.Recommender} sanc={result && result.Sanctioner} />
-            <Card style={theme.card} elevation={5}>          
-            <Title style={theme.appheading}>LWP Details</Title>
-            <View>
-                <Text style={theme.applabel}>Duration</Text>
-                <Dropdown data={fiternames}  setValue={setDuid} />
-                {
-                    duid == 'MultipleDay' ?
-                    <MultipleDay duid={duid} fdate={fdate} tdate={tdate} setFdate={setFdate} setTdate={setTdate} 
-                    MulDaySH={MulDaySH} MulDayFH={MulDayFH} setDuration={setDuration} setDurmultiple={setDurmultiple}/>               
-                    :
-                    <View style={{marginVertical:10,width:'75%'}}>
-                        <Text style={theme.applabel}>Date</Text>
-                        <Datepicker
-                            datecount='1'
-                            date1={fdate}
-                            setState1={setFdate}
-                            style={{width:'45%'}}
-                        />
+        <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "position" : "height"} style={{flex:1}} 
+         keyboardVerticalOffset={Platform.OS === 'ios' && 50}>
+            <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+                <View style={theme.container}>
+                    <Authorities recom={result && result.Recommender} sanc={result && result.Sanctioner} />
+                    <Card style={theme.card} elevation={5}>          
+                    <Title style={theme.appheading}>LWP Details</Title>
+                    <View>
+                        <Text style={theme.applabel}>Duration</Text>
+                        <Dropdown data={fiternames}  setValue={setDuid} />
+                        {
+                            duid == 'MultipleDay' ?
+                            <MultipleDay duid={duid} fdate={fdate} tdate={tdate} setFdate={setFdate} setTdate={setTdate} 
+                            MulDaySH={MulDaySH} MulDayFH={MulDayFH} setDuration={setDuration} setDurmultiple={setDurmultiple}/>               
+                            :
+                            <View style={{marginVertical:10,width:'75%'}}>
+                                <Text style={theme.applabel}>Date</Text>
+                                <Datepicker
+                                    datecount='1'
+                                    date1={fdate}
+                                    setState1={setFdate}
+                                    style={{width:'45%'}}
+                                />
+                            </View>
+                        }
                     </View>
-                }
-            </View>
-            </Card>
-            <Card style={theme.card} elevation={5}>
-                <Text style={theme.applabel}>LWP Reason</Text>
-                <TextInput
-                    keyboardType='default'
-                    multiline={true}
-                    numberOfLines={1}
-                    maxLength={100}
-                    textAlignVertical="top"
-                    value={reason}
-                    onChangeText={(val) => setReason(val)}
-                /> 
-            </Card>
-            <CustomButtons title="Submit" pressHandler={submitEntry} />
-        </View>
+                    </Card>
+                    <Card style={theme.card} elevation={5}>
+                        <Text style={theme.applabel}>LWP Reason</Text>
+                        <TextInput
+                            keyboardType='default'
+                            multiline={true}
+                            numberOfLines={1}
+                            maxLength={100}
+                            textAlignVertical="top"
+                            value={reason}
+                            onChangeText={(val) => setReason(val)}
+                        /> 
+                    </Card>
+                    <CustomButtons title="Submit" pressHandler={submitEntry} />
+                </View>
+            </TouchableWithoutFeedback>
+        </KeyboardAvoidingView>
     </ScrollView>
   )
 }

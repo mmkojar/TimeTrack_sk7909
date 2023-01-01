@@ -22,7 +22,6 @@ function Login() {
     const onRegister = (token) => {
         SetToken(token);
     }
-    // console.log("token:--",token);
 
     const [userid,SetUserid] = useState('');
     const [password,SetPassword] = useState('');
@@ -32,7 +31,7 @@ function Login() {
     const [isKeySecure, setIsKeySecure] = useState(true);
     const [deviceId, setDeviceId] = useState(true);
     
-
+    
     DeviceInfo.getUniqueId().then((uniquid) => {
         setDeviceId(uniquid);
     })   
@@ -53,9 +52,7 @@ function Login() {
         else {            
             Keyboard.dismiss();
             var deviceype = Platform.OS == 'ios' ? 'I' : 'A';
-            // console.log(token);
             dispatch(validRegisterUser(userid,password,key,deviceId,deviceype,token));
-            // dispatch(GetEmployeeDevice(userid,deviceId,deviceype,token))
         }
     }
 

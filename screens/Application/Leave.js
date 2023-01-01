@@ -1,5 +1,5 @@
 import React,{ useEffect, useRef, useState } from 'react'
-import { ScrollView, View, Pressable } from 'react-native'
+import { ScrollView, TouchableWithoutFeedback, Keyboard, KeyboardAvoidingView, View, Pressable, Platform } from 'react-native'
 import { Card, Title, Text, TextInput,  withTheme } from 'react-native-paper'
 import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
@@ -99,91 +99,103 @@ const Leave = ({theme,navigation,route}) => {
         else {
             dispatch(insertAppForm(
               `LeaveApplyForEmployee?EmpCode=${ecode}&LeaveCode=${ltype.split('-')[0]}&Duration=${duration ? duration : duid}&Durationmultple=${durmultiple}&Fromdate=${fdate}&Todate=${tdate ? tdate : fdate}&Applcationtype=${task == 'Encash Leaves' ? 'EncashLeave' : 'Leave'}&Encahdays=${ecdays}&Reason=${reason}`
-            ));           
+            ));
+            setLtype('')
+            setTask('')
+            setEcDays('')
+            setDuid('')
+            setDuration('')
+            setDurmultiple('')
+            setReason('')
         }
     }
   return (
     <ScrollView>
-      <View style={theme.container}>
-          <Authorities recom={result && result.Recommender} sanc={result && result.Sanctioner} />
-          <Card style={theme.card} elevation={5}>                      
-            <Title style={theme.appheading}>Leave Details</Title>            
-            <Pressable onPress={() => navigation.navigate('LeaveBal',{ecode:ecode})}>
-                <Text style={{color:'red',fontSize:16,textAlign:'right',marginTop:-30}}>Leave Balance</Text>
-            </Pressable>
-              <View style={{display:'flex',flexDirection:'row'}}>
-                <View style={{width:'48%'}}>
-                    <Text style={theme.applabel}>Leave Type</Text>
-                    <SelectDropdown                      
-                      data={filtertypes}
-                      defaultButtonText="--Select--"
-                      buttonStyle={{backgroundColor:theme.colors.accent,borderTopRightRadius:6,borderTopLeftRadius:6,height:45,width:'100%'}}
-                      buttonTextStyle={{fontSize:16,fontFamily:'VarelaRound-Regular'}}
-                      dropdownStyle={{borderRadius:10,marginTop:-30}}
-                      rowTextStyle={{fontSize:14,fontFamily:'VarelaRound-Regular'}}
-                      onSelect={(selectedItem, index) => {                        
-                        setLtype(selectedItem);
-                        taskDropdownRef.current.reset();
-                        task !== 'Encash Leaves' ? duraDropdownRef.current.reset() : setEcDays('');
-                        setTask('');
-                        setDuid('');
-                      }}
-                    />
-                </View>
-                <View style={{marginLeft:10,width:'48%'}}>
-                    <Text style={theme.applabel}>Task</Text>
-                    <Dropdown refval={taskDropdownRef} data={filtertask}  setValue={setTask} disable={filtertask.length == 0 && true}/>
-                </View>
-              </View>              
-                {
-                  task == 'Encash Leaves' && ltype == 'E-Earned Leave' ? 
-                  <View style={{marginVertical:10}}>
-                    <Text style={theme.applabel}>No. of Leave to Encash</Text>
+      <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "position" : "height"} style={{flex:1}} 
+         keyboardVerticalOffset={Platform.OS === 'ios' && 50}>
+          <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+            <View style={theme.container}>
+                <Authorities recom={result && result.Recommender} sanc={result && result.Sanctioner} />
+                <Card style={theme.card} elevation={5}>                      
+                  <Title style={theme.appheading}>Leave Details</Title>            
+                  <Pressable onPress={() => navigation.navigate('LeaveBal',{ecode:ecode})}>
+                      <Text style={{color:'red',fontSize:16,textAlign:'right',marginTop:-30}}>Leave Balance</Text>
+                  </Pressable>
+                    <View style={{display:'flex',flexDirection:'row'}}>
+                      <View style={{width:'48%'}}>
+                          <Text style={theme.applabel}>Leave Type</Text>
+                          <SelectDropdown                      
+                            data={filtertypes}
+                            defaultButtonText="--Select--"
+                            buttonStyle={{backgroundColor:theme.colors.accent,borderTopRightRadius:6,borderTopLeftRadius:6,height:45,width:'100%'}}
+                            buttonTextStyle={{fontSize:16,fontFamily:'VarelaRound-Regular'}}
+                            dropdownStyle={{borderRadius:10,marginTop:-30}}
+                            rowTextStyle={{fontSize:14,fontFamily:'VarelaRound-Regular'}}
+                            onSelect={(selectedItem, index) => {                        
+                              setLtype(selectedItem);
+                              taskDropdownRef.current.reset();
+                              task !== 'Encash Leaves' ? duraDropdownRef.current.reset() : setEcDays('');
+                              setTask('');
+                              setDuid('');
+                            }}
+                          />
+                      </View>
+                      <View style={{marginLeft:10,width:'48%'}}>
+                          <Text style={theme.applabel}>Task</Text>
+                          <Dropdown refval={taskDropdownRef} data={filtertask}  setValue={setTask} disable={filtertask.length == 0 && true}/>
+                      </View>
+                    </View>              
+                      {
+                        task == 'Encash Leaves' && ltype == 'E-Earned Leave' ? 
+                        <View style={{marginVertical:10}}>
+                          <Text style={theme.applabel}>No. of Leave to Encash</Text>
+                          <TextInput
+                              style={{height:40}}
+                              keyboardType="number-pad"                    
+                              value={ecdays}
+                              onChangeText={(val) => setEcDays(val)}
+                          />
+                        </View> : 
+                        <>
+                        <View style={{marginVertical:10}}>
+                          <Text style={theme.applabel}>Duration</Text>
+                          <Dropdown refval={duraDropdownRef} data={filterduid}  setValue={setDuid} disable={filterduid.length == 0 && true}/>
+                        </View>
+                        {
+                          duid == 'MultipleDay' ?
+                          <MultipleDay duid={duid} fdate={fdate} tdate={tdate} setFdate={setFdate} setTdate={setTdate} 
+                          MulDaySH={MulDaySH} MulDayFH={MulDayFH} setDuration={setDuration} setDurmultiple={setDurmultiple}/>               
+                          :
+                          <View style={{marginVertical:10,width:'75%'}}>
+                              <Text style={theme.applabel}>Date</Text>
+                              <Datepicker
+                                  datecount='1'
+                                  date1={fdate}
+                                  setState1={setFdate}
+                                  style={{width:'45%'}}
+                              />
+                          </View>
+                        }
+                        </>
+                      }                              
+                    
+                </Card>
+                <Card style={theme.card} elevation={5}>
+                    <Text style={theme.applabel}>Reason</Text>
                     <TextInput
-                        style={{height:40}}
-                        keyboardType="number-pad"                    
-                        value={ecdays}
-                        onChangeText={(val) => setEcDays(val)}
-                    />
-                  </View> : 
-                  <>
-                  <View style={{marginVertical:10}}>
-                    <Text style={theme.applabel}>Duration</Text>
-                    <Dropdown refval={duraDropdownRef} data={filterduid}  setValue={setDuid} disable={filterduid.length == 0 && true}/>
-                  </View>
-                  {
-                    duid == 'MultipleDay' ?
-                    <MultipleDay duid={duid} fdate={fdate} tdate={tdate} setFdate={setFdate} setTdate={setTdate} 
-                    MulDaySH={MulDaySH} MulDayFH={MulDayFH} setDuration={setDuration} setDurmultiple={setDurmultiple}/>               
-                    :
-                    <View style={{marginVertical:10,width:'75%'}}>
-                        <Text style={theme.applabel}>Date</Text>
-                        <Datepicker
-                            datecount='1'
-                            date1={fdate}
-                            setState1={setFdate}
-                            style={{width:'45%'}}
-                        />
-                    </View>
-                  }
-                  </>
-                }                              
-              
-          </Card>
-          <Card style={theme.card} elevation={5}>
-              <Text style={theme.applabel}>Reason</Text>
-              <TextInput
-                  keyboardType='default'
-                  multiline={true}
-                  numberOfLines={1}
-                  maxLength={100}
-                  textAlignVertical="top"
-                  value={reason}
-                  onChangeText={(val) => setReason(val)}
-              /> 
-          </Card>
-          <CustomButtons title="Submit" pressHandler={submitEntry} />
-      </View>
+                        keyboardType='default'
+                        multiline={true}
+                        numberOfLines={1}
+                        textAlignVertical="top"
+                        maxLength={100}
+                        value={reason}
+                        onChangeText={(val) => setReason(val)}                        
+                    /> 
+                </Card>
+                <CustomButtons title="Submit" pressHandler={submitEntry} />
+            </View>
+          </TouchableWithoutFeedback>
+      </KeyboardAvoidingView>    
     </ScrollView>
   )
 }

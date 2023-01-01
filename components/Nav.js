@@ -39,7 +39,6 @@ import NoticeScreen from '../screens/Notice';
 import NotificationScreen from '../screens/Notification';
 import Headericon from './utils/Headericon';
 
-
 const Stack = createStackNavigator();
 
 const Nav = ({color, refer}) => {
@@ -177,38 +176,7 @@ const Nav = ({color, refer}) => {
                 options={{
                 title:'Notification',                   
                 }} />
-            {/* <Stack.Screen name="Profile" component={ProfileScreen} 
-                options={{
-                title:'User Profile',                   
-                }} />
-            <Stack.Screen name="Delegates" component={DelegatesScreen} />
-            <Stack.Screen name="AttendeeProfile" component={AttendeeProfile} 
-                options={{
-                title:'Attendee Profile',                   
-                }} />
-            <Stack.Screen name="ChatBox" component={ChatBoxScreen} />
-            <Stack.Screen name="ChatList" component={ChatListScreen} 
-                options={{
-                title:'Chats',                   
-                }}/>
-            <Stack.Screen name="EventOverview" component={EventOverviewScreen} 
-              options={{
-               title:'Event Overview',                   
-              }}/>
-            <Stack.Screen name="Agenda" component={AgendaScreen} />
-            <Stack.Screen name="AgendaDetail" component={AgendaDetailScreen} 
-                options={{
-                    title:'Agenda Detail',                   
-                }}/>
-            <Stack.Screen name="Speakers" component={SpeakersScreen} />
-            <Stack.Screen name="Sponsors" component={SponsorsScreen} />
-            <Stack.Screen name="Exhibitors" component={ExhibitorsScreen} />
-            <Stack.Screen name="Gallery" component={GalleryScreen} />
-            <Stack.Screen name="Notification" component={NotificationScreen} />
-            <Stack.Screen name="FAQ" component={FAQScreen} />
-            <Stack.Screen name="Support" component={SupportScreen} />
-            <Stack.Screen name="Polling" component={PollsScreen} />
-            <Stack.Screen name="PollView" component={PollViewScreen} />
+            {/*
             <Stack.Screen name="QRScan" component={ScanQR} 
                 options={{
                     title:'QR Scan',                   

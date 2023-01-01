@@ -1,20 +1,17 @@
 import React, { Fragment, useEffect } from 'react';
-import { Provider as PaperProvider, withTheme } from 'react-native-paper';
 import { Alert,BackHandler } from 'react-native';
+import { Provider as PaperProvider } from 'react-native-paper';
 import Nav from './components/Nav';
 import Spinner from './components/utils/Spinner';
 import { navigationRef, navigate } from './services/RootNavigation';
-//  import factory from './components/redux/store';
 import useThemeStyle from './components/utils/useThemeStyle';
 import SplashScreen from 'react-native-splash-screen'
 import Toast from 'react-native-toast-message';
 import toastConfig from './components/utils/useToast';
 import { fcmService } from './services/FCMService';
 import { localNotificationService } from './services/LocalNotificationService';
-//  const { store } = factory();
 
-const App = () => {
-
+const App = () => {  
   const [theme ] = useThemeStyle();
   
   // function handleBackButtonClick() {
@@ -82,7 +79,7 @@ const App = () => {
         <Fragment>
           <Nav color={theme.colors.primary} refer={navigationRef}/>
           <Spinner/>
-          <Toast config={toastConfig} visibilityTime={2500} position="bottom"/>
+          <Toast config={toastConfig} visibilityTime={3000} position="bottom"/>
         </Fragment>
       </PaperProvider>
   );

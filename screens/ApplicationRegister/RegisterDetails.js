@@ -20,7 +20,7 @@ const RegisterDetails = ({navigation,route}) => {
     else if(apptype == 'Coff'){
       apptype = 'CompOff'
     }
-    console.log(id);
+    
     React.useLayoutEffect(() => {
       navigation.setOptions({
         title:title,
@@ -29,7 +29,7 @@ const RegisterDetails = ({navigation,route}) => {
             <Button
                 onPress={() => {
                   Alert.alert('Message','Are You Sure you want to delete?',[
-                  {text: 'Yes', onPress:() => {                
+                  {text: 'Yes', onPress:() => {
                     dispatch(insertAppForm(`GetApplicationsForCancellation?EmpCode=${empcode}&Apptype=${apptype}&ID=${id}`));                      
                     navigation.goBack();
                   }},

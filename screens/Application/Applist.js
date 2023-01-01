@@ -14,7 +14,7 @@ const Applist = ({navigation}) => {
 
   useEffect(() => {
     dispatch(getRegisterList());
-  },[])
+  },[empcode])
 
   return (
     <View style={theme.dtcontainer}>

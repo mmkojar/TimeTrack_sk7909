@@ -37,7 +37,6 @@ const AtttendanceChart = ({navigation}) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    
     dispatch(getGraph(empcode,month,year));
   }, [month,year])
    

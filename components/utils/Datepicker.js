@@ -1,12 +1,11 @@
 import React,{ useState } from 'react'
 import { StyleSheet, Platform, View } from 'react-native';
-import { Modal, Portal, TextInput, Text ,withTheme } from 'react-native-paper';
+import { Modal, Portal, TextInput, withTheme } from 'react-native-paper';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import moment from 'moment';
 import CustomButtons from './CustomButtons';
 
-
-const Datepicker = ({theme,datecount,date1,date2,setState1,setState2,placeholder1,placeholder2,style,mode}) => {
+const Datepicker = ({datecount,date1,date2,setState1,setState2,placeholder1,placeholder2,style,mode}) => {
 
     //For Datepicker
     const [show,setShow] = useState(false);
@@ -28,9 +27,8 @@ const Datepicker = ({theme,datecount,date1,date2,setState1,setState2,placeholder
             pickno == '1' ? setState1(currentDate) : setState2(currentDate);
         }               
     };
-
+    
     const showPicker = (no) => {
-        console.log(no)
         setPickno(no);
         setShow(true)
         Platform.OS == 'ios' && setVisible(true);
@@ -41,7 +39,12 @@ const Datepicker = ({theme,datecount,date1,date2,setState1,setState2,placeholder
     const handleIOSCancel = () => {
         setShow(false);
         setUnix(moment(new Date()).valueOf());
-        pickno == '1' ? setState1(moment().format('DD/MM/YYYY')) : setState2(moment().format('DD/MM/YYYY'));
+        if(mode == 'time') {
+            pickno == '1' ? setState1(moment().format('HH:mm')) : setState2(moment().format('HH:mm'));
+        }
+        else {
+            pickno == '1' ? setState1(moment().format('DD/MM/YYYY')) : setState2(moment().format('DD/MM/YYYY'));
+        }
     }
 
     return (

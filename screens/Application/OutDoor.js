@@ -1,5 +1,5 @@
 import React,{ useEffect, useState } from 'react'
-import { Platform, ScrollView, View } from 'react-native'
+import { Platform, ScrollView,TouchableWithoutFeedback, Keyboard, KeyboardAvoidingView, View } from 'react-native'
 import { Card, Title, Text, TextInput, Checkbox, withTheme } from 'react-native-paper'
 import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
@@ -92,73 +92,78 @@ const OutDoor = ({theme,navigation,route}) => {
     
   return (
     <ScrollView>
-      <View style={theme.container}>
-          <Authorities recom={result && result.Recommender} sanc={result && result.Sanctioner} />
-          <Card style={theme.card} elevation={5}>          
-            <Title style={theme.appheading}>OD Details</Title>
-            <View>
-              <Text style={theme.applabel}>Duration</Text>
-              <Dropdown data={fiternames}  setValue={setDuid} />
-              {
-                duid == 'MultipleDay' ?
-                <MultipleDay duid={duid} fdate={fdate} tdate={tdate} setFdate={setFdate} setTdate={setTdate} 
-                MulDaySH={MulDaySH} MulDayFH={MulDayFH} setDuration={setDuration} setDurmultiple={setDurmultiple}/>               
-                :
-                <>
-                <View style={{marginVertical:10,width:'75%'}}>
-                    <Text style={theme.applabel}>Date</Text>
-                    <Datepicker
-                        datecount='1'
-                        date1={fdate}
-                        setState1={setFdate}
-                        style={{width:'45%'}}
-                    />
-                </View>
-                <View style={{display:'flex',flexDirection:'row'}}>
-                    <View style={{width:'48%'}}>
-                        <Text style={theme.applabel}>Start Time</Text>              
-                        <Datepicker
-                            date1={odstart}
-                            mode="time"
-                            setState1={setOdstart}                    
-                        />
+         <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "position" : "height"} style={{flex:1}} 
+         keyboardVerticalOffset={Platform.OS === 'ios' && 50}>
+          <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+            <View style={theme.container}>
+                <Authorities recom={result && result.Recommender} sanc={result && result.Sanctioner} />
+                <Card style={theme.card} elevation={5}>          
+                    <Title style={theme.appheading}>OD Details</Title>
+                    <View>
+                    <Text style={theme.applabel}>Duration</Text>
+                    <Dropdown data={fiternames}  setValue={setDuid} />
+                    {
+                        duid == 'MultipleDay' ?
+                        <MultipleDay duid={duid} fdate={fdate} tdate={tdate} setFdate={setFdate} setTdate={setTdate} 
+                        MulDaySH={MulDaySH} MulDayFH={MulDayFH} setDuration={setDuration} setDurmultiple={setDurmultiple}/>               
+                        :
+                        <>
+                        <View style={{marginVertical:10,width:'75%'}}>
+                            <Text style={theme.applabel}>Date</Text>
+                            <Datepicker
+                                datecount='1'
+                                date1={fdate}
+                                setState1={setFdate}
+                                style={{width:'45%'}}
+                            />
+                        </View>
+                        <View style={{display:'flex',flexDirection:'row'}}>
+                            <View style={{width:'48%'}}>
+                                <Text style={theme.applabel}>Start Time</Text>              
+                                <Datepicker
+                                    date1={odstart}
+                                    mode="time"
+                                    setState1={setOdstart}                    
+                                />
+                            </View>
+                            <View style={{marginLeft:10,width:'48%'}}>
+                                <Text style={theme.applabel}>End Time</Text>
+                                <Datepicker
+                                    date1={odend}
+                                    setState1={setOdend}
+                                    mode="time"                    
+                                />
+                            </View>
+                        </View>
+                        <Checkbox.Item
+                            status={nextday ? 'checked' : Platform.OS=='ios' ? 'indeterminate' : 'unchecked'}
+                            onPress={() =>  setNextDay(!nextday) }
+                            color={theme.colors.primary}
+                            position="leading"
+                            label="Select if out punch is on next day"
+                            style={{marginLeft:-24}}
+                            labelStyle={{marginRight:50}}
+                        />   
+                        </>
+                    }                        
                     </View>
-                    <View style={{marginLeft:10,width:'48%'}}>
-                        <Text style={theme.applabel}>End Time</Text>
-                        <Datepicker
-                            date1={odend}
-                            setState1={setOdend}
-                            mode="time"                    
-                        />
-                    </View>
-                </View>
-                <Checkbox.Item
-                    status={nextday ? 'checked' : Platform.OS=='ios' ? 'indeterminate' : 'unchecked'}
-                    onPress={() =>  setNextDay(!nextday) }
-                    color={theme.colors.primary}
-                    position="leading"
-                    label="Select if out punch is on next day"
-                    style={{marginLeft:-24}}
-                    labelStyle={{marginRight:50}}
-                />   
-                </>
-              }                        
+                </Card>
+                <Card style={theme.card} elevation={5}>
+                    <Text style={theme.applabel}>OD Reason</Text>
+                    <TextInput
+                        keyboardType='default'
+                        multiline={true}
+                        numberOfLines={1}
+                        maxLength={100}
+                        textAlignVertical="top"
+                        value={reason}
+                        onChangeText={(val) => setReason(val)}
+                    /> 
+                </Card>
+                <CustomButtons title="Submit" pressHandler={submitEntry} />
             </View>
-          </Card>
-          <Card style={theme.card} elevation={5}>
-              <Text style={theme.applabel}>OD Reason</Text>
-              <TextInput
-                  keyboardType='default'
-                  multiline={true}
-                  numberOfLines={1}
-                  maxLength={100}
-                  textAlignVertical="top"
-                  value={reason}
-                  onChangeText={(val) => setReason(val)}
-              /> 
-          </Card>
-          <CustomButtons title="Submit" pressHandler={submitEntry} />
-      </View>
+            </TouchableWithoutFeedback>
+        </KeyboardAvoidingView>
     </ScrollView>
   )
 }

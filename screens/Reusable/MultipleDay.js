@@ -6,7 +6,6 @@ import Dropdown from '../../components/utils/Dropdown'
 
 const MultipleDay = ({theme,duid,fdate,tdate,setFdate,setTdate,MulDaySH,MulDayFH,setDuration,setDurmultiple}) => {
 
-
   return (
     <View style={{marginVertical:10,display:'flex',flexDirection:'row'}}>
                     <View style={{width:'32%'}}>

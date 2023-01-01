@@ -74,7 +74,7 @@ class FCMService {
                 } else {
                     notification = remoteMessage.data
                 }
-                onNotification(remoteMessage.notification);
+                onNotification(notification);
             }
         });
 
@@ -94,8 +94,8 @@ class FCMService {
 
         // When Application Running on Background
         messaging().onNotificationOpenedApp(remoteMessage => {
-            console.log("[FCMService] Running From background", remoteMessage);
             if (remoteMessage) {
+                console.log("[FCMService] Running From background", remoteMessage);
                 const notification = remoteMessage;
                 notification.userInteraction = true;
                 onOpenNotification(notification);
@@ -105,8 +105,8 @@ class FCMService {
         //When Application open from quit state
         messaging().getInitialNotification()
             .then(remoteMessage => {
-                console.log("[FCMService] From quit State", remoteMessage);
                 if (remoteMessage) {
+                    console.log("[FCMService] From quit State", remoteMessage);
                     const notification = remoteMessage;
                     notification.userInteraction = true;
                     // localNotificationService.cancelAllLocalNotifications();
@@ -114,7 +114,7 @@ class FCMService {
                 }
             });
 
-
+            
         // Triggered when have new Token
         messaging().onTokenRefresh(fcmToken => {
             console.log("[FCMService] New token refresh", fcmToken);
@@ -129,7 +129,7 @@ class FCMService {
     stopAlarmRing = async () => {
         if (Platform.OS != 'ios') {
             await messaging().stopAlarmRing();
-            console.log('sdfghjkldfgh', "stopAlarmRing");
+            // console.log('sdfghjkldfgh', "stopAlarmRing");
         }
     }
 }

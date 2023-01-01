@@ -13,9 +13,8 @@ const Notice = () => {
   const dispatch = useDispatch();
   
   useEffect(() => {
-    dispatch(getNoticeBoard(empcode));
-    
-  },[])
+    dispatch(getNoticeBoard(empcode));    
+  },[empcode])
 
   return (
     <View style={theme.container}>
