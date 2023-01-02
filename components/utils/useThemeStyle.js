@@ -52,7 +52,7 @@ const useThemeStyle = () => {
         },
         container: {
             flex:1,
-            marginVertical:3,
+            marginVertical:5,
         },
         dtcontainer:{
             flex:1,

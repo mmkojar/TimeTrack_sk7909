@@ -10,31 +10,13 @@ import { getEmpOD, insertAppForm } from '../../components/redux/actions/employee
 import Toast from 'react-native-toast-message';
 import Datepicker from '../../components/utils/Datepicker';
 import MultipleDay from '../Reusable/MultipleDay';
+import useMultiple from '../../components/hooks/useMultiple';
 
 const OutDoor = ({theme,navigation,route}) => {
 
     const {ecode} =  route.params;
     const result = useSelector((state) => state.employee.empod)
-    const checkKey = result && result[0] && Object.keys(result[0])[0];
-      
-    const filterDur = (checkKey !== 'msg') && result && result.Duration.filter(item => {
-        return item.selection == '1'
-    })
-
-    const fiternames = [];
-    const MulDaySH = [];
-    const MulDayFH = [];
-    for(var i in filterDur) {        
-        fiternames.push(filterDur[i].Id)
-        filterDur[i].MultipleDayDuration.filter(item => {
-            if((item.selection == '1' && item.Id == 'MultipleDaySecondHalf') || item.Id == 'MultipleFullDay') {
-                MulDaySH.push(item.Id)
-            }
-            if((item.selection == '1' && item.Id == 'MultipleDayFirstHalf') || item.Id == 'MultipleFullDay') {
-                MulDayFH.push(item.Id)
-            }
-        })
-    }
+    const { fiternames, MulDaySH, MulDayFH, checkKey } = useMultiple(result&&result);
 
     const dispatch = useDispatch();
     useEffect(() => {
@@ -84,15 +66,15 @@ const OutDoor = ({theme,navigation,route}) => {
             setOdend('')
             setNextDay(false)
             setReason('')
-            setFdate('')
-            setTdate('')
+            // setFdate('')
+            // setTdate('')
         }
     }
     //  const hdate = date.split("~")[1];
     
   return (
     <ScrollView>
-         <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "position" : "height"} style={{flex:1}} 
+         <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "position" : ""} style={{flex:1}} 
          keyboardVerticalOffset={Platform.OS === 'ios' && 50}>
           <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
             <View style={theme.container}>

@@ -1,6 +1,6 @@
 import { Platform } from 'react-native';
-import { PERMISSIONS, RESULTS, request, requestMultiple} from 'react-native-permissions';
-import { navigationRef, navigate } from './RootNavigation';
+import { RESULTS,  requestMultiple} from 'react-native-permissions';
+import { navigate } from './RootNavigation';
 
 
 class AppPermissions {

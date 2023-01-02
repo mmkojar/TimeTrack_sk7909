@@ -12,22 +12,20 @@ const Notification = () => {
   const [theme] = useThemeStyle();
   const { userid:empcode } = useSelector((state) => state.auth.logininfo)
   const notifi = useSelector((state) => state.employee.notify)
-  
+  console.log(notifi.Notification);
   const dispatch = useDispatch();
   
   useEffect(() => {
-    dispatch(getNotification(empcode));
+    dispatch(getNotification(empcode,'1'));
     
   },[empcode])
 
   const handlePress = (item) => {
-    dispatch(updateNotification(empcode,item.id,'1','0'))
-    dispatch(getNotification(empcode));
+    dispatch(updateNotification(empcode,item.id,'1','0'))    
   }
 
   const handleDelete = (item) => {
-    dispatch(updateNotification(empcode,item.id,'0','1'))
-    dispatch(getNotification(empcode));
+    dispatch(updateNotification(empcode,item.id,'0','1'))    
   }
 
   return (
@@ -36,7 +34,7 @@ const Notification = () => {
         notifi && notifi.Notification && notifi.Notification.length > 0 ? 
         <FlatList
             data={notifi && notifi.Notification}
-            keyExtractor={(item,index) => index}
+            keyExtractor={(item) => item.id}
             renderItem={({item}) => (
                   <Card style={[theme.card,{padding:10,backgroundColor:`${item.IsRead == '0' ? theme.colors.accent : '#fff'}`}]} elevation={3}
                     onPress={() => handlePress(item)}

@@ -95,7 +95,7 @@ const AtttendanceChart = ({navigation}) => {
                       data={data}
                       width={screenWidth}
                       height={400}
-                      fromZero={true}
+                      // fromZero={true}
                       chartConfig={chartConfig}
                       // yAxisLabel="No Of Days"
                       />

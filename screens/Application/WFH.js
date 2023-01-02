@@ -10,31 +10,13 @@ import { getEmpWFH, insertAppForm } from '../../components/redux/actions/employe
 import Toast from 'react-native-toast-message';
 import Datepicker from '../../components/utils/Datepicker';
 import MultipleDay from '../Reusable/MultipleDay';
+import useMultiple from '../../components/hooks/useMultiple';
 
 const WFH = ({theme,navigation,route}) => {
 
     const {ecode} =  route.params;
     const result = useSelector((state) => state.employee.empwfh)
-    const checkKey = result && Object.keys(result)[0];
-
-    const filterDur = (checkKey !== 'msg')&&result &&result.Duration.filter(item => {
-        return item.selection == '1'
-    })
-    
-    const fiternames = [];
-    const MulDaySH = [];
-    const MulDayFH = [];
-    for(var i in filterDur) {
-        fiternames.push(filterDur[i].Id)
-        filterDur[i].MultipleDayDuration.filter(item => {
-            if((item.selection == '1' && item.Id == 'MultipleDaySecondHalf') || item.Id == 'MultipleFullDay') {
-                MulDaySH.push(item.Id)
-            }
-            if((item.selection == '1' && item.Id == 'MultipleDayFirstHalf') || item.Id == 'MultipleFullDay') {
-                MulDayFH.push(item.Id)
-            }
-        })
-    }
+    const { fiternames, MulDaySH, MulDayFH, checkKey } = useMultiple(result&&result);
 
     const dispatch = useDispatch();
     useEffect(() => {        
@@ -43,12 +25,12 @@ const WFH = ({theme,navigation,route}) => {
             Toast.show({ type: 'error', text1:'NO Record found For WFH' });
         }              
         dispatch(getEmpWFH(ecode))
-    },[])    
+    },[])
     
     const [duid, setDuid] = useState('');
     const [fdate, setFdate] = useState(moment(new Date()).format('DD/MM/YYYY')); 
     const [tdate, setTdate] = useState(moment(new Date()).format('DD/MM/YYYY')); 
-    const [duration, setDuration] = useState(''); 
+    const [duration, setDuration] = useState('');
     const [durmultiple, setDurmultiple] = useState(''); 
     const [reason, setReason] = useState('');
        
@@ -77,8 +59,8 @@ const WFH = ({theme,navigation,route}) => {
             setDuid('')
             setDuration('')
             setDurmultiple('')
-            setFdate('')
-            setTdate('')
+            // setFdate('')
+            // setTdate('')
             setReason('')
         }
     }
@@ -86,7 +68,7 @@ const WFH = ({theme,navigation,route}) => {
 
   return (
     <ScrollView>
-        <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "position" : "height"} style={{flex:1}} 
+        <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "position" : ""} style={{flex:1}} 
          keyboardVerticalOffset={Platform.OS === 'ios' && 50}>
             <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
                 <View style={theme.container}>

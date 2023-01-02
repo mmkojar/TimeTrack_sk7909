@@ -37,10 +37,10 @@ const App = () => {
     // }    
     fcmService.registerAppWithFCM();
     fcmService.register(onRegister,onNotification,onOpenNotification)
-    fcmService.getToken(onRegister)
+    // fcmService.getToken(onRegister)
     localNotificationService.createChannel()
     localNotificationService.configure(onOpenNotification);
-    // console.log(localNotificationService.getAllChannels());
+    localNotificationService.getAllChannels();
     SplashScreen.hide();
       // return () => {
       //     BackHandler.removeEventListener("hardwareBackPress", handleBackButtonClick);
@@ -48,7 +48,7 @@ const App = () => {
   },[])
 
   const onRegister = (token) => {
-    
+    // console.log(token);
   }
 
   const onNotification = (notify) => {
@@ -60,8 +60,8 @@ const App = () => {
     }
     // if(navigationRef.current.getCurrentRoute().name !== 'ChatBox') {
       localNotificationService.showNotification(
-        notify.title,
-        notify.body,
+        'TimeTrack',
+        notify.message,
         notify,
         options,
       )
@@ -70,8 +70,7 @@ const App = () => {
 
   const onOpenNotification = async (notify) => {
     // check for auth    
-    // notify.userInteraction == true && console.log("notify2-",notify);
-    navigate(notify.data.type)
+    notify.userInteraction == true && navigate('Home');    
   };
 
   return (

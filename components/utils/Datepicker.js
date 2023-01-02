@@ -1,6 +1,6 @@
 import React,{ useState } from 'react'
 import { StyleSheet, Platform, View } from 'react-native';
-import { Modal, Portal, TextInput, withTheme } from 'react-native-paper';
+import { Modal, Portal, TextInput } from 'react-native-paper';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import moment from 'moment';
 import CustomButtons from './CustomButtons';
@@ -125,4 +125,4 @@ const styles = StyleSheet.create({
     }
 })
 
-export default withTheme(Datepicker)
+export default Datepicker

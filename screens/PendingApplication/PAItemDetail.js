@@ -48,7 +48,7 @@ const PAItemsDetail = ({theme,navigation,route}) => {
         else {
            dispatch(addLeaveaction(
             `GETHODCancellationPendingApplicationApproved?EmpCode=${ecode}&ID=${submitres.Id}&AppType=${apptype}&Approve=1&RejectReason=`
-          ));          
+          ));
           redirect('success','Leave Approved');
         }
        

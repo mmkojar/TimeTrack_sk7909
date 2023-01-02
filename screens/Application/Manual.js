@@ -57,7 +57,7 @@ const Manual = ({theme,navigation,route}) => {
       })
     }
     dispatch(getEmpManual(ecode))    
-  },[shift])
+  },[])
 
 
   const onPickerChange = (event, selectedDate) => {
@@ -125,7 +125,7 @@ const Manual = ({theme,navigation,route}) => {
 
   return (
     <ScrollView>
-      <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "position" : "height"} style={{flex:1}} 
+      <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "position" : ""} style={{flex:1}} 
          keyboardVerticalOffset={Platform.OS === 'ios' && 50}>
           <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
             <View style={theme.container}>

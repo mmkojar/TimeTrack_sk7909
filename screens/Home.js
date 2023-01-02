@@ -69,7 +69,7 @@ function Home({navigation}) {
         dispatch(getHomePageInfo(userid,password,key));
         dispatch(getHPEmployeeInfo(userid));
         
-    },[userid,password,key])
+    },[isFocused,userid,password,key])
 
     const handleTimeCard = () => {
         if(isHod === 'true') {

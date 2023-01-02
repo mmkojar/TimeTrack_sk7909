@@ -1,5 +1,5 @@
 import React,{ useEffect, useState } from 'react'
-import { ScrollView,KeyboardAvoidingView,Platform, TouchableWithoutFeedback, View } from 'react-native'
+import { ScrollView,KeyboardAvoidingView,Platform, TouchableWithoutFeedback,Keyboard, View } from 'react-native'
 import { Card, Title, Text, TextInput, withTheme } from 'react-native-paper'
 import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
@@ -10,32 +10,14 @@ import { getEmpLWP, insertAppForm } from '../../components/redux/actions/employe
 import Toast from 'react-native-toast-message';
 import Datepicker from '../../components/utils/Datepicker';
 import MultipleDay from '../Reusable/MultipleDay';
+import useMultiple from '../../components/hooks/useMultiple';
 
 const LWP = ({theme,navigation,route}) => {
 
     const {ecode} =  route.params;
     const result = useSelector((state) => state.employee.emplwp)
-    const checkKey = result && Object.keys(result)[0];
-
-    const filterDur = (checkKey !== 'msg') && result && result.Duration.filter(item => {
-        return item.selection == '1'
-    })
-    
-    const fiternames = [];
-    const MulDaySH = [];
-    const MulDayFH = [];
-    for(var i in filterDur) {
-        fiternames.push(filterDur[i].Id)
-        filterDur[i].MultipleDayDuration.filter(item => {
-            if((item.selection == '1' && item.Id == 'MultipleDaySecondHalf') || item.Id == 'MultipleFullDay') {
-                MulDaySH.push(item.Id)
-            }
-            if((item.selection == '1' && item.Id == 'MultipleDayFirstHalf') || item.Id == 'MultipleFullDay') {
-                MulDayFH.push(item.Id)
-            }
-        })
-    }
-
+    const { fiternames, MulDaySH, MulDayFH, checkKey } = useMultiple(result&&result);
+   
     const dispatch = useDispatch();
     useEffect(() => {
         if(checkKey == 'msg') {
@@ -74,15 +56,15 @@ const LWP = ({theme,navigation,route}) => {
             setDuid('')
             setDuration('')
             setDurmultiple('')
-            setFdate('')
-            setTdate('')
+            // setFdate('')
+            // setTdate('')
             setReason('')
         }
     }
 
   return (
     <ScrollView>
-        <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "position" : "height"} style={{flex:1}} 
+        <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "position" : ""} style={{flex:1}} 
          keyboardVerticalOffset={Platform.OS === 'ios' && 50}>
             <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
                 <View style={theme.container}>

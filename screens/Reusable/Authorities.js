@@ -1,8 +1,9 @@
-import React from 'react'
+import React,{memo} from 'react'
 import { View } from 'react-native'
 import { Card, Title, withTheme, Text } from 'react-native-paper'
 
 const Authorities = ({theme, recom,sanc}) => {
+  
   return (
     <Card style={theme.card} elevation={4}>          
         <Title style={theme.appheading}>Authorities</Title>
@@ -14,4 +15,4 @@ const Authorities = ({theme, recom,sanc}) => {
   )
 }
 
-export default withTheme(Authorities)
+export default withTheme(memo(Authorities))
