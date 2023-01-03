@@ -31,8 +31,19 @@ class FCMService {
             })
     }
 
-    getToken = (onRegister) => {
-        messaging().getToken()
+    getToken = async (onRegister) => {
+            // await messaging().getToken()
+            // .then(fcmToken => {
+            //     if (fcmToken) {
+            //         onRegister(fcmToken)
+            //     } else {
+            //         console.log("[FCMService] User does not have a devices token")
+            //     }
+            // }).catch(error => {
+            //     console.log("[FCMService] getToken Rejected", error);
+            // })
+        if(Platform.OS == 'android') {
+            await messaging().getToken()
             .then(fcmToken => {
                 if (fcmToken) {
                     onRegister(fcmToken)
@@ -42,6 +53,20 @@ class FCMService {
             }).catch(error => {
                 console.log("[FCMService] getToken Rejected", error);
             })
+        }
+        if(Platform.OS == 'ios') {
+            await messaging().getAPNSToken()
+            .then(fcmToken => {
+                if (fcmToken) {
+                    onRegister(fcmToken)
+                } else {
+                    console.log("[FCMService] User does not have a devices token")
+                }
+            }).catch(error => {
+                console.log("[FCMService] getToken Rejected", error);
+            })
+        }
+        
     }
 
     requestPermission = (onRegister) => {
@@ -74,7 +99,7 @@ class FCMService {
                 } else {
                     notification = remoteMessage.data
                 }
-                onNotification(notification);
+                onNotification(remoteMessage.data);
             }
         });
 
@@ -88,7 +113,7 @@ class FCMService {
                 } else {
                     notification = remoteMessage.data
                 }
-                onNotification(notification);
+                onNotification(remoteMessage.data);
             }
         });
 

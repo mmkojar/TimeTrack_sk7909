@@ -48,7 +48,7 @@ const App = () => {
   },[])
 
   const onRegister = (token) => {
-    // console.log(token);
+    console.log(token);
   }
 
   const onNotification = (notify) => {
@@ -70,7 +70,7 @@ const App = () => {
 
   const onOpenNotification = async (notify) => {
     // check for auth    
-    notify.userInteraction == true && navigate('Home');    
+    notify.userInteraction == true && navigate('Notifi');    
   };
 
   return (

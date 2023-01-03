@@ -8,7 +8,7 @@ const MultipleDay = ({theme,duid,fdate,tdate,setFdate,setTdate,MulDaySH,MulDayFH
 
   return (
     <View style={{marginVertical:10,display:'flex',flexDirection:'row'}}>
-                    <View style={{width:'32%'}}>
+                    <View style={{width:'36%'}}>
         <Text style={theme.applabel}>Dates</Text>
         <Datepicker
             datecount={duid == 'MultipleDay' ? '2' : '1'}
@@ -19,7 +19,7 @@ const MultipleDay = ({theme,duid,fdate,tdate,setFdate,setTdate,MulDaySH,MulDayFH
             style={{marginBottom:10}}
         />
     </View>
-        <View style={{marginLeft:10,width:'64%',marginTop:24}}>
+        <View style={{marginLeft:10,width:'60%',marginTop:24}}>
         <Dropdown data={MulDaySH}  setValue={setDuration} style={{marginBottom:10}}/>
         <Dropdown data={MulDayFH}  setValue={setDurmultiple} style={{}}/>
     </View> 

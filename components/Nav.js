@@ -172,7 +172,7 @@ const Nav = ({color, refer}) => {
                 options={{
                     title:'Notice Board',                   
                 }}/>
-            <Stack.Screen name="Notification" component={NotificationScreen} 
+            <Stack.Screen name="Notifi" component={NotificationScreen} 
                 options={{
                 title:'Notification',                   
                 }} />

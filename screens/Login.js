@@ -1,14 +1,13 @@
 import React, { useState,useEffect } from 'react';
-import {  View,  StyleSheet, Alert, Platform, TouchableWithoutFeedback, Keyboard, KeyboardAvoidingView, Image } from 'react-native';
-import { Card,TextInput,Text, Snackbar} from 'react-native-paper';
+import {  View,  StyleSheet, Platform, TouchableWithoutFeedback, Keyboard, KeyboardAvoidingView, Image, Alert } from 'react-native';
+import { Card,TextInput,Text } from 'react-native-paper';
 import CustomButtons from '../components/utils/CustomButtons';
 import { useDispatch } from 'react-redux';
-import { GetEmployeeDevice, validRegisterUser } from '../components/redux/actions/authActions';
+import {  validRegisterUser } from '../components/redux/actions/authActions';
 import DeviceInfo from 'react-native-device-info';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import { fcmService } from '../services/FCMService';
 import useThemeStyle from '../components/utils/useThemeStyle';
-// import Config from '../components/utils/Config';
 import Toast from 'react-native-toast-message';
 
 function Login() {
@@ -19,6 +18,7 @@ function Login() {
     }, [])
 
     const [token,SetToken] = useState('');
+    
     const onRegister = (token) => {
         SetToken(token);
     }
@@ -30,29 +30,33 @@ function Login() {
     const [isPasswordSecure, setIsPasswordSecure] = useState(true);
     const [isKeySecure, setIsKeySecure] = useState(true);
     const [deviceId, setDeviceId] = useState(true);
-    
-    
+        
     DeviceInfo.getUniqueId().then((uniquid) => {
         setDeviceId(uniquid);
-    })   
+    })
     const dispatch = useDispatch();
 
     const pressHandler = (e) => {
         
         e.preventDefault();
         if(userid == '') {            
-            Toast.show({ type: 'error', text1:'Enter User Id' });            
+            Toast.show({ type: 'error', text1:'Enter User Id' });
         }
         else if(password == '' ) {
-            Toast.show({ 'error': type, text1:'Enter password' });            
+            Toast.show({ 'error': type, text1:'Enter password' });
         }
         else if(key == '') {
-            Toast.show({ 'error': type, text1:'Enter key' });            
+            Toast.show({ 'error': type, text1:'Enter key' });
         }
         else {            
             Keyboard.dismiss();
-            var deviceype = Platform.OS == 'ios' ? 'I' : 'A';
-            dispatch(validRegisterUser(userid,password,key,deviceId,deviceype,token));
+            // var deviceype = Platform.OS == 'ios' ? 'I' : 'A';
+            Alert.alert('Token',token,[
+                {text: 'OK', onPress: () => {
+                    dispatch(validRegisterUser(userid,password,key,deviceId,'A',token));                 
+                }}
+              ],{cancelable:false})
+            
         }
     }
 
@@ -63,10 +67,10 @@ function Login() {
     }
     
     return (
-        <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} style={{flex:1}}>
+        <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : ""} style={{flex:1}}>
             <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
                 <View style={styles.loginMain}>
-                        <Card style={styles.card}>
+                        <Card style={styles.card} elevation={0}>
                             <Image
                                 style={{height:120,width:120,alignSelf:'center'}}
                                 source={require('../assets/logo.png')}
@@ -90,10 +94,10 @@ function Login() {
                                     secureTextEntry={isPasswordSecure}
                                     right={
                                         <TextInput.Icon
-                                          icon={() => <FontAwesome5 name={isPasswordSecure ? "eye-slash" : "eye"} size={20} color='#000000' />} 
-                                          onPress={() => { isPasswordSecure ? setIsPasswordSecure(false) : setIsPasswordSecure(true) }}
+                                        icon={() => <FontAwesome5 name={isPasswordSecure ? "eye-slash" : "eye"} size={20} color='#000000' />} 
+                                        onPress={() => { isPasswordSecure ? setIsPasswordSecure(false) : setIsPasswordSecure(true) }}
                                         />
-                                      }
+                                    }
                                     value={password}
                                 />
                                 <TextInput
@@ -105,17 +109,20 @@ function Login() {
                                     secureTextEntry={isKeySecure}
                                     right={
                                         <TextInput.Icon
-                                          icon={() => <FontAwesome5 name={isKeySecure ? "eye-slash" : "eye"} size={20} color='#000000' />} 
-                                          onPress={() => { isKeySecure ? setIsKeySecure(false) : setIsKeySecure(true) }}
+                                        icon={() => <FontAwesome5 name={isKeySecure ? "eye-slash" : "eye"} size={20} color='#000000' />} 
+                                        onPress={() => { isKeySecure ? setIsKeySecure(false) : setIsKeySecure(true) }}
                                         />
-                                      }
+                                    }
                                     value={key}
                                 />
                             </Card.Content>
                             <View style={styles.action}>
-                                <CustomButtons title="Login" pressHandler={pressHandler} style={{width:'100%'}}></CustomButtons>
-                                <Text style={{marginHorizontal:20}} />
-                                <CustomButtons title="Reset" pressHandler={resetHandler} style={{width:'100%'}}></CustomButtons>                                
+                                <View style={{width:'36%'}}>
+                                    <CustomButtons title="Login" pressHandler={pressHandler} style={{width:'100%'}}></CustomButtons>
+                                </View>
+                                <View style={{width:'36%',marginLeft:10}}>
+                                    <CustomButtons title="Reset" pressHandler={resetHandler} style={{width:'100%'}}></CustomButtons>                                
+                                </View>
                             </View>
                         </Card>
                 </View>
@@ -127,9 +134,10 @@ function Login() {
 const styles = StyleSheet.create({
     loginMain:{
         flex:1,
+        justifyContent:'center',
+        backgroundColor:'#fff'
     },
     heading:{
-        // color:'#000',
         textAlign:'center',
         fontSize:18,
         paddingHorizontal:14,
@@ -137,8 +145,6 @@ const styles = StyleSheet.create({
     },
     card:{
         backgroundColor:'#fff',
-        flex:1,
-        justifyContent:'center',
     },
     action : {
         display:'flex',

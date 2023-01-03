@@ -125,7 +125,7 @@ function Home({navigation}) {
             
                 <View style={styles.cardstyles}>
                 {
-                    hps['Attendance-Chart'] == 1 &&  <Pressable onPress={() => navigation.navigate('AtttendanceChart')}>
+                    hps['Attendance-Chart'] === '1' &&  <Pressable onPress={() => navigation.navigate('AtttendanceChart')}>
                         <Card style={styles.innerItem} elevation={3}>
                                 <Image
                                     style={styles.image}
@@ -138,7 +138,7 @@ function Home({navigation}) {
                 }
                 
                 {
-                    hps['Time-Card'] == 1 && <Pressable onPress={handleTimeCard}>
+                    hps['Time-Card'] === '1' && <Pressable onPress={handleTimeCard}>
                         <Card style={styles.innerItem} elevation={3}>
                                 <Image
                                     style={styles.image}
@@ -150,7 +150,7 @@ function Home({navigation}) {
                     </Pressable>
                 }
                 {
-                    hps['MarkMyAttendance'] == 1 && <Pressable onPress={checkPermi}>
+                    hps['MarkMyAttendance'] === '1' && <Pressable onPress={checkPermi}>
                         <Card style={styles.innerItem} elevation={3}>
                                 <Image
                                     style={styles.image}
@@ -162,7 +162,7 @@ function Home({navigation}) {
                     </Pressable>
                 }
                 {
-                    hps['Application'] == 1 && <Pressable onPress={() => navigation.navigate('App')}>
+                    hps['Application'] === '1' && <Pressable onPress={() => navigation.navigate('App')}>
                         <Card style={styles.innerItem} elevation={3}>
                                 <Image
                                     style={styles.image}
@@ -174,7 +174,7 @@ function Home({navigation}) {
                     </Pressable>
                 } 
                 {
-                    hps['Pending-Application'] == 1 && <Pressable onPress={handlePA}>
+                    hps['Pending-Application'] === '1' && <Pressable onPress={handlePA}>
                         <Card style={styles.innerItem} elevation={3}>
                                 <Image
                                     style={styles.image}
@@ -186,7 +186,7 @@ function Home({navigation}) {
                     </Pressable>
                 } 
                 {
-                    hps['Application-Register'] == 1 && <Pressable onPress={() => navigation.navigate('RgList')}>
+                    hps['Application-Register'] === '1' && <Pressable onPress={() => navigation.navigate('RgList')}>
                         <Card style={styles.innerItem} elevation={3}>
                             <Image
                                 style={styles.image}                                
@@ -198,7 +198,7 @@ function Home({navigation}) {
                     </Pressable>
                 }
                 {
-                    hps['Holiday-List'] == 1 && <Pressable onPress={() => navigation.navigate('Holiday')}>
+                    hps['Holiday-List'] === '1' && <Pressable onPress={() => navigation.navigate('Holiday')}>
                         <Card style={styles.innerItem} elevation={3}>
                                 <Image
                                     style={styles.image}
@@ -210,7 +210,7 @@ function Home({navigation}) {
                     </Pressable>
                 }
                 {
-                    hps['Notice-Board'] == 1 && <Pressable onPress={() => navigation.navigate('Notice')}> 
+                    hps['Notice-Board'] === '1' && <Pressable onPress={() => navigation.navigate('Notice')}> 
                         <Card style={styles.innerItem} elevation={3}>
                             <Image
                                 style={styles.image}
@@ -222,7 +222,7 @@ function Home({navigation}) {
                     </Pressable>
                 }      
                 {
-                    hps['Notification'] == 1 && <Pressable onPress={() => navigation.navigate('Notification')}>
+                    hps['Notification'] === '1' && <Pressable onPress={() => navigation.navigate('Notifi')}>
                         <Card style={styles.innerItem} elevation={3}>
                             {
                                 checkey!=='Status' && 
