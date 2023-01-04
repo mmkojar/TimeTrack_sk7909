@@ -10,7 +10,21 @@ const Dtheader = ({headtitle}) => {
             <DataTable.Header style={{backgroundColor:'#91c4f0',textAlignVertical:'center'}}>
                  {
                     headtitle && headtitle.map((item,index) => {
-                        return <DataTable.Title key={index} textStyle={{fontSize:size,color:'#000'}} style={{justifyContent:'center'}}>{item.replace('_',' ')}</DataTable.Title>
+                        if(headtitle.length == '3') {
+                            if(index == '0') {
+                            var styles = {justifyContent:'flex-start'};
+                            }
+                            else if(index == '1') {
+                            var styles = {justifyContent:'center'};                  
+                            }
+                            else {
+                            var styles = {justifyContent:'flex-end'};
+                            }
+                        }
+                        else {
+                          var styles = {justifyContent:'center'};
+                        }
+                        return <DataTable.Title key={index} textStyle={{fontSize:size,color:'#000'}} style={styles}>{item.replace('_',' ')}</DataTable.Title>
                     })
                 }
             </DataTable.Header>

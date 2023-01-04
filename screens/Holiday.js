@@ -4,9 +4,10 @@ import { View, FlatList } from 'react-native';
 import { getHolidaylist } from '../components/redux/actions/employeeActions'
 import useThemeStyle from '../components/utils/useThemeStyle';
 import Dtheader from './Reusable/Dtheader';
-import LoopItems from './Reusable/LoopItems';
 import moment from 'moment';
 import Nodatafound from './Reusable/Nodatafound';
+import { DataTable } from 'react-native-paper';
+import uuid from 'react-uuid';
 
 const Holiday = () => {
 
@@ -25,22 +26,16 @@ const Holiday = () => {
     <View style={theme.dtcontainer}>
       <Dtheader headtitle={header} />
       {
-        holidaylist && holidaylist.length > 0 ?
+        holidaylist && holidaylist.HolidayParamList && holidaylist.HolidayParamList.length > 0 ?
           <FlatList
-              data={holidaylist && holidaylist.HolidayParamList}
-              // numColumns={1}
-              keyExtractor={(item,index) => index}
-              renderItem={({item}) => (
-                  <LoopItems
-                    type='dt'
-                    dttable={
-                      [
-                        moment(item.HolidayDate).format('DD-MMM-YYYY'),
-                        item.HolidayName,
-                        item.OptionalHoliday
-                      ]
-                    }
-                  />
+              data={holidaylist && holidaylist.HolidayParamList}              
+              keyExtractor={() => uuid()}
+              renderItem={({item,index}) => (
+                  <DataTable.Row style={{backgroundColor:`${index % 2 ? theme.colors.accent : item.OptionalHoliday == 'Yes' ? 'green' : ''}`}}>
+                      <DataTable.Cell textStyle={{fontSize:12,color:`${item.OptionalHoliday == 'Yes' && '#fff'}`}} style={{justifyContent:'flex-start'}}>{moment(item.HolidayDate).format('DD-MMM-YYYY')}</DataTable.Cell>
+                      <DataTable.Cell textStyle={{fontSize:12,color:`${item.OptionalHoliday == 'Yes' && '#fff'}`}} style={{justifyContent:'center'}}>{item.HolidayName}</DataTable.Cell>
+                      <DataTable.Cell textStyle={{fontSize:12,color:`${item.OptionalHoliday == 'Yes' && '#fff'}`}} style={{justifyContent:'flex-end'}}>{item.OptionalHoliday}</DataTable.Cell>
+                  </DataTable.Row>
               )}
           />
         :

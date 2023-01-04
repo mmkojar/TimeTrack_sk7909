@@ -5,6 +5,7 @@ import { getHodReportee } from '../../components/redux/actions/employeeActions'
 import useThemeStyle from '../../components/utils/useThemeStyle';
 import Dtheader from '../Reusable/Dtheader';
 import LoopItems from '../Reusable/LoopItems';
+import uuid from 'react-uuid';
 
 const TeamAttendance = ({navigation,route}) => {
 
@@ -29,7 +30,7 @@ const TeamAttendance = ({navigation,route}) => {
       <View style={{marginTop:5}}>
         <FlatList
             data={repoarry && repoarry}
-            keyExtractor={(it,index) => index}
+            keyExtractor={() => uuid()}
             renderItem={({item,index}) => (
               <LoopItems
                 type="card" 

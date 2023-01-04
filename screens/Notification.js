@@ -39,7 +39,7 @@ const Notification = () => {
                   <Pressable onPress={() => handlePress(item)}>
                     <Card style={[theme.card,{padding:10,backgroundColor:`${item.IsRead == '0' ? theme.colors.accent : '#fff'}`}]} elevation={5} >
                         <Card.Title 
-                          style={{marginTop:-20,marginLeft:-15}}
+                          style={{marginTop:-10,marginLeft:-15}}
                           title={item.Application_Type}
                           titleStyle={{color:theme.colors.primary}}
                           subtitle={moment(item.NotificationDate).format('DD-MMM-YYYY h:mm')}

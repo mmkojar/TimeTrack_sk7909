@@ -10,6 +10,7 @@ import Nodatafound from '../Reusable/Nodatafound';
 import moment from 'moment';
 import Toast from 'react-native-toast-message';
 import Datepicker from '../../components/utils/Datepicker';
+import uuid from 'react-uuid';
 
 const SelfCard = ({navigation,route}) => {
 
@@ -62,8 +63,8 @@ const SelfCard = ({navigation,route}) => {
                     <View style={{marginTop:5}}>                        
                         <FlatList
                             data={tconload && tconload.GetTimeCardForPageLoad}
-                            keyExtractor={(item,index) => index}
-                            renderItem={({item}) => (
+                            keyExtractor={() => uuid()}
+                            renderItem={({item,index}) => (
                                 <LoopItems
                                     type='dt'
                                     navigation={navigation}
@@ -72,6 +73,7 @@ const SelfCard = ({navigation,route}) => {
                                         empcode:empcode,
                                         tr_date:item.Tr_Date
                                     }}
+                                    indexkey={index}
                                     dttable={
                                     [
                                         item.Tr_Date,

@@ -42,7 +42,7 @@ const RegisterDetails = ({navigation,route}) => {
               <MaterialCommunityIcons                  
                     name="delete"
                     size={20}
-                    color="#fff"                    
+                    color="#fff"
                 />
             </Button>
             <Button

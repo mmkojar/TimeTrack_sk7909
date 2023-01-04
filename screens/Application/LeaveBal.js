@@ -4,6 +4,7 @@ import { List, Text } from 'react-native-paper';
 import { useDispatch, useSelector } from 'react-redux'
 import { getLeaveBal } from '../../components/redux/actions/employeeActions'
 import useThemeStyle from '../../components/utils/useThemeStyle';
+import uuid from 'react-uuid';
 
 const LeaveBal = ({navigation,route}) => {
 
@@ -21,7 +22,7 @@ const LeaveBal = ({navigation,route}) => {
             <List.Section>
                 <FlatList 
                     data={result&&result.GetLeaveBalance}
-                    keyExtractor={(item,index) => index}
+                    keyExtractor={() => uuid()}
                     renderItem={({item}) => (
                         <List.Accordion
                             style={{padding:0}}

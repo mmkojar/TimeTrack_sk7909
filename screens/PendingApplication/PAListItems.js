@@ -7,6 +7,7 @@ import Dtheader from '../Reusable/Dtheader';
 import LoopItems from '../Reusable/LoopItems';
 import Nodatafound from '../Reusable/Nodatafound';
 import { useIsFocused } from '@react-navigation/native';
+import uuid from 'react-uuid';
 
 const PAListItems = ({navigation,route}) => {
 
@@ -76,7 +77,7 @@ const PAListItems = ({navigation,route}) => {
           <Dtheader headtitle={filterkey && filterkey.filter(item => item !== 'Id')} />
           <FlatList
               data={finalplist && finalplist}
-              keyExtractor={(item) => item.Id}
+              keyExtractor={() => uuid()}
               renderItem={({item,index}) => (
                 <LoopItems
                   type='dt'
@@ -88,6 +89,7 @@ const PAListItems = ({navigation,route}) => {
                       pdtype:pdtype,
                       id:item.Id
                   }}
+                  indexkey={index}
                   dttable={Object.values(item).filter((it,index) => index !== 0)}
                 />
               )}

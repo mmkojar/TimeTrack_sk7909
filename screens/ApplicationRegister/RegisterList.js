@@ -5,6 +5,7 @@ import { getRegisterList } from '../../components/redux/actions/employeeActions'
 import useThemeStyle from '../../components/utils/useThemeStyle';
 import Dtheader from '../Reusable/Dtheader';
 import LoopItems from '../Reusable/LoopItems';
+import uuid from 'react-uuid';
 
 const RegisterList = ({navigation}) => {
 
@@ -23,7 +24,7 @@ const RegisterList = ({navigation}) => {
       <View style={{marginTop:5}}>
         <FlatList
             data={result && result.RegisterSortingList}
-            keyExtractor={(it,index) => index}
+            keyExtractor={() => uuid()}
             renderItem={({item,index}) => (
               <LoopItems
                 type="card" 

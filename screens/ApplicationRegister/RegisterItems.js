@@ -7,6 +7,7 @@ import Dtheader from '../Reusable/Dtheader';
 import LoopItems from '../Reusable/LoopItems';
 import Nodatafound from '../Reusable/Nodatafound';
 import { useIsFocused } from '@react-navigation/native';
+import uuid from 'react-uuid';
 
 const RegisterItems = ({navigation,route}) => {
 
@@ -37,8 +38,8 @@ const RegisterItems = ({navigation,route}) => {
         <Dtheader headtitle={headtitles.filter(item => item !== 'Id')} />
         <FlatList
             data={result && result.GetTimeCardForPageLoad}
-            keyExtractor={(item) => item.Id}
-            renderItem={({item}) => (
+            keyExtractor={() => uuid()}
+            renderItem={({item,index}) => (
                 <LoopItems
                   type='dt'
                   navigation={navigation}
@@ -49,6 +50,7 @@ const RegisterItems = ({navigation,route}) => {
                       api:`GetDetailed${title.replace(' ','')}Self`,
                       title:`${title}`
                   }}
+                  indexkey={index}
                   dttable={Object.values(item).filter((it,index) => index !== 0)}
                 />
             )}

@@ -48,7 +48,7 @@ const App = () => {
   },[])
 
   const onRegister = (token) => {
-    console.log(token);
+    // console.log(token);
   }
 
   const onNotification = (notify) => {

@@ -32,41 +32,16 @@ class FCMService {
     }
 
     getToken = async (onRegister) => {
-            // await messaging().getToken()
-            // .then(fcmToken => {
-            //     if (fcmToken) {
-            //         onRegister(fcmToken)
-            //     } else {
-            //         console.log("[FCMService] User does not have a devices token")
-            //     }
-            // }).catch(error => {
-            //     console.log("[FCMService] getToken Rejected", error);
-            // })
-        if(Platform.OS == 'android') {
-            await messaging().getToken()
-            .then(fcmToken => {
-                if (fcmToken) {
-                    onRegister(fcmToken)
-                } else {
-                    console.log("[FCMService] User does not have a devices token")
-                }
-            }).catch(error => {
-                console.log("[FCMService] getToken Rejected", error);
-            })
-        }
-        if(Platform.OS == 'ios') {
-            await messaging().getAPNSToken()
-            .then(fcmToken => {
-                if (fcmToken) {
-                    onRegister(fcmToken)
-                } else {
-                    console.log("[FCMService] User does not have a devices token")
-                }
-            }).catch(error => {
-                console.log("[FCMService] getToken Rejected", error);
-            })
-        }
-        
+        await messaging().getToken()
+        .then(fcmToken => {
+            if (fcmToken) {
+                onRegister(fcmToken)
+            } else {
+                console.log("[FCMService] User does not have a devices token")
+            }
+        }).catch(error => {
+            console.log("[FCMService] getToken Rejected", error);
+        })
     }
 
     requestPermission = (onRegister) => {

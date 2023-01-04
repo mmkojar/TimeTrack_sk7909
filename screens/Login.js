@@ -48,14 +48,14 @@ function Login() {
         else if(key == '') {
             Toast.show({ 'error': type, text1:'Enter key' });
         }
-        else {            
+        else {
             Keyboard.dismiss();
             // var deviceype = Platform.OS == 'ios' ? 'I' : 'A';
             Alert.alert('Token',token,[
                 {text: 'OK', onPress: () => {
                     dispatch(validRegisterUser(userid,password,key,deviceId,'A',token));                 
                 }}
-              ],{cancelable:false})
+              ],{cancelable:true})
             
         }
     }

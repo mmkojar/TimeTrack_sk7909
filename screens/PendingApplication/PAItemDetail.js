@@ -59,18 +59,23 @@ const PAItemsDetail = ({theme,navigation,route}) => {
     }
 
     const submitReject = () => {
-      if(pdtype == 'Pending Approval') {
-        dispatch(addLeaveaction(
-          `GETHODPendingApplicationApproved?EmpCode=${ecode}&ID=${submitres.Id}&AppType=${apptype}&RecommendedStatus=${submitres.Recommended_Status}&Approve=0&RejectReason=${rejreason}`
-        ));
-        redirect('error','Leave Rejected');
+      if(rejreason == "") {
+        Toast.show({ type:'error', text1:'Rejection Reason is Required' })
       }
       else {
-        dispatch(addLeaveaction(
-          `GETHODCancellationPendingApplicationApproved?EmpCode=${ecode}&ID=${submitres.Id}&AppType=${apptype}&Approve=0&RejectReason=${rejreason}`
-        ));
-        redirect('error','Leave Rejected');
-      }
+        if(pdtype == 'Pending Approval') {
+          dispatch(addLeaveaction(
+            `GETHODPendingApplicationApproved?EmpCode=${ecode}&ID=${submitres.Id}&AppType=${apptype}&RecommendedStatus=${submitres.Recommended_Status}&Approve=0&RejectReason=${rejreason}`
+          ));
+          redirect('error','Leave Rejected');
+        }
+        else {
+          dispatch(addLeaveaction(
+            `GETHODCancellationPendingApplicationApproved?EmpCode=${ecode}&ID=${submitres.Id}&AppType=${apptype}&Approve=0&RejectReason=${rejreason}`
+          ));
+          redirect('error','Leave Rejected');
+        }
+      }      
     }
 
     return (
