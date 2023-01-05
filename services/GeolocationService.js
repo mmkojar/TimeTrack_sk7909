@@ -9,15 +9,15 @@ class GeolocationService  {
         Geolocation.getCurrentPosition(
           position => {
             setLocation(position.coords);
-            // console.log(position);
+            console.log(position);
           },
           error => {
-            // Alert.alert(`Code ${error.code}`, error.message);
+            
             Alert.alert('Error',error.message,[
             {text: 'Go Back', onPress: () => navigate('Home')}
             ],{cancelable:false})            
             setLocation(null);
-            // console.log(error);
+          
           },
           {
             // accuracy: {  android: 'high', ios: 'best' },
@@ -38,8 +38,10 @@ class GeolocationService  {
             // console.log(position);
           },
           error => {
-            setLocation(null);
-            // console.log(error);
+            Alert.alert('Error',error.message,[
+              {text: 'Go Back', onPress: () => navigate('Home')}
+              ],{cancelable:false})            
+              setLocation(null); 
           },
           {
             accuracy: {

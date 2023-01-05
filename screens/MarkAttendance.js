@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { View, FlatList, StyleSheet, Image, Pressable, Alert, } from 'react-native';
+import { View, FlatList, StyleSheet, Image, Pressable, Alert, Platform, } from 'react-native';
 import { Text, Modal, Portal, TextInput } from 'react-native-paper';
 import { getTodaysAttLogs, getMarkEmpLogs, insertAttendance } from '../components/redux/actions/employeeActions'
 import useThemeStyle from '../components/utils/useThemeStyle';
@@ -69,8 +69,6 @@ function MarkAttendance({ route }) {
           { latitude: location.latitude, longitude: location.longitude },
           { latitude: Lat, longitude: Lang },
         );
-        // console.log(location);
-        // console.log(dist);
         const range = (listGeoFencingType[0].RangeForGeo)
         if (dist >= range) {
           isMatch = false;
@@ -165,14 +163,14 @@ function MarkAttendance({ route }) {
             ref={scanner}
             // flashMode={Camera.Constants.FlashMode.torch}
             containerStyle={{ alignItems: 'center', justifyContent: 'center' }}
-            cameraStyle={{ height: 140, width: 250 }}
+            cameraContainerStyle={{justifyContent:'center'}}
+            cameraStyle={{ height: Platform.OS=='ios' ? 350 : 140, width: Platform.OS=='ios' ? 350 : 250 }}
           // cameraContainerStyle={{width:250}}
           />
         </Modal>
-        <Modal visible={boxvisible} dismissable={false} contentContainerStyle={{ backgroundColor: '#ffffff', borderRadius: 5, padding: 14, marginHorizontal: 40 }}>
+        <Modal visible={boxvisible} onDismiss={() => setBoxVisible(false)} contentContainerStyle={{ backgroundColor: '#ffffff', borderRadius: 5, padding: 14, marginHorizontal: 40 }}>
           <Text style={{ color: theme.colors.primary, fontSize: 20, marginBottom: 10 }}>Remark</Text>
-          <TextInput
-            style={[theme.textinput, { height: 0 }]}
+          <TextInput            
             keyboardType='default'
             value={remark}
             multiline={true}

@@ -74,28 +74,28 @@ class FCMService {
                 } else {
                     notification = remoteMessage.data
                 }
-                onNotification(remoteMessage.data);
+                onNotification(notification);
             }
         });
 
         messaging().setBackgroundMessageHandler(async remoteMessage => {
             localNotificationService.cancelAllLocalNotifications();
+            console.log("[FCMService] A new FCm message arrived from background", remoteMessage);
             if (remoteMessage) {
-                console.log("[FCMService] A new FCm message arrived from background", remoteMessage);
                 let notification = null;
                 if (Platform.OS === 'ios') {
                     notification = remoteMessage.notification
                 } else {
                     notification = remoteMessage.data
                 }
-                onNotification(remoteMessage.data);
+                onNotification(notification);
             }
         });
 
         // When Application Running on Background
         messaging().onNotificationOpenedApp(remoteMessage => {
+            console.log("[FCMService] Running From background", remoteMessage);
             if (remoteMessage) {
-                console.log("[FCMService] Running From background", remoteMessage);
                 const notification = remoteMessage;
                 notification.userInteraction = true;
                 onOpenNotification(notification);

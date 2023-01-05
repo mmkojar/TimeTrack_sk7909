@@ -39,7 +39,7 @@ function Login() {
     const pressHandler = (e) => {
         
         e.preventDefault();
-        if(userid == '') {            
+        if(userid == '') {
             Toast.show({ type: 'error', text1:'Enter User Id' });
         }
         else if(password == '' ) {
@@ -53,7 +53,7 @@ function Login() {
             // var deviceype = Platform.OS == 'ios' ? 'I' : 'A';
             Alert.alert('Token',token,[
                 {text: 'OK', onPress: () => {
-                    dispatch(validRegisterUser(userid,password,key,deviceId,'A',token));                 
+                    dispatch(validRegisterUser(userid,password,key,deviceId,'A',token));
                 }}
               ],{cancelable:true})
             
@@ -118,10 +118,10 @@ function Login() {
                             </Card.Content>
                             <View style={styles.action}>
                                 <View style={{width:'36%'}}>
-                                    <CustomButtons title="Login" pressHandler={pressHandler} style={{width:'100%'}}></CustomButtons>
+                                    <CustomButtons title="Reset" pressHandler={resetHandler} style={{width:'100%'}}></CustomButtons>                                
                                 </View>
                                 <View style={{width:'36%',marginLeft:10}}>
-                                    <CustomButtons title="Reset" pressHandler={resetHandler} style={{width:'100%'}}></CustomButtons>                                
+                                    <CustomButtons title="Login" pressHandler={pressHandler} style={{width:'100%'}}></CustomButtons>
                                 </View>
                             </View>
                         </Card>

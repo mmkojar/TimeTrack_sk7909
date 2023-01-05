@@ -1,6 +1,5 @@
 import React,{useEffect,useState} from 'react'
 import { View, StyleSheet, FlatList } from 'react-native'
-import { TextInput, IconButton, Text } from 'react-native-paper';
 import { useDispatch, useSelector } from 'react-redux'
 import { getTimeCardOnLoad, getTimeCardSelfFilter } from '../../components/redux/actions/employeeActions'
 import useThemeStyle from '../../components/utils/useThemeStyle';
@@ -11,6 +10,7 @@ import moment from 'moment';
 import Toast from 'react-native-toast-message';
 import Datepicker from '../../components/utils/Datepicker';
 import uuid from 'react-uuid';
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
 const SelfCard = ({navigation,route}) => {
 
@@ -60,7 +60,7 @@ const SelfCard = ({navigation,route}) => {
             </View>
             {
                 tconload && tconload.GetTimeCardForPageLoad && tconload.GetTimeCardForPageLoad.length > 0 ? 
-                    <View style={{marginTop:5}}>                        
+                    <View style={{marginTop:5,flex:1}}>                        
                         <FlatList
                             data={tconload && tconload.GetTimeCardForPageLoad}
                             keyExtractor={() => uuid()}
@@ -78,7 +78,12 @@ const SelfCard = ({navigation,route}) => {
                                     [
                                         item.Tr_Date,
                                         item.AttendanceStatus,
-                                        <IconButton size={24} icon="arrow-right" color={theme.colors.primary} onPress={() => pressHandler(item.Tr_Date)} />
+                                        <FontAwesome5
+                                            name="arrow-right"
+                                            size={16}
+                                            color={theme.colors.primary}
+                                            onPress={() => pressHandler(item.Tr_Date)}
+                                        />   
                                     ]
                                     }
                                 />
@@ -96,7 +101,7 @@ const styles = StyleSheet.create({
     filter:{    
       display:'flex',
       flexDirection:'row',
-      marginHorizontal:-5,
+      marginHorizontal:-10,
       justifyContent:'space-evenly',
     }
   })

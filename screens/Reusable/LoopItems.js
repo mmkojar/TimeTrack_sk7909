@@ -1,7 +1,6 @@
 import React from 'react'
 import { Pressable } from 'react-native'
-import { DataTable } from 'react-native-paper';
-import { Card, IconButton } from 'react-native-paper';
+import { DataTable, Card, IconButton } from 'react-native-paper';
 import useThemeStyle from '../../components/utils/useThemeStyle';
 
 const LoopItems = (props) => {
@@ -22,7 +21,7 @@ const LoopItems = (props) => {
             title={ctitle}
             // subtitle={item['Reportee Code']}
             titleStyle={{fontSize:15}}
-            right={(props) => <IconButton {...props} size={22} icon="arrow-right" color={theme.colors.primary} onPress={pressHandler} />}
+            right={(props) => <IconButton {...props} size={22} icon="arrow-right" onPress={pressHandler} />}
         />
     </Pressable> :
     <DataTable.Row onPress={pressHandler} style={{backgroundColor:`${indexkey % 2 ? theme.colors.accent : ''}`}}>

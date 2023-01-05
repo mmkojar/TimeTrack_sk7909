@@ -43,13 +43,13 @@ const PAItemsDetail = ({theme,navigation,route}) => {
              dispatch(addLeaveaction(
               `GETHODPendingApplicationApproved?EmpCode=${ecode}&ID=${submitres.Id}&AppType=${apptype}&RecommendedStatus=${submitres.Recommended_Status}&Approve=1&RejectReason=`
             ));
-            redirect('success','Leave Approved');
+            redirect('success',`${apptype} Leave Approved`);
         }
         else {
            dispatch(addLeaveaction(
             `GETHODCancellationPendingApplicationApproved?EmpCode=${ecode}&ID=${submitres.Id}&AppType=${apptype}&Approve=1&RejectReason=`
           ));
-          redirect('success','Leave Approved');
+          redirect('success',`${apptype} Leave Approved`);
         }
        
       }
@@ -67,13 +67,13 @@ const PAItemsDetail = ({theme,navigation,route}) => {
           dispatch(addLeaveaction(
             `GETHODPendingApplicationApproved?EmpCode=${ecode}&ID=${submitres.Id}&AppType=${apptype}&RecommendedStatus=${submitres.Recommended_Status}&Approve=0&RejectReason=${rejreason}`
           ));
-          redirect('error','Leave Rejected');
+          redirect('error',`${apptype} Leave Rejected`);
         }
         else {
           dispatch(addLeaveaction(
             `GETHODCancellationPendingApplicationApproved?EmpCode=${ecode}&ID=${submitres.Id}&AppType=${apptype}&Approve=0&RejectReason=${rejreason}`
           ));
-          redirect('error','Leave Rejected');
+          redirect('error',`${apptype} Leave Rejected`);
         }
       }      
     }
@@ -101,11 +101,11 @@ const PAItemsDetail = ({theme,navigation,route}) => {
             result && result.GetDetailedRegisterForHOD && result.GetDetailedRegisterForHOD.length > 0 &&
               <View style={styles.action}>
                 <View style={{flex: 1}}>
-                  <CustomButtons title="Approve" pressHandler={() => pressHandler('1')}  style={{width:'100%',backgroundColor:'green'}}></CustomButtons>
+                  <CustomButtons title="Reject" pressHandler={() => pressHandler('0')}  style={{width:'100%',backgroundColor:'red'}}></CustomButtons>             
                 </View>
                 <View style={{marginHorizontal:40}} />
                 <View style={{flex: 1}}>
-                  <CustomButtons title="Reject" pressHandler={() => pressHandler('0')}  style={{width:'100%',backgroundColor:'red'}}></CustomButtons>             
+                  <CustomButtons title="Approve" pressHandler={() => pressHandler('1')}  style={{width:'100%',backgroundColor:'green'}}></CustomButtons>
                 </View>
               </View>
           }

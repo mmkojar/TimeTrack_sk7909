@@ -37,7 +37,6 @@ const App = () => {
     // }    
     fcmService.registerAppWithFCM();
     fcmService.register(onRegister,onNotification,onOpenNotification)
-    // fcmService.getToken(onRegister)
     localNotificationService.createChannel()
     localNotificationService.configure(onOpenNotification);
     localNotificationService.getAllChannels();
@@ -58,18 +57,16 @@ const App = () => {
       playSound: true,
       priority:'high'
     }
-    // if(navigationRef.current.getCurrentRoute().name !== 'ChatBox') {
-      localNotificationService.showNotification(
-        'TimeTrack',
-        notify.message,
-        notify,
-        options,
-      )
-    // }
+    localNotificationService.showNotification(
+      'TimeTrack',
+      notify.message,
+      notify,
+      options,
+    )
   }; 
 
   const onOpenNotification = async (notify) => {
-    // check for auth    
+   
     notify.userInteraction == true && navigate('Notifi');    
   };
 

@@ -11,13 +11,16 @@ const { store, persistor } = factory();
 
 export const Main = () => {  
         
-      return (
-          <StoreProvider store={store}>
-                <PersistGate loading={null} persistor={persistor}>
-                  <App/>
-              </PersistGate>
-          </StoreProvider>
-      )
+    // if (isHeadless) {
+    //     return null;
+    // }
+    return (
+        <StoreProvider store={store}>
+            <PersistGate loading={null} persistor={persistor}>
+                <App/>
+            </PersistGate>
+        </StoreProvider>
+    )
   }
 
   

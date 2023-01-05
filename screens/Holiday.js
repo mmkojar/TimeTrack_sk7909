@@ -30,11 +30,11 @@ const Holiday = () => {
           <FlatList
               data={holidaylist && holidaylist.HolidayParamList}              
               keyExtractor={() => uuid()}
-              renderItem={({item,index}) => (
+              renderItem={({item,index}) => (                
                   <DataTable.Row style={{backgroundColor:`${index % 2 ? theme.colors.accent : item.OptionalHoliday == 'Yes' ? 'green' : ''}`}}>
-                      <DataTable.Cell textStyle={{fontSize:12,color:`${item.OptionalHoliday == 'Yes' && '#fff'}`}} style={{justifyContent:'flex-start'}}>{moment(item.HolidayDate).format('DD-MMM-YYYY')}</DataTable.Cell>
-                      <DataTable.Cell textStyle={{fontSize:12,color:`${item.OptionalHoliday == 'Yes' && '#fff'}`}} style={{justifyContent:'center'}}>{item.HolidayName}</DataTable.Cell>
-                      <DataTable.Cell textStyle={{fontSize:12,color:`${item.OptionalHoliday == 'Yes' && '#fff'}`}} style={{justifyContent:'flex-end'}}>{item.OptionalHoliday}</DataTable.Cell>
+                      <DataTable.Cell textStyle={{fontSize:12,color:`${item.OptionalHoliday === 'Yes' ? '#fff' : '#000'}`}} style={{justifyContent:'flex-start'}}>{moment(item.HolidayDate).format('DD-MMM-YYYY')}</DataTable.Cell>
+                      <DataTable.Cell textStyle={{minWidth:'100%',textAlign:'center',fontSize:12,color:`${item.OptionalHoliday === 'Yes' ? '#fff' : '#000'}`}} style={{justifyContent:'center'}}>{item.HolidayName}</DataTable.Cell>
+                      <DataTable.Cell textStyle={{fontSize:12,color:`${item.OptionalHoliday === 'Yes' ? '#fff' : '#000'}`}} style={{justifyContent:'flex-end'}}>{item.OptionalHoliday}</DataTable.Cell>
                   </DataTable.Row>
               )}
           />
