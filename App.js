@@ -10,6 +10,7 @@ import Toast from 'react-native-toast-message';
 import toastConfig from './components/utils/useToast';
 import { fcmService } from './services/FCMService';
 import { localNotificationService } from './services/LocalNotificationService';
+import messaging from '@react-native-firebase/messaging';
 
 const App = () => {  
   const [theme ] = useThemeStyle();
@@ -31,19 +32,34 @@ const App = () => {
   //    return true;
   // }
 
+
   useEffect(() => {
     // if(navigationRef.current.canGoBack() === false) {
     //   BackHandler.addEventListener("hardwareBackPress", handleBackButtonClick);
-    // }    
+    // }
     fcmService.registerAppWithFCM();
     fcmService.register(onRegister,onNotification,onOpenNotification)
+    const unsubscribe = messaging().onMessage(async remoteMessage => {            
+            
+      if (remoteMessage) {
+          console.log("[FCMService] A new FCm message arrived", remoteMessage);
+          // let notification = null;
+          // if (Platform.OS === 'ios') {
+          //     notification = remoteMessage.notification
+          // } else {
+          //     notification = remoteMessage.data
+          // }
+          onNotification(remoteMessage.data);
+      }
+    });
     localNotificationService.createChannel()
     localNotificationService.configure(onOpenNotification);
     localNotificationService.getAllChannels();
     SplashScreen.hide();
-      // return () => {
-      //     BackHandler.removeEventListener("hardwareBackPress", handleBackButtonClick);
-      // };
+      return () => {
+        // fcmService.createNotificationListeners(onRegister,onNotification,onOpenNotification)
+        unsubscribe();
+      };
   },[])
 
   const onRegister = (token) => {
@@ -51,7 +67,7 @@ const App = () => {
   }
 
   const onNotification = (notify) => {
-    // console.log("notify:-",notify);
+    // localNotificationService.cancelAllLocalNotifications();
     const options = {
       soundName: 'default',
       playSound: true,
@@ -59,15 +75,14 @@ const App = () => {
     }
     localNotificationService.showNotification(
       'TimeTrack',
-      notify.message,
+      notify.message ? notify.message : notify.body,
       notify,
       options,
     )
-  }; 
+  };
 
-  const onOpenNotification = async (notify) => {
-   
-    notify.userInteraction == true && navigate('Notifi');    
+  const onOpenNotification =  () => {   
+    navigate('Notifi');
   };
 
   return (

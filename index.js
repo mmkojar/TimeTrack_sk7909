@@ -6,11 +6,14 @@ import {name as appName} from './app.json';
 import { Provider as StoreProvider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react'
 import factory from './components/redux/store';
+import { fcmService } from './services/FCMService';
 
 const { store, persistor } = factory();
 
-export const Main = () => {  
-        
+fcmService.bgheadlessTask()
+
+export const Main = () => {
+            
     // if (isHeadless) {
     //     return null;
     // }
@@ -25,3 +28,6 @@ export const Main = () => {
 
   
 AppRegistry.registerComponent(appName, () => Main);
+/* AppRegistry.registerHeadlessTask('RNFBHedlessTask', () =>
+    require('./services/RNFBHedlessTask')
+); */

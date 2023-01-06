@@ -35,9 +35,9 @@ allprojects {
         mavenCentral {
             // We don't want to fetch react-native from Maven Central as there are
             // older versions over there.
-            // content {
-            //     excludeGroup "com.facebook.react"
-            // }
+            content {
+                excludeGroup "com.facebook.react"
+            }
         }
         maven {
             // All of React Native (JS, Obj-C sources, Android binaries) is installed from npm
@@ -48,7 +48,7 @@ allprojects {
             url("$rootDir/../node_modules/jsc-android/dist")
         }
         maven { url 'https://www.jitpack.io' }                
-        exclusiveContent {
+        /* exclusiveContent {
             // We get React Native's Android binaries exclusively through npm,
             // from a local Maven repo inside node_modules/react-native/.
             // (The use of exclusiveContent prevents looking elsewhere like Maven Central
@@ -61,6 +61,6 @@ allprojects {
                     url "$rootDir/../node_modules/react-native/android"
                 }
             }
-        }
+        } */
     }
 }

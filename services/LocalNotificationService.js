@@ -9,12 +9,12 @@ class LocalNotificationService {
                 // console.log("[LocalNotificationService] onRegister:",token);
             },
             onNotification: function (notification) {
-                console.log("[LocalNotificationService] onNotification:",notification);
+                // console.log("[LocalNotificationService] onNotification:",notification);
                 if(!notification?.data) {
                     return
                 }
                 // notification.userInteraction = true;
-                onOpenNotification(notification);
+                // onOpenNotification(notification);
 
                  // (required) Called when a remote is received or opened, or local notification is opened
                 notification.finish(PushNotificationIOS.FetchResult.NoData);
@@ -61,7 +61,7 @@ class LocalNotificationService {
 
     getAllChannels = () => {
         PushNotification.getChannels(function (channel_ids) {
-            console.log(channel_ids); // ['channel_id_1']
+            // console.log(channel_ids); // ['channel_id_1']
         });
     }
 
@@ -80,13 +80,13 @@ class LocalNotificationService {
             badge : true,
             // picture: "ic_launcher",
             userInfo: data,
-        });          
+        });
     }
 
     buildAndroidNotification = ( title, message, data = {}, options = {}) => {
         return {
             autoCancel : true,
-            largeIcon : options.largeIcon || "ic_launcher",
+            largeIcon : "",
             smallIcon : options.smallIcon || "ic_notification",
             bigText : message || '',
             subText : title || '',
@@ -100,10 +100,11 @@ class LocalNotificationService {
 
     cancelAllLocalNotifications = () => {
         PushNotification.cancelAllLocalNotifications();
+        PushNotificationIOS.removeAllPendingNotificationRequests();
     }
 
     removeDeliveredNotificationByID = (notificationId) => {
-        console.log("[LocalNotificationService] removeDeliveredNotificationByID:", notificationId);
+        // console.log("[LocalNotificationService] removeDeliveredNotificationByID:", notificationId);
         PushNotification.cancelLocalNotification({id: `${notificationId}`})
     }
 

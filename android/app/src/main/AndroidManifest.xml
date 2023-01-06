@@ -29,7 +29,7 @@
             <category android:name="android.intent.category.LAUNCHER" />
         </intent-filter>
       </activity>
-
+        <meta-data android:name="com.google.firebase.messaging.default_notification_icon" android:resource="@mipmap/ic_notification" />
        <!-- Change the value to true to enable pop-up for in foreground on receiving remote notifications (for prevent duplicating while showing local notifications set this to false) -->
         <meta-data  android:name="com.dieam.reactnativepushnotification.notification_foreground"
                     android:value="false"/>
@@ -54,5 +54,7 @@
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
+        <!-- ForHeadlessTask -->
+        <!-- <service android:name=".MyTaskService" /> -->
     </application>
 </manifest>

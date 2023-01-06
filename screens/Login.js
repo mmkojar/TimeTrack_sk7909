@@ -9,18 +9,27 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import { fcmService } from '../services/FCMService';
 import useThemeStyle from '../components/utils/useThemeStyle';
 import Toast from 'react-native-toast-message';
+import messaging from '@react-native-firebase/messaging';
 
 function Login() {
 
     const [theme] = useThemeStyle();
     useEffect(() => {
-        fcmService.getToken(onRegister)
+        if(Platform.OS == 'ios') {
+            if(messaging().hasPermission()) {
+                fcmService.getToken(onRegister)
+            }
+        }
+        else {
+            fcmService.getToken(onRegister)
+        }
+               
     }, [])
 
     const [token,SetToken] = useState('');
     
     const onRegister = (token) => {
-        SetToken(token);
+        SetToken(token);        
     }
 
     const [userid,SetUserid] = useState('');

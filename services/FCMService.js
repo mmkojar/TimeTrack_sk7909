@@ -4,8 +4,14 @@ import { localNotificationService } from './LocalNotificationService';
 
 
 class FCMService {
-    register  (onRegister, onNotification, onOpenNotification) {
-        this.checkPermission(onRegister);
+    register  (onRegister, onNotification, onOpenNotification) {        
+        if(Platform.OS=='ios') {
+            this.checkPermission(onRegister);
+        }
+        else{
+            this.getToken(onRegister);
+        }
+        
         this.createNotificationListeners(onRegister, onNotification, onOpenNotification);
     }
 
@@ -27,7 +33,7 @@ class FCMService {
                     this.requestPermission(onRegister);
                 }
             }).catch(error => {
-                console.log("[FCMService] Permission Rejected", error);
+                // console.log("[FCMService] Permission Rejected", error);
             })
     }
 
@@ -37,50 +43,49 @@ class FCMService {
             if (fcmToken) {
                 onRegister(fcmToken)
             } else {
-                console.log("[FCMService] User does not have a devices token")
+                // console.log("[FCMService] User does not have a devices token")
             }
         }).catch(error => {
-            console.log("[FCMService] getToken Rejected", error);
+            // console.log("[FCMService] getToken Rejected", error);
         })
     }
 
     requestPermission = (onRegister) => {
-        messaging().requestPermission({provisional: true,sound: true})
+        messaging().requestPermission()
             .then(() => {
                 this.getToken(onRegister);
             }).catch(error => {
-                console.log("[FCMService] Request Permission Rejected", error);
+                // console.log("[FCMService] Request Permission Rejected", error);
             })
     }
 
     deleteToken = () => {
-        console.log("[FCMService] Delete Token");
+        // console.log("[FCMService] Delete Token");
         messaging().deleteToken()
             .catch(error => {
-                console.log("[FCMService] Delete Token Error", error);
+                // console.log("[FCMService] Delete Token Error", error);
             })
     }
 
     createNotificationListeners = (onRegister, onNotification, onOpenNotification) => {
         
         //Forground state message
-        this.messageListener = messaging().onMessage(async remoteMessage => {
-            localNotificationService.cancelAllLocalNotifications();
-            if (remoteMessage) {
-                console.log("[FCMService] A new FCm message arrived", remoteMessage);
-                let notification = null;
-                if (Platform.OS === 'ios') {
-                    notification = remoteMessage.notification
-                } else {
-                    notification = remoteMessage.data
-                }
-                onNotification(notification);
-            }
-        });
+        // this.messageListener = messaging().onMessage(async remoteMessage => {            
+        //     localNotificationService.cancelAllLocalNotifications();
+        //     if (remoteMessage) {
+        //         console.log("[FCMService] A new FCm message arrived", remoteMessage);
+        //         // let notification = null;
+        //         // if (Platform.OS === 'ios') {
+        //         //     notification = remoteMessage.notification
+        //         // } else {
+        //         //     notification = remoteMessage.data
+        //         // }
+        //         onNotification(remoteMessage.data);
+        //     }
+        // });
 
-        messaging().setBackgroundMessageHandler(async remoteMessage => {
-            localNotificationService.cancelAllLocalNotifications();
-            console.log("[FCMService] A new FCm message arrived from background", remoteMessage);
+       /*  messaging().setBackgroundMessageHandler(async remoteMessage => {
+            // console.log("[FCMService] A new FCm message arrived from background", remoteMessage);
             if (remoteMessage) {
                 let notification = null;
                 if (Platform.OS === 'ios') {
@@ -90,14 +95,14 @@ class FCMService {
                 }
                 onNotification(notification);
             }
-        });
+        }); */
 
         // When Application Running on Background
         messaging().onNotificationOpenedApp(remoteMessage => {
-            console.log("[FCMService] Running From background", remoteMessage);
+            // console.log("[FCMService] Running From background", remoteMessage);
             if (remoteMessage) {
                 const notification = remoteMessage;
-                notification.userInteraction = true;
+                // notification.userInteraction = true;
                 onOpenNotification(notification);
             }
         });
@@ -106,10 +111,9 @@ class FCMService {
         messaging().getInitialNotification()
             .then(remoteMessage => {
                 if (remoteMessage) {
-                    console.log("[FCMService] From quit State", remoteMessage);
+                    // console.log("[FCMService] From quit State", remoteMessage);
                     const notification = remoteMessage;
-                    notification.userInteraction = true;
-                    // localNotificationService.cancelAllLocalNotifications();
+                    // notification.userInteraction = true;
                     onOpenNotification(notification);
                 }
             });
@@ -117,8 +121,24 @@ class FCMService {
             
         // Triggered when have new Token
         messaging().onTokenRefresh(fcmToken => {
-            console.log("[FCMService] New token refresh", fcmToken);
+            // console.log("[FCMService] New token refresh", fcmToken);
             onRegister(fcmToken);
+        });
+    }
+
+    // Background state message
+    bgheadlessTask = () => {
+        messaging().setBackgroundMessageHandler(async remoteMessage => {
+            console.log("[FCMService] A new FCm message arrived from background", remoteMessage);
+            if (remoteMessage) {
+                // let notification = null;
+                // if (Platform.OS === 'ios') {
+                //     notification = remoteMessage.notification
+                // } else {
+                //     notification = remoteMessage.data
+                // }
+                // onNotification(notification);
+            }
         });
     }
 
