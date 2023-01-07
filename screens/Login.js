@@ -1,9 +1,9 @@
 import React, { useState,useEffect } from 'react';
-import {  View,  StyleSheet, Platform, TouchableWithoutFeedback, Keyboard, KeyboardAvoidingView, Image, Alert } from 'react-native';
+import {  View,  StyleSheet, Platform, TouchableWithoutFeedback, Keyboard, KeyboardAvoidingView, Image } from 'react-native';
 import { Card,TextInput,Text } from 'react-native-paper';
 import CustomButtons from '../components/utils/CustomButtons';
 import { useDispatch } from 'react-redux';
-import {  validRegisterUser } from '../components/redux/actions/authActions';
+import { validRegisterUser } from '../components/redux/actions/authActions';
 import DeviceInfo from 'react-native-device-info';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import { fcmService } from '../services/FCMService';
@@ -14,22 +14,28 @@ import messaging from '@react-native-firebase/messaging';
 function Login() {
 
     const [theme] = useThemeStyle();
+    const checkPermission = async () => {
+        const authorize = await messaging().hasPermission();
+        if(authorize === messaging.AuthorizationStatus.AUTHORIZED) {
+            fcmService.getToken(onRegister)
+        }
+        // else {
+        //     Toast.show({type:'error',text1:'Please Allow Notification'})
+        // }
+    }
     useEffect(() => {
         if(Platform.OS == 'ios') {
-            if(messaging().hasPermission()) {
-                fcmService.getToken(onRegister)
-            }
+            checkPermission();
         }
         else {
             fcmService.getToken(onRegister)
         }
-               
     }, [])
 
     const [token,SetToken] = useState('');
     
     const onRegister = (token) => {
-        SetToken(token);        
+        SetToken(token);
     }
 
     const [userid,SetUserid] = useState('');
@@ -60,12 +66,8 @@ function Login() {
         else {
             Keyboard.dismiss();
             // var deviceype = Platform.OS == 'ios' ? 'I' : 'A';
-            Alert.alert('Token',token,[
-                {text: 'OK', onPress: () => {
-                    dispatch(validRegisterUser(userid,password,key,deviceId,'A',token));
-                }}
-              ],{cancelable:true})
-            
+            alert("token: "+token)
+            dispatch(validRegisterUser(userid,password,key,deviceId,'A',token));
         }
     }
 

@@ -9,15 +9,12 @@ class GeolocationService  {
         Geolocation.getCurrentPosition(
           position => {
             setLocation(position.coords);
-            console.log(position);
           },
-          error => {
-            
+          error => {            
             Alert.alert('Error',error.message,[
             {text: 'Go Back', onPress: () => navigate('Home')}
-            ],{cancelable:false})            
-            setLocation(null);
-          
+            ],{cancelable:false})
+            setLocation(null);          
           },
           {
             // accuracy: {  android: 'high', ios: 'best' },
@@ -34,8 +31,7 @@ class GeolocationService  {
     
         watchId.current = Geolocation.watchPosition(
           position => {
-            setLocation(position.coords);
-            // console.log(position);
+            setLocation(position.coords);            
           },
           error => {
             Alert.alert('Error',error.message,[

@@ -1,18 +1,16 @@
 import messaging from '@react-native-firebase/messaging';
 import { Platform } from 'react-native';
-import { localNotificationService } from './LocalNotificationService';
-
 
 class FCMService {
-    register  (onRegister, onNotification, onOpenNotification) {        
-        if(Platform.OS=='ios') {
+    register  (onRegister, onOpenNotification) {        
+        if(Platform.OS == 'ios') {
             this.checkPermission(onRegister);
         }
         else{
             this.getToken(onRegister);
         }
         
-        this.createNotificationListeners(onRegister, onNotification, onOpenNotification);
+        this.createNotificationListeners(onRegister, onOpenNotification);
     }
 
     registerAppWithFCM = async () => {
@@ -22,12 +20,13 @@ class FCMService {
         }
     }
 
-    checkPermission = (onRegister) => {
-        messaging().hasPermission()
+    checkPermission = async (onRegister) => {
+        await messaging().hasPermission()
             .then(enabled => {
                 if (enabled) {
                     // User has permission
                     this.getToken(onRegister);
+                    // console.log("[FCMService] IOS has Permission")
                 } else {
                     // User don't have permission
                     this.requestPermission(onRegister);
@@ -43,17 +42,18 @@ class FCMService {
             if (fcmToken) {
                 onRegister(fcmToken)
             } else {
-                // console.log("[FCMService] User does not have a devices token")
+                console.log("[FCMService] User does not have a devices token")
             }
         }).catch(error => {
             // console.log("[FCMService] getToken Rejected", error);
         })
     }
 
-    requestPermission = (onRegister) => {
-        messaging().requestPermission()
+    requestPermission = async (onRegister) => {
+        await messaging().requestPermission()
             .then(() => {
                 this.getToken(onRegister);
+                // console.log("[FCMService] IOS Permission requested")
             }).catch(error => {
                 // console.log("[FCMService] Request Permission Rejected", error);
             })
@@ -67,43 +67,14 @@ class FCMService {
             })
     }
 
-    createNotificationListeners = (onRegister, onNotification, onOpenNotification) => {
-        
-        //Forground state message
-        // this.messageListener = messaging().onMessage(async remoteMessage => {            
-        //     localNotificationService.cancelAllLocalNotifications();
-        //     if (remoteMessage) {
-        //         console.log("[FCMService] A new FCm message arrived", remoteMessage);
-        //         // let notification = null;
-        //         // if (Platform.OS === 'ios') {
-        //         //     notification = remoteMessage.notification
-        //         // } else {
-        //         //     notification = remoteMessage.data
-        //         // }
-        //         onNotification(remoteMessage.data);
-        //     }
-        // });
-
-       /*  messaging().setBackgroundMessageHandler(async remoteMessage => {
-            // console.log("[FCMService] A new FCm message arrived from background", remoteMessage);
-            if (remoteMessage) {
-                let notification = null;
-                if (Platform.OS === 'ios') {
-                    notification = remoteMessage.notification
-                } else {
-                    notification = remoteMessage.data
-                }
-                onNotification(notification);
-            }
-        }); */
+    createNotificationListeners = (onRegister, onOpenNotification) => {
 
         // When Application Running on Background
         messaging().onNotificationOpenedApp(remoteMessage => {
             // console.log("[FCMService] Running From background", remoteMessage);
             if (remoteMessage) {
-                const notification = remoteMessage;
                 // notification.userInteraction = true;
-                onOpenNotification(notification);
+                onOpenNotification(remoteMessage);
             }
         });
 
@@ -112,16 +83,14 @@ class FCMService {
             .then(remoteMessage => {
                 if (remoteMessage) {
                     // console.log("[FCMService] From quit State", remoteMessage);
-                    const notification = remoteMessage;
                     // notification.userInteraction = true;
-                    onOpenNotification(notification);
+                    onOpenNotification(remoteMessage);
                 }
             });
 
             
         // Triggered when have new Token
         messaging().onTokenRefresh(fcmToken => {
-            // console.log("[FCMService] New token refresh", fcmToken);
             onRegister(fcmToken);
         });
     }
@@ -129,7 +98,7 @@ class FCMService {
     // Background state message
     bgheadlessTask = () => {
         messaging().setBackgroundMessageHandler(async remoteMessage => {
-            console.log("[FCMService] A new FCm message arrived from background", remoteMessage);
+            // console.log("[FCMService] A new FCm message arrived from background", remoteMessage);
             if (remoteMessage) {
                 // let notification = null;
                 // if (Platform.OS === 'ios') {
@@ -140,10 +109,6 @@ class FCMService {
                 // onNotification(notification);
             }
         });
-    }
-
-    unRegister = () => {
-        this.messageListener();
     }
 
     stopAlarmRing = async () => {

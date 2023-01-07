@@ -184,7 +184,9 @@ const Nav = ({color, refer}) => {
             </Stack.Navigator>
             )
             :
-            <Stack.Navigator initialRouteName='Login'>    
+            <Stack.Navigator initialRouteName='Login' screenOptions={() => ({
+                animationEnabled:false
+            })}>    
             <Stack.Screen name="Login" component={LoginScreen} 
                 options={{
                     headerShown:false

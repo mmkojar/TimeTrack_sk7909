@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react'
-import {  View,StyleSheet,Image,ScrollView,Pressable, Dimensions, Platform } from 'react-native';
+import {  View,StyleSheet,Image,ScrollView,Pressable, Dimensions, Platform, BackHandler, Alert } from 'react-native';
 import { Card,Avatar,Text } from 'react-native-paper';
 import useThemeStyle from '../components/utils/useThemeStyle';
 import { useDispatch, useSelector } from 'react-redux';
@@ -38,37 +38,34 @@ function Home({navigation}) {
     // }
    /*  React.useLayoutEffect(() => {
         navigation.setOptions({
-           // headerTitle: (props) => <LogoTitle {...props} /> 
-           headerRight: () => (
-            <View>
-                <Button onPress={() => {
-                    Alert.alert('Message','Are You Sure?',[
-                    {text: 'Yes', onPress:() => {                
-                        dispatch(logoutAction());
-                    }},
-                    {text:'No'}
-                    ],{cancelable:true})
-                    // navigation.navigate('Login')
-                  }}>
-                  <FontAwesome5
-                    name="user-circle"
-                    size={21}
-                    color="#fff"
-                    style={{marginRight:20}}
-                  />
-                </Button>
-            </View>
-          )
+           // headerTitle: (props) => <LogoTitle {...props} />            
         });
     }, [navigation]); */
          
     const dispatch = useDispatch();
     const isFocused = useIsFocused();
-    
+
+    const backAction = () => {
+        if (navigation.isFocused()) {
+            Alert.alert('Exit App!', 'Are you sure you want to exit app?', [
+               {
+                   text: 'Cancel',
+                    onPress: () => null,
+                    style: 'cancel',
+                },
+               { text: 'Yes', onPress: () => BackHandler.exitApp() },
+            ]);
+            return true;
+        }
+    };
     useEffect(() => {
         dispatch(getHomePageInfo(userid,password,key));
         dispatch(getHPEmployeeInfo(userid));
-        
+        BackHandler.addEventListener('hardwareBackPress', backAction);
+
+        return () => {
+            BackHandler.removeEventListener('hardwareBackPress', backAction);
+        }
     },[isFocused,userid,password,key])
 
     const handleTimeCard = () => {

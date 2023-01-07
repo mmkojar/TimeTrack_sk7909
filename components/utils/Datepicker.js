@@ -56,7 +56,7 @@ const Datepicker = ({datecount,date1,date2,setState1,setState2,placeholder1,plac
                 Platform.OS == 'ios' ?
                 <Portal>
                     <Modal visible={visible} dismissable={false} contentContainerStyle={styles.modal}>
-                        <DateTimePicker onChange={onPickerChange} value={new Date(unix)} mode={mode && mode} display={Platform.OS == 'ios' ? 'inline' : 'default'} /> 
+                        <DateTimePicker onChange={onPickerChange} value={new Date(unix)} mode={mode && mode} display='inline' />
                         <View style={styles.action}>
                             <View style={{width:'48%'}}>
                                 <CustomButtons title="Cancel" pressHandler={handleIOSCancel} style={{width:'100%',marginTop:0}}></CustomButtons>
@@ -68,7 +68,7 @@ const Datepicker = ({datecount,date1,date2,setState1,setState2,placeholder1,plac
                     </Modal>
                 </Portal>
                 :
-                <DateTimePicker onChange={onPickerChange} value={new Date(unix)} mode={mode && mode} display={Platform.OS == 'ios' ? 'inline' : 'default'}/>            
+                <DateTimePicker onChange={onPickerChange} value={new Date(unix)} mode={mode && mode} display='default'/>            
             )
         }
        

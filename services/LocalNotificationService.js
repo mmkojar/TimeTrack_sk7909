@@ -3,6 +3,17 @@ import PushNotificationIOS from "@react-native-community/push-notification-ios";
 // import { Platform } from "react-native";
 
 class LocalNotificationService { 
+
+    createChannel = () => {
+        PushNotification.createChannel(
+            {
+                channelId: "timetrack-id", // (required)
+                channelName: "timetrack channel", // (required)
+            },
+            // (created) => console.log(`createChannel returned '${created}'`) // (optional) callback returns whether the channel was created, false means it already existed.
+        );
+    }
+
     configure = (onOpenNotification) => {
         PushNotification.configure({
             onRegister : function (token) {
@@ -13,8 +24,8 @@ class LocalNotificationService {
                 if(!notification?.data) {
                     return
                 }
-                // notification.userInteraction = true;
-                // onOpenNotification(notification);
+                // notification.userInteraction = false;
+                onOpenNotification(notification);
 
                  // (required) Called when a remote is received or opened, or local notification is opened
                 notification.finish(PushNotificationIOS.FetchResult.NoData);
@@ -45,16 +56,6 @@ class LocalNotificationService {
         PushNotification.unregister();
     }
 
-    createChannel = () => {
-        PushNotification.createChannel(
-            {
-                channelId: "timetrack-id", // (required)
-                channelName: "timetrack channel", // (required)
-            },
-            // (created) => console.log(`createChannel returned '${created}'`) // (optional) callback returns whether the channel was created, false means it already existed.
-        );
-    }
-
     deleteChannel = () => {
         PushNotification.deleteChannel('Heytap PUSH');
     }
@@ -74,8 +75,8 @@ class LocalNotificationService {
             channelId: "timetrack-id",
             title : title || "",
             message : message || "",
-            playSound : options.playSound || true,
-            soundName : options.soundName || 'default',
+            playSound : true,
+            soundName : 'default',
             userInteraction : true , // BOOLEAN : If notification was opened by the user from notification
             badge : true,
             // picture: "ic_launcher",
@@ -87,13 +88,13 @@ class LocalNotificationService {
         return {
             autoCancel : true,
             largeIcon : "",
-            smallIcon : options.smallIcon || "ic_notification",
+            smallIcon : "ic_notification",
             bigText : message || '',
             subText : title || '',
-            vibrate : options.vibrate || true,
-            vibration : options.vibration || 300,
-            priority : options.priority || 'high',
-            importance : options.importance || 'high',
+            vibrate : true,
+            vibration : 300,
+            priority : 'high',
+            importance : 'high',
             data : data,
         }
     }
@@ -108,11 +109,11 @@ class LocalNotificationService {
         PushNotification.cancelLocalNotification({id: `${notificationId}`})
     }
 
-    PushNotification = () => {
+    /* PushNotification = () => {
         PushNotification.getDeliveredNotifications((message) => {
             return message;
         });
-    }
+    } */
 
     // applicationBadge = () => {
     //     // PushNotification.setApplicationIconBadgeNumber(2);
