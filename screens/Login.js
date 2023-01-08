@@ -9,34 +9,24 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import { fcmService } from '../services/FCMService';
 import useThemeStyle from '../components/utils/useThemeStyle';
 import Toast from 'react-native-toast-message';
-import messaging from '@react-native-firebase/messaging';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 function Login() {
 
-    const [theme] = useThemeStyle();
-    const checkPermission = async () => {
-        const authorize = await messaging().hasPermission();
-        if(authorize === messaging.AuthorizationStatus.AUTHORIZED) {
-            fcmService.getToken(onRegister)
-        }
-        // else {
-        //     Toast.show({type:'error',text1:'Please Allow Notification'})
-        // }
-    }
-    useEffect(() => {
-        if(Platform.OS == 'ios') {
-            checkPermission();
-        }
-        else {
-            fcmService.getToken(onRegister)
-        }
-    }, [])
-
-    const [token,SetToken] = useState('');
+    const [ theme ] = useThemeStyle();
     
-    const onRegister = (token) => {
-        SetToken(token);
+    const [token,SetToken] = useState('');
+
+    const getToken = async () => {
+        const token = await AsyncStorage.getItem('fcmtoken');
+        if(token) {
+            SetToken(token);
+        }
     }
+
+    useEffect(() => {
+        getToken();
+    }, [])
 
     const [userid,SetUserid] = useState('');
     const [password,SetPassword] = useState('');
@@ -51,7 +41,7 @@ function Login() {
     })
     const dispatch = useDispatch();
 
-    const pressHandler = (e) => {
+    const loginHandler = (e) => {
         
         e.preventDefault();
         if(userid == '') {
@@ -65,8 +55,7 @@ function Login() {
         }
         else {
             Keyboard.dismiss();
-            // var deviceype = Platform.OS == 'ios' ? 'I' : 'A';
-            alert("token: "+token)
+            // var deviceype = Platform.OS == 'ios' ? 'I' : 'A';           
             dispatch(validRegisterUser(userid,password,key,deviceId,'A',token));
         }
     }
@@ -132,7 +121,7 @@ function Login() {
                                     <CustomButtons title="Reset" pressHandler={resetHandler} style={{width:'100%'}}></CustomButtons>                                
                                 </View>
                                 <View style={{width:'36%',marginLeft:10}}>
-                                    <CustomButtons title="Login" pressHandler={pressHandler} style={{width:'100%'}}></CustomButtons>
+                                    <CustomButtons title="Login" pressHandler={loginHandler} style={{width:'100%'}}></CustomButtons>
                                 </View>
                             </View>
                         </Card>

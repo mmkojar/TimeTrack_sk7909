@@ -1,18 +1,8 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import messaging from '@react-native-firebase/messaging';
 import { Platform } from 'react-native';
 
 class FCMService {
-    register  (onRegister, onOpenNotification) {        
-        if(Platform.OS == 'ios') {
-            this.checkPermission(onRegister);
-        }
-        else{
-            this.getToken(onRegister);
-        }
-        
-        this.createNotificationListeners(onRegister, onOpenNotification);
-    }
-
     registerAppWithFCM = async () => {
         if (Platform.OS === 'ios') {
             // await messaging().registerDeviceForRemoteMessages();
@@ -20,43 +10,60 @@ class FCMService {
         }
     }
 
-    checkPermission = async (onRegister) => {
+    register  (onOpenNotification) {
+        if(Platform.OS == 'ios') {
+            this.checkPermission();
+        }
+        else {
+            this.getToken();
+        }
+        this.handlingInteractions(onOpenNotification);
+    }    
+
+    checkPermission = async () => {
         await messaging().hasPermission()
             .then(enabled => {
                 if (enabled) {
                     // User has permission
-                    this.getToken(onRegister);
+                    this.getToken();
                     // console.log("[FCMService] IOS has Permission")
                 } else {
                     // User don't have permission
-                    this.requestPermission(onRegister);
+                    this.requestPermission();
                 }
             }).catch(error => {
                 // console.log("[FCMService] Permission Rejected", error);
             })
     }
 
-    getToken = async (onRegister) => {
-        await messaging().getToken()
-        .then(fcmToken => {
-            if (fcmToken) {
-                onRegister(fcmToken)
-            } else {
-                console.log("[FCMService] User does not have a devices token")
-            }
-        }).catch(error => {
-            // console.log("[FCMService] getToken Rejected", error);
-        })
-    }
-
-    requestPermission = async (onRegister) => {
+    requestPermission = async () => {
         await messaging().requestPermission()
             .then(() => {
-                this.getToken(onRegister);
+                this.getToken();
                 // console.log("[FCMService] IOS Permission requested")
             }).catch(error => {
                 // console.log("[FCMService] Request Permission Rejected", error);
             })
+    }
+
+    savetokenToAsync = async (fcmToken) => {
+        const checkToken = await AsyncStorage.getItem('fcmtoken');
+        if(!checkToken) {
+            try {                
+                if (fcmToken) {
+                    await AsyncStorage.setItem('fcmtoken',fcmToken);
+                } else {
+                    console.log("[FCMService] User does not have a devices token")
+                }
+            } catch (error) {
+                console.log("[FCMService] error while receiving token:", error);
+            }
+        }
+    }
+
+    getToken = async () => {
+        const fcmToken = await messaging().getToken();
+        this.savetokenToAsync(fcmToken)
     }
 
     deleteToken = () => {
@@ -67,8 +74,8 @@ class FCMService {
             })
     }
 
-    createNotificationListeners = (onRegister, onOpenNotification) => {
-
+    handlingInteractions = (onOpenNotification) => {
+        
         // When Application Running on Background
         messaging().onNotificationOpenedApp(remoteMessage => {
             // console.log("[FCMService] Running From background", remoteMessage);
@@ -77,7 +84,7 @@ class FCMService {
                 onOpenNotification(remoteMessage);
             }
         });
-
+        
         //When Application open from quit state
         messaging().getInitialNotification()
             .then(remoteMessage => {
@@ -91,7 +98,7 @@ class FCMService {
             
         // Triggered when have new Token
         messaging().onTokenRefresh(fcmToken => {
-            onRegister(fcmToken);
+            this.savetokenToAsync(fcmToken)
         });
     }
 

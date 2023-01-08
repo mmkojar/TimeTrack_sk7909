@@ -166,7 +166,7 @@ const Nav = ({color, refer}) => {
             <Stack.Screen name="PAItemDetail" component={PAItemDetailScreen} />                               
             <Stack.Screen name="Holiday" component={HolidayScreen} 
                 options={{
-                title:'Holiday List',                   
+                title:'Holiday List',
                 }} />
             <Stack.Screen name="Notice" component={NoticeScreen} 
                 options={{

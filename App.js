@@ -1,4 +1,5 @@
 import React, { Fragment, useEffect } from 'react';
+import { Platform } from 'react-native';
 import { Provider as PaperProvider } from 'react-native-paper';
 import Nav from './components/Nav';
 import Spinner from './components/utils/Spinner';
@@ -15,24 +16,22 @@ const App = () => {
   const [theme ] = useThemeStyle();
   
   useEffect(() => {
-    fcmService.registerAppWithFCM();
-    fcmService.register(onRegister,onOpenNotification)
-    const unsubscribe = messaging().onMessage(async remoteMessage => {
-        if (remoteMessage) {
-            onNotification(remoteMessage.data);
-        }
-    });
+    if (Platform.OS === 'ios') {
+      fcmService.registerAppWithFCM();
+    }
+    fcmService.register(onOpenNotification)
     localNotificationService.createChannel()
     localNotificationService.configure(onOpenNotification);
+    const unsubscribe = messaging().onMessage(async remoteMessage => {
+      if (remoteMessage) {
+          onNotification(remoteMessage.data);
+      }
+    });
     SplashScreen.hide();
-      return () => {
-        unsubscribe();
-      };
+    return () => {
+      unsubscribe();
+    };
   },[])
-
-  const onRegister = (token) => {
-    console.log(token);
-  }
 
   const onNotification = (notify) => {
     localNotificationService.showNotification(

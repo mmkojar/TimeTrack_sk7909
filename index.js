@@ -7,10 +7,12 @@ import { Provider as StoreProvider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react'
 import factory from './components/redux/store';
 import { fcmService } from './services/FCMService';
+// import { localNotificationService } from './services/LocalNotificationService';
 
 const { store, persistor } = factory();
 
 fcmService.bgheadlessTask()
+
 
 export const Main = () => {
             

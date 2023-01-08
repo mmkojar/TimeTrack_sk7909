@@ -109,12 +109,6 @@ class LocalNotificationService {
         PushNotification.cancelLocalNotification({id: `${notificationId}`})
     }
 
-    /* PushNotification = () => {
-        PushNotification.getDeliveredNotifications((message) => {
-            return message;
-        });
-    } */
-
     // applicationBadge = () => {
     //     // PushNotification.setApplicationIconBadgeNumber(2);
     //     // const ShortcutBadger = NativeModules.ShortcutBadger;
