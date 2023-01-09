@@ -4,29 +4,15 @@ import { Card,TextInput,Text } from 'react-native-paper';
 import CustomButtons from '../components/utils/CustomButtons';
 import { useDispatch } from 'react-redux';
 import { validRegisterUser } from '../components/redux/actions/authActions';
-import DeviceInfo from 'react-native-device-info';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
-import { fcmService } from '../services/FCMService';
 import useThemeStyle from '../components/utils/useThemeStyle';
 import Toast from 'react-native-toast-message';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import useHelper from '../components/hooks/useHelper';
 
 function Login() {
 
     const [ theme ] = useThemeStyle();
-    
-    const [token,SetToken] = useState('');
-
-    const getToken = async () => {
-        const token = await AsyncStorage.getItem('fcmtoken');
-        if(token) {
-            SetToken(token);
-        }
-    }
-
-    useEffect(() => {
-        getToken();
-    }, [])
+    const { token,deviceId } = useHelper();
 
     const [userid,SetUserid] = useState('');
     const [password,SetPassword] = useState('');
@@ -34,11 +20,7 @@ function Login() {
     
     const [isPasswordSecure, setIsPasswordSecure] = useState(true);
     const [isKeySecure, setIsKeySecure] = useState(true);
-    const [deviceId, setDeviceId] = useState(true);
-        
-    DeviceInfo.getUniqueId().then((uniquid) => {
-        setDeviceId(uniquid);
-    })
+         
     const dispatch = useDispatch();
 
     const loginHandler = (e) => {
@@ -55,11 +37,9 @@ function Login() {
         }
         else {
             Keyboard.dismiss();
-            // var deviceype = Platform.OS == 'ios' ? 'I' : 'A';           
-            dispatch(validRegisterUser(userid,password,key,deviceId,'A',token));
+            dispatch(validRegisterUser(userid,password,key,deviceId&&deviceId,token&&token));
         }
     }
-
     const resetHandler = () => {
         SetUserid('')
         SetPassword('')

@@ -3,26 +3,27 @@ import { START_LOADER, STOP_LOADER, LOGIN_SUCCESS, EMPLOYEE_INFO, HOME_PAGE, LOG
 import Config from '../../utils/Config';
 import Toast from 'react-native-toast-message';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Platform } from 'react-native';
 
 const Toaster = (type,text) => {
     Toast.show({ type: type, text1:text });
 }
 
-export const validRegisterUser = (userid,password,key,deviceId,deviceype,token) => (dispatch) => {
+export const validRegisterUser = (userid,password,key,deviceId,token) => (dispatch) => {
 
     dispatch({ type: START_LOADER });
 
     axios.get(Config.serverUrl+`ValidRegisterUser?userid=${userid}&password=${password}&key=${key}`
     )
     .then((res) => {
-        const checkStatus = res.data.ValidRegisterUser.find(item => item.Status).Status;        
-        if(checkStatus == 'active') {            
-            dispatch(ValidEmployeeUser(userid,password,key,deviceId,deviceype,token))
+        const checkStatus = res.data.ValidRegisterUser.find(item => item.Status).Status;
+        if(checkStatus == 'active') {
+            dispatch(ValidEmployeeUser(userid,password,key,deviceId,token))
         }
         else {
             Toaster('error','Invalid Key')
             dispatch({ type: STOP_LOADER });
-        }  
+        }
     })
     .catch((err) => {
         dispatch({ type: STOP_LOADER });
@@ -30,13 +31,13 @@ export const validRegisterUser = (userid,password,key,deviceId,deviceype,token) 
     });
 };
 
-export const ValidEmployeeUser = (userid,password,key,deviceId,deviceype,token) => (dispatch) => {
+export const ValidEmployeeUser = (userid,password,key,deviceId,token) => (dispatch) => {
    
     axios.get(Config.clientUrl+`ValidEmployeeUser?userid=${userid}&password=${password}`
     )
     .then((res) => {        
         if(res.data.Active == 'true') {
-            dispatch(GetEmployeeDevice(userid,password,key,res.data.IsHod,deviceId,deviceype,token))
+            dispatch(GetEmployeeDevice(userid,password,key,res.data.IsHod,deviceId,token))
         }
         else {
             Toaster('error','No User Found')
@@ -49,8 +50,9 @@ export const ValidEmployeeUser = (userid,password,key,deviceId,deviceype,token) 
     });
 }
 
-export const GetEmployeeDevice = (userid,password,key,isHod,deviceId,deviceype,token) => (dispatch) => {
-    // console.log(userid,password,key,isHod,deviceId,deviceype,token);
+export const GetEmployeeDevice = (userid,password,key,isHod,deviceId,token) => (dispatch) => {
+    
+    var deviceype = Platform.OS == 'ios' ? 'A' : 'A';
     axios.get(Config.clientUrl+`GetEmployeeDevice?userid=${userid}&deviceid=${deviceId}&DeviceType=${deviceype}&TokenNumber=${token}`
     )
     .then((res) => {
@@ -115,6 +117,29 @@ export const getHPEmployeeInfo = (userid) => (dispatch) => {
         Toaster('error','Server Error. Please try again after sometime');
         dispatch({ type: STOP_LOADER });
     });
+}
+
+export const GetHPEmployeeDevice = (userid,deviceId,token) => (dispatch) => {
+    
+    if(token && deviceId) {
+        var deviceype = Platform.OS == 'ios' ? 'A' : 'A';
+        axios.get(Config.clientUrl+`GetEmployeeDevice?userid=${userid}&deviceid=${deviceId}&DeviceType=${deviceype}&TokenNumber=${token}`
+        )
+        .then((res) => {
+            if(res.data.Active !== 'Success') {
+                Toaster('error',res.data.Active)
+                setTimeout(() => {
+                    dispatch(logoutAction());
+                }, 2000);
+            }
+            dispatch({ type: STOP_LOADER });
+        })
+        .catch((err) => {
+            Toaster('error','Server Error. Please try again after sometime');
+            dispatch({ type: STOP_LOADER });
+        });
+    }
+    
 }
 
 //logout

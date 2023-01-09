@@ -3,22 +3,17 @@ import messaging from '@react-native-firebase/messaging';
 import { Platform } from 'react-native';
 
 class FCMService {
-    registerAppWithFCM = async () => {
+    /* registerAppWithFCM = async () => {
         if (Platform.OS === 'ios') {
             // await messaging().registerDeviceForRemoteMessages();
             await messaging().setAutoInitEnabled(true);
         }
-    }
+    } */
 
-    register  (onOpenNotification) {
-        if(Platform.OS == 'ios') {
-            this.checkPermission();
-        }
-        else {
-            this.getToken();
-        }
+    register (onOpenNotification) {
+        this.checkPermission();
         this.handlingInteractions(onOpenNotification);
-    }    
+    }
 
     checkPermission = async () => {
         await messaging().hasPermission()
@@ -49,7 +44,7 @@ class FCMService {
     savetokenToAsync = async (fcmToken) => {
         const checkToken = await AsyncStorage.getItem('fcmtoken');
         if(!checkToken) {
-            try {                
+            try {
                 if (fcmToken) {
                     await AsyncStorage.setItem('fcmtoken',fcmToken);
                 } else {
@@ -94,7 +89,6 @@ class FCMService {
                     onOpenNotification(remoteMessage);
                 }
             });
-
             
         // Triggered when have new Token
         messaging().onTokenRefresh(fcmToken => {

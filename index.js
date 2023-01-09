@@ -13,7 +13,6 @@ const { store, persistor } = factory();
 
 fcmService.bgheadlessTask()
 
-
 export const Main = () => {
             
     // if (isHeadless) {

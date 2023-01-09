@@ -1,16 +1,19 @@
-import React, {useEffect} from 'react'
+import React, {useEffect,useState} from 'react'
 import {  View,StyleSheet,Image,ScrollView,Pressable, Dimensions, Platform, BackHandler, Alert } from 'react-native';
 import { Card,Avatar,Text } from 'react-native-paper';
 import useThemeStyle from '../components/utils/useThemeStyle';
 import { useDispatch, useSelector } from 'react-redux';
-import { getHPEmployeeInfo, getHomePageInfo } from '../components/redux/actions/authActions';
+import { GetHPEmployeeDevice, getHPEmployeeInfo, getHomePageInfo } from '../components/redux/actions/authActions';
 import { appPermissions } from '../services/AppPermissions';
 import { PERMISSIONS } from 'react-native-permissions';
 import { useIsFocused } from '@react-navigation/native';
+import useHelper from '../components/hooks/useHelper';
 
 function Home({navigation}) {
      
     const [theme] = useThemeStyle();
+    const { token,deviceId } = useHelper(); 
+
     const authData = useSelector((state) => state.auth.logininfo)
     const authuser = useSelector((state) => state.auth.empinfo);
     const result = useSelector((state) => state.auth.hpsettings);
@@ -27,7 +30,7 @@ function Home({navigation}) {
     for (var i in result&&result.homepagesetts) {
         Object.assign(hps,result.homepagesetts[i]);
     }
-
+    
     // const LogoTitle = () => {
     //     return (
     //       <Image
@@ -38,7 +41,7 @@ function Home({navigation}) {
     // }
    /*  React.useLayoutEffect(() => {
         navigation.setOptions({
-           // headerTitle: (props) => <LogoTitle {...props} />            
+           // headerTitle: (props) => <LogoTitle {...props} />
         });
     }, [navigation]); */
          
@@ -48,25 +51,21 @@ function Home({navigation}) {
     const backAction = () => {
         if (navigation.isFocused()) {
             Alert.alert('Exit App!', 'Are you sure you want to exit app?', [
-               {
-                   text: 'Cancel',
-                    onPress: () => null,
-                    style: 'cancel',
-                },
+               { text: 'Cancel', onPress: () => null },
                { text: 'Yes', onPress: () => BackHandler.exitApp() },
             ]);
             return true;
         }
     };
     useEffect(() => {
+        dispatch(GetHPEmployeeDevice(userid,deviceId&&deviceId,token&&token));
         dispatch(getHomePageInfo(userid,password,key));
         dispatch(getHPEmployeeInfo(userid));
         BackHandler.addEventListener('hardwareBackPress', backAction);
-
         return () => {
             BackHandler.removeEventListener('hardwareBackPress', backAction);
         }
-    },[isFocused,userid,password,key])
+    },[isFocused,userid,password,key,deviceId,token])
 
     const handleTimeCard = () => {
         if(isHod === 'true') {

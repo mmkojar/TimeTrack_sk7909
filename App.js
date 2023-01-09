@@ -1,5 +1,4 @@
 import React, { Fragment, useEffect } from 'react';
-import { Platform } from 'react-native';
 import { Provider as PaperProvider } from 'react-native-paper';
 import Nav from './components/Nav';
 import Spinner from './components/utils/Spinner';
@@ -11,19 +10,22 @@ import toastConfig from './components/utils/useToast';
 import { fcmService } from './services/FCMService';
 import { localNotificationService } from './services/LocalNotificationService';
 import messaging from '@react-native-firebase/messaging';
+import useHelper from './components/hooks/useHelper';
 
-const App = () => {  
+const App = () => {
   const [theme ] = useThemeStyle();
+  const { onNotification, onOpenNotification } = useHelper();
   
   useEffect(() => {
-    if (Platform.OS === 'ios') {
-      fcmService.registerAppWithFCM();
-    }
+    // if (Platform.OS === 'ios') {
+    //   fcmService.registerAppWithFCM();
+    // }
     fcmService.register(onOpenNotification)
     localNotificationService.createChannel()
     localNotificationService.configure(onOpenNotification);
     const unsubscribe = messaging().onMessage(async remoteMessage => {
       if (remoteMessage) {
+          console.log(remoteMessage);
           onNotification(remoteMessage.data);
       }
     });
@@ -31,19 +33,7 @@ const App = () => {
     return () => {
       unsubscribe();
     };
-  },[])
-
-  const onNotification = (notify) => {
-    localNotificationService.showNotification(
-      'TimeTrack',
-      notify.message ? notify.message : notify.body,
-      notify
-    )
-  };
-
-  const onOpenNotification =  (notifi) => {
-    notifi.userInteraction == true && navigate('Notifi');
-  };
+  },[])  
 
   return (
       <PaperProvider theme={theme}>
