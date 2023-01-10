@@ -13,22 +13,24 @@ import messaging from '@react-native-firebase/messaging';
 import useHelper from './components/hooks/useHelper';
 
 const App = () => {
+  
   const [theme ] = useThemeStyle();
   const { onNotification, onOpenNotification } = useHelper();
   
   useEffect(() => {
-    // if (Platform.OS === 'ios') {
-    //   fcmService.registerAppWithFCM();
+    // if (Platfor.OS === 'ios') {
+      // fcmService.registerAppWithFCM();
     // }
     fcmService.register(onOpenNotification)
     localNotificationService.createChannel()
     localNotificationService.configure(onOpenNotification);
     const unsubscribe = messaging().onMessage(async remoteMessage => {
+      console.log(remoteMessage);
       if (remoteMessage) {
-          console.log(remoteMessage);
           onNotification(remoteMessage.data);
       }
     });
+    
     SplashScreen.hide();
     return () => {
       unsubscribe();

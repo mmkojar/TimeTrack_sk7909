@@ -95,7 +95,7 @@ const Manual = ({theme,navigation,route}) => {
       }
   };
   const submitEntry = () => {
-      if(fdate == '' || reason == "" || remark == ""){
+      if(fdate == '' || reason == ""){
           Toast.show({
               type: 'error',
               text1:'Fill All fields',

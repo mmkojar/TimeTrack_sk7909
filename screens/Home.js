@@ -8,11 +8,12 @@ import { appPermissions } from '../services/AppPermissions';
 import { PERMISSIONS } from 'react-native-permissions';
 import { useIsFocused } from '@react-navigation/native';
 import useHelper from '../components/hooks/useHelper';
+import CustomButtons from '../components/utils/CustomButtons';
 
 function Home({navigation}) {
      
     const [theme] = useThemeStyle();
-    const { token,deviceId } = useHelper(); 
+    const { token,deviceId, onNotification } = useHelper(); 
 
     const authData = useSelector((state) => state.auth.logininfo)
     const authuser = useSelector((state) => state.auth.empinfo);
@@ -216,7 +217,7 @@ function Home({navigation}) {
                             <Text style={theme.homeIconText}>Notice Board</Text>
                         </Card>
                     </Pressable>
-                }      
+                }
                 {
                     hps['Notification'] === '1' && <Pressable onPress={() => navigation.navigate('Notifi')}>
                         <Card style={styles.innerItem} elevation={3}>
@@ -233,9 +234,14 @@ function Home({navigation}) {
                         </Card>
                     </Pressable>
                 }
-                </View>                
+                </View>
             </ScrollView>
             <View style={{alignItems:'center',paddingVertical:10}}>
+                <CustomButtons title='Submit' pressHandler={
+                    () => onNotification({
+                        "message": "Testing Notification!"
+                    })
+                    }/>
                 <Text style={{fontSize:18}}>Vertex System &copy;2022</Text>
                 {/* {
                     checkStatus!=='Invalid' &&

@@ -1,6 +1,15 @@
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
+
+const getUrl = async () => {
+    const url = await AsyncStorage.getItem('clientUrl');
+    if(url) {        
+        Config.clientUrl = url;
+    }
+}
+getUrl();
 const Config = {
     serverUrl:'https://timetrackweb.com/TimetrackMobileAppService/',
-    clientUrl:'https://timetrackweb.com:460/TimetrackMobileAppService/',
 }
 
 export default Config

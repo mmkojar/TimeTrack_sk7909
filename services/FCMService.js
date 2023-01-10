@@ -3,7 +3,7 @@ import messaging from '@react-native-firebase/messaging';
 import { Platform } from 'react-native';
 
 class FCMService {
-    /* registerAppWithFCM = async () => {
+    /*  registerAppWithFCM = async () => {
         if (Platform.OS === 'ios') {
             // await messaging().registerDeviceForRemoteMessages();
             await messaging().setAutoInitEnabled(true);
@@ -59,6 +59,7 @@ class FCMService {
     getToken = async () => {
         const fcmToken = await messaging().getToken();
         this.savetokenToAsync(fcmToken)
+        // console.log("fcmToken:",fcmToken)
     }
 
     deleteToken = () => {
@@ -73,7 +74,7 @@ class FCMService {
         
         // When Application Running on Background
         messaging().onNotificationOpenedApp(remoteMessage => {
-            // console.log("[FCMService] Running From background", remoteMessage);
+            console.log("[FCMService] Running From background", remoteMessage);
             if (remoteMessage) {
                 // notification.userInteraction = true;
                 onOpenNotification(remoteMessage);
@@ -83,8 +84,8 @@ class FCMService {
         //When Application open from quit state
         messaging().getInitialNotification()
             .then(remoteMessage => {
+                console.log("[FCMService] From quit State", remoteMessage);
                 if (remoteMessage) {
-                    // console.log("[FCMService] From quit State", remoteMessage);
                     // notification.userInteraction = true;
                     onOpenNotification(remoteMessage);
                 }
@@ -99,7 +100,7 @@ class FCMService {
     // Background state message
     bgheadlessTask = () => {
         messaging().setBackgroundMessageHandler(async remoteMessage => {
-            // console.log("[FCMService] A new FCm message arrived from background", remoteMessage);
+            console.log("[FCMService] A new FCm message arrived from background", remoteMessage);
             if (remoteMessage) {
                 // let notification = null;
                 // if (Platform.OS === 'ios') {

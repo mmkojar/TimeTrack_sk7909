@@ -149,7 +149,7 @@ function MarkAttendance({ route }) {
     )
   }
 
-  const header = ['Login Time', 'Type', 'Location'];
+  const header = ['Time', 'Type', 'Location'];
 
   return (
     <View style={[theme.dtcontainer]}>
