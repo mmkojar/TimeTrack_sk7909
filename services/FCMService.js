@@ -48,10 +48,10 @@ class FCMService {
                 if (fcmToken) {
                     await AsyncStorage.setItem('fcmtoken',fcmToken);
                 } else {
-                    console.log("[FCMService] User does not have a devices token")
+                    // console.log("[FCMService] User does not have a devices token")
                 }
             } catch (error) {
-                console.log("[FCMService] error while receiving token:", error);
+                // console.log("[FCMService] error while receiving token:", error);
             }
         }
     }
@@ -89,7 +89,7 @@ class FCMService {
                     // notification.userInteraction = true;
                     onOpenNotification(remoteMessage);
                 }
-            });
+        });
             
         // Triggered when have new Token
         messaging().onTokenRefresh(fcmToken => {
@@ -100,7 +100,7 @@ class FCMService {
     // Background state message
     bgheadlessTask = () => {
         messaging().setBackgroundMessageHandler(async remoteMessage => {
-            console.log("[FCMService] A new FCm message arrived from background", remoteMessage);
+            // console.log("[FCMService] A new FCm message arrived from background", remoteMessage);
             if (remoteMessage) {
                 // let notification = null;
                 // if (Platform.OS === 'ios') {

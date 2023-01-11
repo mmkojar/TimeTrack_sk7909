@@ -3,11 +3,11 @@ import {
     TCARD_ONLOAD, TCARD_SELF, DT_TCARD_SELF, GET_GRAPH, RG_DETAILS, RG_ITEMS, RG_LIST, PEND_COUNT, 
     CANC_COUNT, HOD_PEND_COUNT, HOD_CANC_COUNT, CANC_LIST, HOD_PEND_LIST, HOD_CANC_LIST, PEND_LIST, 
     DETAIL_HOD_LIST, ATTEND_LOGS, INSERT_ATTEND, MARK_EMP_LOGS, 
-    GET_EMP_HOLIDAY, APP_ACTIONS, GET_EMP_WFH, GET_EMP_LWP, GET_EMP_LEAVE, GET_EMP_OD, GET_EMP_MANUAL, GET_EMP_COFF, GET_EMP_SL, LEAVE_ACTION, LEAVE_BAL
+    GET_EMP_HOLIDAY, APP_ACTIONS, GET_EMP_WFH, GET_EMP_LWP, GET_EMP_LEAVE, GET_EMP_OD, GET_EMP_MANUAL, GET_EMP_COFF, GET_EMP_SL, LEAVE_ACTION, LEAVE_BAL, MARK_ATT_DETAILS
 } from '../actions/type';
 
 const initialState = {
-    holiday:null, notice:null, notify:null, hodreportee:null, tcardonload:null, dt_tcardself:null, graph:null, attlogs:null, markemplogs:null, 
+    holiday:null, notice:null, notify:null, hodreportee:null, tcardonload:null, dt_tcardself:null, graph:null, attlogs:null, markemplogs:null, markattdetail:null,
     reglist:null, regitem:null, regdetail:null, pdcount:null, cancount:null, hodpdcount:null, hodcancount:null, pdlist:null, canlist:null, 
     hodpdlist:null, hodcanlist:null, detailhodlist:null, leavebal:null,empleave:null,empod:null,empmanual:null,empmanualdate:null,empcoff:null,empsl:null,
     empholiday:null, empwfh:null, emplwp:null,
@@ -22,10 +22,12 @@ export default function (state = initialState, action) {
         // TimeCard
         case TCARD_ONLOAD:
         case TCARD_SELF: return {...state, tcardonload: action.payload }
-        case DT_TCARD_SELF: return { ...state, dt_tcardself: action.payload }  
+        case DT_TCARD_SELF: return { ...state, dt_tcardself: action.payload }
         case HOD_REPORTEE: return {...state, hodreportee: action.payload }
+        // Attendance
         case ATTEND_LOGS: return { ...state, attlogs: action.payload }
         case MARK_EMP_LOGS: return { ...state, markemplogs: action.payload }    
+        case MARK_ATT_DETAILS: return { ...state, markattdetail: action.payload }    
         case INSERT_ATTEND:
         case LEAVE_ACTION:
         case UPDT_NOTIFI: return { ...state }

@@ -1,5 +1,5 @@
-import React, { useState,useEffect } from 'react';
-import {  View,  StyleSheet, Platform, TouchableWithoutFeedback, Keyboard, KeyboardAvoidingView, Image } from 'react-native';
+import React, { useState } from 'react';
+import {  View,StyleSheet, Platform, TouchableWithoutFeedback, Keyboard, KeyboardAvoidingView, Image } from 'react-native';
 import { Card,TextInput,Text } from 'react-native-paper';
 import CustomButtons from '../components/utils/CustomButtons';
 import { useDispatch } from 'react-redux';

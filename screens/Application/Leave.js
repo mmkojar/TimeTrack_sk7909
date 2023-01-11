@@ -49,7 +49,7 @@ const Leave = ({theme,navigation,route}) => {
     }
     (checkKey !== 'msg')&&result&&result.Leave.filter((item,index) => {
       if(item.Name == ltype) {
-        if(item.ApplyLeave == '1') {
+          if(item.ApplyLeave == '1') {
             filtertask.push('Apply Leave')          
           }
           if(item.EncashMentAllowed == '1') {

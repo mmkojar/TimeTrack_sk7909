@@ -13,10 +13,10 @@ import QRCodeScanner from 'react-native-qrcode-scanner';
 import Toast from 'react-native-toast-message';
 import { getDistance } from 'geolib';
 
-function MarkAttendance({ route }) {
+function MarkAttendance({ navigation, route }) {
 
   const [theme] = useThemeStyle();
-  const { ecode } = route.params;
+  const { ecode,isHod } = route.params;
 
   const result = useSelector((state) => state.employee.attlogs);
   const result1 = useSelector((state) => state.employee.markemplogs);
@@ -50,7 +50,7 @@ function MarkAttendance({ route }) {
     return () => {
       geolocationService.stopLocationUpdates(watchId)
     }
-  }, []);
+  }, [ecode]);
 
   const openModals = (param) => {
     geolocationService.getLocation(setLocation);
@@ -111,6 +111,12 @@ function MarkAttendance({ route }) {
       setRemark('');
     }
   };
+
+  const attmarkDetail = () => {
+      navigation.navigate('MarkEmpAtt',{
+        ecode:ecode
+      })
+  }
 
   const addAttend = () => {
     setBoxVisible(false);
@@ -182,8 +188,21 @@ function MarkAttendance({ route }) {
           <CustomButtons title="Submit" pressHandler={addAttend}></CustomButtons>
         </Modal>
       </Portal>
-      <View>
-        <Text style={styles.heading}>Please Click on IN/OUT Buttons to Mark your Attendance</Text>
+      <View style={{display:'flex',flexDirection:'row',marginVertical:16}}>
+        <View style={{width:'70%',marginTop:16}}>
+          <Text style={styles.heading}>Please Click on IN/OUT Buttons to Mark your Attendance</Text>
+        </View>
+        <View style={{width:'30%'}}>
+        {
+          isHod && 
+          <Pressable onPress={attmarkDetail}>
+            <Image
+              style={[styles.image,{alignSelf:'flex-end',marginRight:20}]}
+              source={require(`../assets/iii.png`)}
+            />
+          </Pressable>
+        }
+         </View> 
       </View>
       <View style={{ marginVertical: 16 }}>
         <View style={[styles.action]}>
@@ -255,11 +274,9 @@ function MarkAttendance({ route }) {
 const styles = StyleSheet.create({
   heading: {
     // color:'#000',
-    textAlign: 'center',
+    textAlign: 'center',    
     fontSize: 14,
     paddingHorizontal: 14,
-    // marginVertical:30
-    marginTop: 20
   },
   image: {
     width: 64,

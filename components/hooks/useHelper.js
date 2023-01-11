@@ -19,7 +19,7 @@ const useHelper = () => {
     DeviceInfo.getUniqueId().then((uniquid) => {
         setDeviceId(uniquid);
     })
-
+    
     // Notification Helper
     const onNotification = (notify) => {
         localNotificationService.showNotification(
@@ -32,7 +32,7 @@ const useHelper = () => {
     // const isAuth = useSelector((state) => state.auth.isAuthenticated);
         
     const onOpenNotification =  (notifi) => {
-        navigate('Notifi');
+        notifi.userInteraction == true && navigate('Notifi');
         // if(isAuth) {
         //     notifi.userInteraction == true && navigate('Notifi');
         // }

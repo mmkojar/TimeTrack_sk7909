@@ -18,7 +18,7 @@ const Shortleave = ({theme,navigation,route}) => {
 
     const fiternames = [];
     for(var i in (checkKey !== 'msg')&&result&&result.Duration) {
-        fiternames.push(result.Duration[i].selection)        
+        fiternames.push(result.Duration[i].selection)
     }
     const fitertypes = [];
     for(var i in (checkKey !== 'msg')&&result&&result.Type) {
@@ -32,7 +32,7 @@ const Shortleave = ({theme,navigation,route}) => {
         Toast.show({ type: 'error', text1:'NO Record found For ShortLeave' });
       }
       dispatch(getEmpSL(ecode))
-    },[])    
+    },[])
     
     const [fdate, setFdate] = useState(moment(new Date()).format('DD/MM/YYYY'));
     const [duration, setDuration] = useState('');

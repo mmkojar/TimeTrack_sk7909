@@ -13,13 +13,14 @@ const urlSuffix = 'TimetrackMobileAppService/';
 export const validRegisterUser = (userid,password,key,deviceId,token) => (dispatch) => {
 
     dispatch({ type: START_LOADER });
-
+    
     axios.get(Config.serverUrl+`ValidRegisterUser?userid=${userid}&password=${password}&key=${key}`
     )
     .then((res) => {
+       
         const checkStatus = res.data.ValidRegisterUser.find(item => item.Status).Status;
-        const clientUrl = res.data.ValidRegisterUser.find(item => item.IP).IP.split(',');
         if(checkStatus == 'active') {
+            const clientUrl = res.data.ValidRegisterUser.find(item => item.IP).IP.split(',');
             dispatch(ValidEmployeeUser(clientUrl,userid,password,key,deviceId,token))
         }
         else {
@@ -29,7 +30,7 @@ export const validRegisterUser = (userid,password,key,deviceId,token) => (dispat
     })
     .catch((err) => {
         dispatch({ type: STOP_LOADER });
-        Toaster('error','Server Error. Please try again after sometime');
+        Toaster('error','Server Error. Pleasse try again after sometime');
     });
 };
 
@@ -83,7 +84,8 @@ export const GetEmployeeDevice = (url,userid,password,key,isHod,deviceId,token) 
                 userid:userid,
                 password:password,
                 key:key,
-                isHod:isHod
+                isHod:isHod,
+                clientUrl:url
             }
             dispatch({
                 type: LOGIN_SUCCESS,
@@ -110,11 +112,11 @@ const storeUrlInAsync = async (url) => {
 }
 
 // HP Info
-export const GetHPEmployeeDevice = (userid,deviceId,token) => (dispatch) => {
+export const GetHPEmployeeDevice = (url,userid,deviceId,token) => (dispatch) => {
     
     if(token && deviceId) {
         var deviceype = Platform.OS == 'ios' ? 'A' : 'A';
-        axios.get(Config.clientUrl+`GetEmployeeDevice?userid=${userid}&deviceid=${deviceId}&DeviceType=${deviceype}&TokenNumber=${token}`
+        axios.get(url+`GetEmployeeDevice?userid=${userid}&deviceid=${deviceId}&DeviceType=${deviceype}&TokenNumber=${token}`
         )
         .then((res) => {
             if(res.data.Active !== 'Success') {
@@ -136,7 +138,7 @@ export const getHomePageInfo = (userid,password,key) => (dispatch) => {
 
     dispatch({ type: START_LOADER });
     axios.get(Config.serverUrl+`ValidRegisterUser?userid=${userid}&password=${password}&key=${key}`)
-    .then((res) => {        
+    .then((res) => {
         const result = {
             homepagesetts:res.data.HomepageSettings,
             validreguser:res.data.ValidRegisterUser
@@ -153,10 +155,10 @@ export const getHomePageInfo = (userid,password,key) => (dispatch) => {
     });
 };
 
-export const getHPEmployeeInfo = (userid) => (dispatch) => {
+export const getHPEmployeeInfo = (url,userid) => (dispatch) => {
 
     dispatch({ type: START_LOADER });
-    axios.get(Config.clientUrl+`GetHomePageForEmployee2?EmpCode=${userid}`)
+    axios.get(url+`GetHomePageForEmployee2?EmpCode=${userid}`)
     .then((res) => {
         dispatch({
             type: EMPLOYEE_INFO,

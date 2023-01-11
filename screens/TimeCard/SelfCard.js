@@ -22,7 +22,7 @@ const SelfCard = ({navigation,route}) => {
     
     useEffect(() => {
         dispatch(getTimeCardOnLoad(empcode));        
-    },[])
+    },[empcode])
     
     const [date1,setDate1] = useState(moment().startOf('month').format('DD/MM/YYYY'));
     const [date2,setDate2] = useState(moment().format('DD/MM/YYYY'));

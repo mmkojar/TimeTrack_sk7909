@@ -8,24 +8,24 @@ import { appPermissions } from '../services/AppPermissions';
 import { PERMISSIONS } from 'react-native-permissions';
 import { useIsFocused } from '@react-navigation/native';
 import useHelper from '../components/hooks/useHelper';
-import CustomButtons from '../components/utils/CustomButtons';
 
 function Home({navigation}) {
      
     const [theme] = useThemeStyle();
-    const { token,deviceId, onNotification } = useHelper(); 
+    const { token,deviceId } = useHelper();
 
     const authData = useSelector((state) => state.auth.logininfo)
     const authuser = useSelector((state) => state.auth.empinfo);
     const result = useSelector((state) => state.auth.hpsettings);
     
     let checkey = authuser && Object.keys(authuser[0])[0]
-    // let checkStatus = result && result.validreguser.find(item => item.Status).Status;
+    let checkStatus = result && result.validreguser.find(item => item.Status).Status;
 
     let userid = authData&&authData.userid
     let password = authData&&authData.password
     let key = authData&&authData.key
     let isHod = authData&&authData.isHod
+    let clientUrl = authData&&authData.clientUrl
     
     var hps = {};
     for (var i in result&&result.homepagesetts) {
@@ -59,9 +59,9 @@ function Home({navigation}) {
         }
     };
     useEffect(() => {
-        dispatch(GetHPEmployeeDevice(userid,deviceId&&deviceId,token&&token));
+        dispatch(GetHPEmployeeDevice(clientUrl,userid,deviceId&&deviceId,token&&token));
         dispatch(getHomePageInfo(userid,password,key));
-        dispatch(getHPEmployeeInfo(userid));
+        dispatch(getHPEmployeeInfo(clientUrl,userid));
         BackHandler.addEventListener('hardwareBackPress', backAction);
         return () => {
             BackHandler.removeEventListener('hardwareBackPress', backAction);
@@ -94,10 +94,10 @@ function Home({navigation}) {
     }
     const checkPermi = () => {
         if(Platform.OS ==  'android') {
-            appPermissions.requestMultiple([PERMISSIONS.ANDROID.CAMERA,PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION],'MarkAtt',{ecode:userid});
+            appPermissions.requestMultiple([PERMISSIONS.ANDROID.CAMERA,PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION],'MarkAtt',{ecode:userid,isHod:isHod});
         }
         if(Platform.OS ==  'ios') {
-            appPermissions.requestMultiple([PERMISSIONS.IOS.CAMERA,PERMISSIONS.IOS.LOCATION_WHEN_IN_USE],'MarkAtt',{ecode:userid});
+            appPermissions.requestMultiple([PERMISSIONS.IOS.CAMERA,PERMISSIONS.IOS.LOCATION_WHEN_IN_USE],'MarkAtt',{ecode:userid,isHod:isHod});
         }
     }
             
@@ -237,19 +237,14 @@ function Home({navigation}) {
                 </View>
             </ScrollView>
             <View style={{alignItems:'center',paddingVertical:10}}>
-                <CustomButtons title='Submit' pressHandler={
-                    () => onNotification({
-                        "message": "Testing Notification!"
-                    })
-                    }/>
-                <Text style={{fontSize:18}}>Vertex System &copy;2022</Text>
-                {/* {
+            {/* <Text style={{fontSize:18}}>Vertex System &copy;2022</Text> */}
+                {
                     checkStatus!=='Invalid' &&
                     <Image
-                        style={{ width: 300, height: 50 }}
+                        style={{ width: 250, height: 42 }}
                         source={{uri:result&&result.validreguser.find(item => item.CLogo).CLogo}}
                     />
-                } */}
+                }
                 
             </View>
         </View>

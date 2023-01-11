@@ -14,6 +14,7 @@ export const GET_GRAPH = 'GET_GRAPH';
 // Mark Attendance
 export const ATTEND_LOGS = 'ATTEND_LOGS';
 export const MARK_EMP_LOGS = 'MARK_EMP_LOGS';
+export const MARK_ATT_DETAILS = 'MARK_ATT_DETAILS';
 export const INSERT_ATTEND = 'INSERT_ATTEND';
 // Applications
 export const GET_EMP_LEAVE = 'GET_EMP_LEAVE';

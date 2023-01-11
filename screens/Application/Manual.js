@@ -47,7 +47,7 @@ const Manual = ({theme,navigation,route}) => {
   useEffect(() => {
     if(checkKey == 'msg') {
       navigation.goBack();
-      Toast.show({ type: 'error', text1:'NO Record found For Leave' });
+      Toast.show({ type: 'error', text1:'NO Record found For Manual' });
     }
     else {
       result&&result.ShiftDetails.filter((item,index) => {
@@ -56,8 +56,8 @@ const Manual = ({theme,navigation,route}) => {
         }
       })
     }
-    dispatch(getEmpManual(ecode))    
-  },[])
+    dispatch(getEmpManual(ecode))
+  },[shift])
 
 
   const onPickerChange = (event, selectedDate) => {

@@ -14,7 +14,7 @@
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		6AAE796E49F746448270B5AC /* VarelaRound-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F7280641D39C4FB6B2596008 /* VarelaRound-Regular.ttf */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
-		93C613A7296D4CC400886A5B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 93C613A6296D4CC300886A5B /* GoogleService-Info.plist */; };
+		932D0DB0296EAC3900EFF8E9 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 932D0DAF296EAC3900EFF8E9 /* GoogleService-Info.plist */; };
 		93E5ECA9295EC01A00192AFE /* FontAwesome.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 93E5ECA8295EC01A00192AFE /* FontAwesome.ttf */; };
 		93E5ECAD295EC47E00192AFE /* FontAwesome5_Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 93E5ECAA295EC47E00192AFE /* FontAwesome5_Regular.ttf */; };
 		93E5ECAE295EC47E00192AFE /* FontAwesome5_Solid.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 93E5ECAB295EC47E00192AFE /* FontAwesome5_Solid.ttf */; };
@@ -51,7 +51,7 @@
 		7B9BC4DF02AA560E29C56680 /* Pods-TimeTrack-TimeTrackTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TimeTrack-TimeTrackTests.release.xcconfig"; path = "Target Support Files/Pods-TimeTrack-TimeTrackTests/Pods-TimeTrack-TimeTrackTests.release.xcconfig"; sourceTree = "<group>"; };
 		811A4F7F4FD4AB1042742E38 /* Pods_TimeTrack_TimeTrackTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TimeTrack_TimeTrackTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = TimeTrack/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		93C613A6296D4CC300886A5B /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		932D0DAF296EAC3900EFF8E9 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		93DF0B7429606D78001988EB /* TimeTrack.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = TimeTrack.entitlements; path = TimeTrack/TimeTrack.entitlements; sourceTree = "<group>"; };
 		93E5ECA8295EC01A00192AFE /* FontAwesome.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = FontAwesome.ttf; path = ../assets/fonts/FontAwesome.ttf; sourceTree = "<group>"; };
 		93E5ECAA295EC47E00192AFE /* FontAwesome5_Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = FontAwesome5_Regular.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Regular.ttf"; sourceTree = "<group>"; };
@@ -103,7 +103,7 @@
 		13B07FAE1A68108700A75B9A /* TimeTrack */ = {
 			isa = PBXGroup;
 			children = (
-				93C613A6296D4CC300886A5B /* GoogleService-Info.plist */,
+				932D0DAF296EAC3900EFF8E9 /* GoogleService-Info.plist */,
 				93DF0B7429606D78001988EB /* TimeTrack.entitlements */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.mm */,
@@ -282,7 +282,7 @@
 				93E5ECAD295EC47E00192AFE /* FontAwesome5_Regular.ttf in Resources */,
 				93E5ECAE295EC47E00192AFE /* FontAwesome5_Solid.ttf in Resources */,
 				93E5ECAF295EC47E00192AFE /* FontAwesome5_Brands.ttf in Resources */,
-				93C613A7296D4CC400886A5B /* GoogleService-Info.plist in Resources */,
+				932D0DB0296EAC3900EFF8E9 /* GoogleService-Info.plist in Resources */,
 				93E5ECB1295EC48600192AFE /* MaterialCommunityIcons.ttf in Resources */,
 				10FAAA9054AB43F09FBF5E34 /* OFL.txt in Resources */,
 			);

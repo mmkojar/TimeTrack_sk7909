@@ -5,7 +5,7 @@ import {
     RG_DETAILS, PEND_COUNT, CANC_COUNT, HOD_PEND_COUNT, HOD_CANC_COUNT, PEND_LIST, 
     CANC_LIST, HOD_PEND_LIST, HOD_CANC_LIST, DETAIL_HOD_LIST, ATTEND_LOGS, INSERT_ATTEND, 
     MARK_EMP_LOGS, GET_EMP_HOLIDAY, APP_ACTIONS, GET_EMP_WFH, GET_EMP_LWP, GET_EMP_LEAVE,
-    GET_EMP_OD, GET_EMP_MANUAL, GET_EMP_SL,  LEAVE_ACTION, LEAVE_BAL
+    GET_EMP_OD, GET_EMP_MANUAL, GET_EMP_SL,  LEAVE_ACTION, LEAVE_BAL, MARK_ATT_DETAILS
 } from './type';
 import Config from '../../utils/Config';
 import Toast from 'react-native-toast-message';
@@ -44,6 +44,11 @@ export const getTodaysAttLogs = (empcode) => (dispatch) => {
 export const getMarkEmpLogs = (empcode) => (dispatch) => {
     
     fetchAxios(dispatch,`GetMarkMyAttendanceForEmployee?EmpCode=${empcode}`,MARK_EMP_LOGS);
+}
+
+export const geAttMarkerDetails = (empcode) => (dispatch) => {
+    
+    fetchAxios(dispatch,`AttendaceMarkerDetails?EmpCode=${empcode}`,MARK_ATT_DETAILS);
 }
 
 export const insertAttendance = (empcode,type,lang,lati,accuracy,pdate,remark,qrval) => (dispatch) => {
@@ -179,8 +184,8 @@ export const addLeaveaction = (path) => (dispatch) => {
 const fetchAxios = (dispatch,param,action) => {
     
     dispatch({ type: START_LOADER });
-
-    axios.get(Config.clientUrl+param)
+    
+    axios.get(Config.clientUrl&&Config.clientUrl+param)
     .then((res) => {
         // console.log(res.data);
         if(action == UPDT_NOTIFI || action == INSERT_ATTEND || action == LEAVE_ACTION) {

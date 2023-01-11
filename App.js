@@ -24,8 +24,8 @@ const App = () => {
     fcmService.register(onOpenNotification)
     localNotificationService.createChannel()
     localNotificationService.configure(onOpenNotification);
+    localNotificationService.cancelAllLocalNotifications()
     const unsubscribe = messaging().onMessage(async remoteMessage => {
-      console.log(remoteMessage);
       if (remoteMessage) {
           onNotification(remoteMessage.data);
       }
