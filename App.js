@@ -11,17 +11,27 @@ import { fcmService } from './services/FCMService';
 import { localNotificationService } from './services/LocalNotificationService';
 import messaging from '@react-native-firebase/messaging';
 import useHelper from './components/hooks/useHelper';
+import Config from './components/utils/Config';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Platform } from 'react-native';
 
 const App = () => {
   
   const [theme ] = useThemeStyle();
   const { onNotification, onOpenNotification } = useHelper();
-  
+  const getUrl = async () => {
+      const url = await AsyncStorage.getItem('clientUrl');
+      if(url) {
+          Config.clientUrl = url;
+      }
+  }
+
   useEffect(() => {
-    // if (Platfor.OS === 'ios') {
-      // fcmService.registerAppWithFCM();
-    // }
-    fcmService.register(onOpenNotification)
+    /* if (Platform.OS === 'ios') {
+      fcmService.registerAppWithFCM();
+    } */
+    getUrl();
+    fcmService.register(onRegister,onOpenNotification)
     localNotificationService.createChannel()
     localNotificationService.configure(onOpenNotification);
     localNotificationService.cancelAllLocalNotifications()
@@ -30,13 +40,12 @@ const App = () => {
           onNotification(remoteMessage.data);
       }
     });
-    
     SplashScreen.hide();
     return () => {
       unsubscribe();
     };
   },[])  
-
+  const onRegister = () => { }
   return (
       <PaperProvider theme={theme}>
         <Fragment>

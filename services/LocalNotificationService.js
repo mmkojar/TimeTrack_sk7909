@@ -1,5 +1,6 @@
 import PushNotification from "react-native-push-notification"
 import PushNotificationIOS from "@react-native-community/push-notification-ios";
+import { Platform } from "react-native";
 // import { Platform } from "react-native";
 
 class LocalNotificationService { 
@@ -100,8 +101,12 @@ class LocalNotificationService {
     }
 
     cancelAllLocalNotifications = () => {
-        PushNotification.cancelAllLocalNotifications();
-        PushNotificationIOS.removeAllPendingNotificationRequests();
+        if(Platform.OS=='ios') {
+            PushNotificationIOS.removeAllPendingNotificationRequests();
+        }
+        else {
+            PushNotification.cancelAllLocalNotifications();
+        }
     }
 
     removeDeliveredNotificationByID = (notificationId) => {

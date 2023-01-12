@@ -48,7 +48,7 @@ function Home({navigation}) {
          
     const dispatch = useDispatch();
     const isFocused = useIsFocused();
-
+    
     const backAction = () => {
         if (navigation.isFocused()) {
             Alert.alert('Exit App!', 'Are you sure you want to exit app?', [

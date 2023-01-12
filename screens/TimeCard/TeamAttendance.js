@@ -22,7 +22,7 @@ const TeamAttendance = ({navigation,route}) => {
   
   useEffect(() => {
     dispatch(getHodReportee(empcode));
-  },[])
+  },[empcode])
 
   return (
     <View style={theme.dtcontainer}>

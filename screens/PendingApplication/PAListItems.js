@@ -55,7 +55,7 @@ const PAListItems = ({navigation,route}) => {
     else if(hodtype === 'team' && pdtype === "Pending Cancellation") {
       dispatch(getHODCancelList('GETHODCancellationPendingApplicationList',ecode,apptype));
     }
-  },[isFocused])
+  },[isFocused,ecode])
  
   const filterkey = palistarray && palistarray.length>0 && Object.keys(palistarray[0]).filter(item => (item !== 'Recommended_Status' && item !== 'Sanctioned_Status'));
   

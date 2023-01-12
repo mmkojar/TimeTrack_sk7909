@@ -47,7 +47,7 @@ const PAtypes = ({navigation,route}) => {
       dispatch(getHODPendingCount(api1,ecode));
       dispatch(getHODCancelCount(api2,ecode));
     }
-  },[isFocused])
+  },[isFocused,ecode,api1,api2])
 
   return (
     <View style={theme.container}>

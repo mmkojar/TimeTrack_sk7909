@@ -22,23 +22,27 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="Image" translatesAutoresizingMaskIntoConstraints="NO" id="YSC-XZ-1hf">
-                                <rect key="frame" x="62" y="222" width="240" height="128"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            </imageView>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="TimeTrack - MOBILE" textAlignment="center" lineBreakMode="tailTruncation" minimumFontSize="9" translatesAutoresizingMaskIntoConstraints="NO" id="MN2-I3-ftu">
-                                <rect key="frame" x="-8" y="372" width="375" height="21"/>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="TimeTrack - MOBILE" textAlignment="center" lineBreakMode="tailTruncation" minimumFontSize="9" translatesAutoresizingMaskIntoConstraints="NO" id="MN2-I3-ftu">
+                                <rect key="frame" x="0.0" y="624" width="375" height="21"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" id="uTY-Qr-mpy"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" name="VarelaRound-Regular" family="Varela Round" pointSize="18"/>
                                 <color key="textColor" red="0.1931111217" green="0.4547623992" blue="0.67815649509999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="Image" translatesAutoresizingMaskIntoConstraints="NO" id="oxj-JM-Od8">
+                                <rect key="frame" x="103.29700272479602" y="211" width="167" height="167"/>
+                            </imageView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="Bcu-3y-fUS"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="Bcu-3y-fUS" firstAttribute="bottom" secondItem="MN2-I3-ftu" secondAttribute="bottom" constant="20" id="OZV-Vh-mqD"/>
-                            <constraint firstItem="MN2-I3-ftu" firstAttribute="centerX" secondItem="Bcu-3y-fUS" secondAttribute="centerX" id="akx-eg-2ui"/>
-                            <constraint firstItem="MN2-I3-ftu" firstAttribute="leading" secondItem="Bcu-3y-fUS" secondAttribute="leading" id="i1E-0Y-4RG"/>
+                            <constraint firstItem="Bcu-3y-fUS" firstAttribute="trailing" secondItem="MN2-I3-ftu" secondAttribute="trailing" constant="12" id="8qc-aM-sef"/>
+                            <constraint firstItem="Bcu-3y-fUS" firstAttribute="bottom" secondItem="MN2-I3-ftu" secondAttribute="bottom" id="OZV-Vh-mqD"/>
+                            <constraint firstItem="MN2-I3-ftu" firstAttribute="top" secondItem="oxj-JM-Od8" secondAttribute="bottom" id="dBw-SH-L0f"/>
+                            <constraint firstItem="MN2-I3-ftu" firstAttribute="centerX" secondItem="oxj-JM-Od8" secondAttribute="centerX" id="twt-fa-Msc"/>
+                            <constraint firstItem="MN2-I3-ftu" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leadingMargin" constant="-28" id="uFr-Jn-ckT"/>
                         </constraints>
                     </view>
                 </viewController>

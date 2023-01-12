@@ -4,17 +4,18 @@ import DeviceInfo from 'react-native-device-info';
 import { useSelector } from "react-redux";
 import { localNotificationService } from "../../services/LocalNotificationService";
 import { navigate } from "../../services/RootNavigation";
+import { fcmService } from "../../services/FCMService";
 
 const useHelper = () => {
 
     const [token,SetToken] = useState('');
     const [deviceId, setDeviceId] = useState('');
-
+    
     const getToken = async () => {
-        const token = await AsyncStorage.getItem('fcmtoken');
-        if(token) {
-            SetToken(token);
-        }
+        fcmService.getToken(onRegister)
+    }
+    const onRegister = (token) => {
+        SetToken(token);
     }
     DeviceInfo.getUniqueId().then((uniquid) => {
         setDeviceId(uniquid);

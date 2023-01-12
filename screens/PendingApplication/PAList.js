@@ -48,7 +48,7 @@ const PAList = ({navigation,route}) => {
       else if(hodtype === 'team' && pdtype === "Pending Cancellation") {
         dispatch(getHODCancelCount('GetHODHomePageCancellationPendingCount',ecode));
       }
-  },[isFocused])    
+  },[isFocused,ecode])    
 
     let paresult = {};
     paarray && paarray.map((pa) => {

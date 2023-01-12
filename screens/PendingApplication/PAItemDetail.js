@@ -23,7 +23,7 @@ const PAItemsDetail = ({theme,navigation,route}) => {
 
     useEffect(() => {
         dispatch(getDetailHODList(ecode,id,apptype));
-    },[])
+    },[id])
     
     const submitres = result && result.GetDetailedRegisterForHOD && result.GetDetailedRegisterForHOD[0];
     const [rejreason, setRejreason] = useState('');

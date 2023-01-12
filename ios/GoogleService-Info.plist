@@ -3,9 +3,9 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>1525577107-84khbcbeump5nlls8slet08q9279ombj.apps.googleusercontent.com</string>
+	<string>1525577107-505iu94f8ukg9hf8acicjm33vd89t043.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.1525577107-84khbcbeump5nlls8slet08q9279ombj</string>
+	<string>com.googleusercontent.apps.1525577107-505iu94f8ukg9hf8acicjm33vd89t043</string>
 	<key>API_KEY</key>
 	<string>AIzaSyD3HzKFRNXXco2U38Rv_9-Zn9geC3xo3F4</string>
 	<key>GCM_SENDER_ID</key>
@@ -13,7 +13,7 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.timetrack</string>
+	<string>com.ttmobile.main</string>
 	<key>PROJECT_ID</key>
 	<string>timetrack-c1df0</string>
 	<key>STORAGE_BUCKET</key>
@@ -29,6 +29,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:1525577107:ios:f0eb8fcce7abcbccd0a466</string>
+	<string>1:1525577107:ios:ff514c8b614e32ebd0a466</string>
 </dict>
 </plist>

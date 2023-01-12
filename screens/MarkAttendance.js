@@ -189,20 +189,20 @@ function MarkAttendance({ navigation, route }) {
         </Modal>
       </Portal>
       <View style={{display:'flex',flexDirection:'row',marginVertical:16}}>
-        <View style={{width:'70%',marginTop:16}}>
+        <View style={{width:`${isHod == 'true' ? '70%' : '100%'}`,marginTop:16}}>
           <Text style={styles.heading}>Please Click on IN/OUT Buttons to Mark your Attendance</Text>
         </View>
         <View style={{width:'30%'}}>
         {
-          isHod && 
-          <Pressable onPress={attmarkDetail}>
-            <Image
-              style={[styles.image,{alignSelf:'flex-end',marginRight:20}]}
-              source={require(`../assets/iii.png`)}
-            />
-          </Pressable>
+            isHod == 'true' && 
+            <Pressable onPress={attmarkDetail}>
+              <Image
+                style={[styles.image,{alignSelf:'flex-end',marginRight:20}]}
+                source={require(`../assets/iii.png`)}
+              />
+            </Pressable>
         }
-         </View> 
+        </View> 
       </View>
       <View style={{ marginVertical: 16 }}>
         <View style={[styles.action]}>
@@ -274,7 +274,7 @@ function MarkAttendance({ navigation, route }) {
 const styles = StyleSheet.create({
   heading: {
     // color:'#000',
-    textAlign: 'center',    
+    textAlign: 'center',
     fontSize: 14,
     paddingHorizontal: 14,
   },

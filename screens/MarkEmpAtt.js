@@ -21,13 +21,13 @@ const MarkEmpAtt = ({navigation,route}) => {
   }
   useEffect(() => {
     dispatch(geAttMarkerDetails(ecode));
-  },[])
+  },[ecode])
 
   return (
     <View style={theme.dtcontainer}>
       <Dtheader headtitle={['Team Members']}/>
       {
-        result.TeamAttendance[0].msg == 'Employee Found' ? 
+        result && result.TeamAttendance[0].msg == 'Employee Found' ? 
         <View style={{marginTop:5}}>
             <FlatList
                 data={repoarry && repoarry}

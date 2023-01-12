@@ -17,7 +17,7 @@ export const validRegisterUser = (userid,password,key,deviceId,token) => (dispat
     axios.get(Config.serverUrl+`ValidRegisterUser?userid=${userid}&password=${password}&key=${key}`
     )
     .then((res) => {
-       
+        
         const checkStatus = res.data.ValidRegisterUser.find(item => item.Status).Status;
         if(checkStatus == 'active') {
             const clientUrl = res.data.ValidRegisterUser.find(item => item.IP).IP.split(',');

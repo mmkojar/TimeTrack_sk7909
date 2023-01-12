@@ -67,7 +67,7 @@ const useThemeStyle = () => {
         },
         cardTitle:{        
             backgroundColor:accent,            
-            marginHorizontal:8,
+            marginHorizontal:5,
             borderRadius:5,
             marginBottom:6,
             minHeight:30
