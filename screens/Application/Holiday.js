@@ -33,7 +33,10 @@ const Holiday = ({theme,navigation,route}) => {
   const [holname, setHolname] = useState(''); 
   const [remark, setRemark] = useState(''); 
   const hdate = holname.split("~")[1];
-
+  let fdate = hdate&&hdate.split('-');
+  let monthno = fdate && moment().month(fdate[1]).format('MM');
+  let newdate = fdate && (fdate[0]+'-'+monthno+'-'+fdate[2])
+  
   const submitEntry = () => {
     if(holname == '' || remark == "") {
       Toast.show({
@@ -42,7 +45,7 @@ const Holiday = ({theme,navigation,route}) => {
       });
     }
     else {
-      dispatch(insertAppForm(`ApplyHolidayEmployee?EmpCode=${ecode}&HolidayName=${holname}&HolidayDate=${moment(new Date(hdate)).format('DD-MM-YYYY')}&Remark=${remark}`));
+      dispatch(insertAppForm(`ApplyHolidayEmployee?EmpCode=${ecode}&HolidayName=${holname}&HolidayDate=${newdate}&Remark=${remark}`));
       setHolname('')
       setRemark('')
     }
@@ -59,7 +62,7 @@ const Holiday = ({theme,navigation,route}) => {
             <View style={{marginVertical:10}}>
               <Text style={theme.applabel}>Holiday Date</Text>            
               <TextInput
-                  value={hdate && moment(new Date(hdate)).format('DD-MM-YYYY')}
+                  value={newdate&&newdate}
                   style={{height:40,backgroundColor:theme.colors.accent}}
                   disabled={true}
               />

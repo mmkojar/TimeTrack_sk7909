@@ -83,7 +83,7 @@ class FCMService {
         
         // When Application Running on Background
         messaging().onNotificationOpenedApp(remoteMessage => {
-            console.log("[FCMService] Running From background", remoteMessage);
+            // console.log("[FCMService] Running From background", remoteMessage);
             if (remoteMessage) {
                 // notification.userInteraction = true;
                 onOpenNotification(remoteMessage);
@@ -93,7 +93,7 @@ class FCMService {
         //When Application open from quit state
         messaging().getInitialNotification()
             .then(remoteMessage => {
-                console.log("[FCMService] From quit State", remoteMessage);
+                // console.log("[FCMService] From quit State", remoteMessage);
                 if (remoteMessage) {
                     // notification.userInteraction = true;
                     onOpenNotification(remoteMessage);

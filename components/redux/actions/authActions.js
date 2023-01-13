@@ -92,6 +92,7 @@ export const GetEmployeeDevice = (url,userid,password,key,isHod,deviceId,token) 
                 payload: logincreds,
             });
             storeUrlInAsync(url);
+            Config.clientUrl = url;
         }
         else {
             Toaster('error',res.data.Active)            
@@ -180,7 +181,7 @@ export const logoutAction = () => (dispatch) => {
     });    
     try {
         AsyncStorage.removeItem('root')
-        AsyncStorage.removeItem('clientUrl')
+        // AsyncStorage.removeItem('clientUrl')
         dispatch({
             type: LOGOUT_SUCCESS,
         });

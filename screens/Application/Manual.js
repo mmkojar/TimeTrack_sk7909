@@ -72,7 +72,7 @@ const Manual = ({theme,navigation,route}) => {
           })
           .then(res => res.json())
           .then((result) => {
-            console.log(result);
+            // console.log(result);
               dispatch({ type: STOP_LOADER });
               setCheckey(Object.keys(result)[0]);
               if(Object.keys(result)[0] !== 'msg') {
@@ -148,8 +148,7 @@ const Manual = ({theme,navigation,route}) => {
                       </View>
                       <View style={{marginLeft:10,width:'48%'}}>
                           <Text style={theme.applabel}>Select Shift</Text>
-                          <Dropdown data={shiftcode} text={`${shift ? shift : '--Select--'}`} setValue={setShift}/>
-                          
+                          <Dropdown data={shiftcode} text={`${shift ? shift : '--Select--'}`} setValue={setShift}/>                          
                           {
                             shiftime&&
                             <Text style={{color:'red'}}>

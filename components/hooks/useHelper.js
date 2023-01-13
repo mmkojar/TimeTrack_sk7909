@@ -1,7 +1,5 @@
 import React,{ useState, useEffect } from "react";
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import DeviceInfo from 'react-native-device-info';
-import { useSelector } from "react-redux";
 import { localNotificationService } from "../../services/LocalNotificationService";
 import { navigate } from "../../services/RootNavigation";
 import { fcmService } from "../../services/FCMService";

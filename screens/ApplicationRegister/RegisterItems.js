@@ -25,7 +25,7 @@ const RegisterItems = ({navigation,route}) => {
   const isFocused = useIsFocused();
   useEffect(() => {
     dispatch(getRegisterItems(api,ecode));
-  },[isFocused])
+  },[isFocused,ecode])
 
   const checkKey = result && Object.keys(result)[0];
   const headtitles = (checkKey == 'GetTimeCardForPageLoad') && Object.keys(result.GetTimeCardForPageLoad[0]);
