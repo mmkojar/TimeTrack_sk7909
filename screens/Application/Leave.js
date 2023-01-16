@@ -36,6 +36,7 @@ const Leave = ({theme,navigation,route}) => {
     const [duration, setDuration] = useState('');
     const [durmultiple, setDurmultiple] = useState('');
     const [reason, setReason] = useState('');
+    const ltypeRef = useRef();
     const taskDropdownRef = useRef();
     const duraDropdownRef = useRef();
     
@@ -100,12 +101,11 @@ const Leave = ({theme,navigation,route}) => {
             dispatch(insertAppForm(
               `LeaveApplyForEmployee?EmpCode=${ecode}&LeaveCode=${ltype.split('-')[0]}&Duration=${duration ? duration : duid}&Durationmultple=${durmultiple}&Fromdate=${fdate}&Todate=${tdate ? tdate : fdate}&Applcationtype=${task == 'Encash Leaves' ? 'EncashLeave' : 'Leave'}&Encahdays=${ecdays}&Reason=${reason}`
             ));
-            setLtype('')
-            setTask('')
+            ltypeRef.current.reset();
+            taskDropdownRef.current.reset();
+            duraDropdownRef.current.reset()
             setEcDays('')
             setDuid('')
-            setDuration('')
-            setDurmultiple('')
             setReason('')
         }
     }
@@ -124,7 +124,8 @@ const Leave = ({theme,navigation,route}) => {
                     <View style={{display:'flex',flexDirection:'row'}}>
                       <View style={{width:'48%'}}>
                           <Text style={theme.applabel}>Leave Type</Text>
-                          <SelectDropdown                      
+                          <SelectDropdown              
+                            ref={ltypeRef}
                             data={filtertypes}
                             defaultButtonText="--Select--"
                             buttonStyle={{backgroundColor:theme.colors.accent,borderTopRightRadius:6,borderTopLeftRadius:6,height:45,width:'100%'}}

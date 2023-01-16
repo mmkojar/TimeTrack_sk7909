@@ -1,17 +1,13 @@
 import React,{ useEffect, useState, memo } from 'react'
-import { View, StyleSheet, ScrollView, Dimensions } from 'react-native'
-// import { TextInput, DataTable, IconButton, Text } from 'react-native-paper';
+import { View, StyleSheet, ScrollView, Dimensions, TouchableOpacity, FlatList,Pressable } from 'react-native'
+import { Text } from 'react-native-paper';
 import { useDispatch, useSelector } from 'react-redux'
 import { getGraph } from '../components/redux/actions/employeeActions'
 import useThemeStyle from '../components/utils/useThemeStyle';
 import SelectDropdown from 'react-native-select-dropdown'
-// import { Doughnut } from 'react-chartjs-2/dist';
 import moment from 'moment';
-import { BarChart } from "react-native-chart-kit";
-import { Card, Text } from 'react-native-paper';
 import Nodatafound from './Reusable/Nodatafound';
-import { VictoryPie, VictoryTheme } from "victory-native";
-import { Svg } from 'react-native-svg';
+import { VictoryPie } from "victory-native";
 
 const AtttendanceChart = ({navigation}) => {
 
@@ -20,21 +16,37 @@ const AtttendanceChart = ({navigation}) => {
   const result = useSelector((state) => state.employee.graph)
   
   var graphArr = result && result['GraphValue'];
-  const COLORS = ['#b8d8d8','#d5e5a3','#f53e3e6b','#d6c1ab','#F3BB45','#FFD662'];
-// console.log(graphArr);
-  let paresult = [];
-    graphArr && graphArr.map((pa,index) => {
+  const COLORS = ['#b8d8d8','#d5e5a3','#f53e3e6b','#d6c1ab','#F3BB45','#FFD662','#008000','#000080','#800000','#ffa500','#4b0082'];
+  const [selectedCategory, setSelectedCategory] = React.useState(null)
+  
+  let grpresult = [];
+    graphArr && graphArr.map((pa,index) => {      
       for(let i in pa) {
         if(pa[i] !== '0' && i !== 'Graph For' && i !== 'Total') {
-          paresult.push(Object.assign({
+          grpresult.push(Object.assign({
               x:i,
               y:pa[i],
-              color:COLORS[index % COLORS.length]
-            }))
+              name:i,
+              color:COLORS[index]
+          }))
         }
       }
-    });
-    console.log(paresult);
+  });
+  let gcolors = [];
+  for(var i in grpresult) {
+    gcolors.push(grpresult[i].color)
+  }
+  let legend = [];
+  for(var i in grpresult) {
+    legend.push(Object.assign({
+      id:Math.random().toString(16).slice(2),
+      name:grpresult[i].name,
+      value:grpresult[i].y,
+      symbol:{fill:grpresult[i].color},
+      color:grpresult[i].color
+    }))
+  }
+  
   const months = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
   const cmonth = moment(new Date()).format('MMM');
   const cyear = moment(new Date()).format('YYYY');
@@ -43,33 +55,15 @@ const AtttendanceChart = ({navigation}) => {
   const [month,setMonth] = useState(cmonth);
   const [year,setYear] = useState(cyear);
   const dispatch = useDispatch();
-
+  
   useEffect(() => {
     dispatch(getGraph(empcode,month,year));
   }, [month,year])
    
-    // const screenWidth = Dimensions.get("window").width;
-    const { width, height } =  Dimensions.get("window");
-   /*  const data = {
-      labels: Object.keys(paresult),
-      datasets: [
-        {
-          data: Object.values(paresult)
-        }
-      ]
-    };
-    const chartConfig = {
-      backgroundGradientFrom: "#fff",
-      // backgroundGradientFromOpacity: 1,
-      backgroundGradientTo: "#fff",
-      backgroundGradientToOpacity: 0.5,
-      color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,      
-      // strokeWidth: 10, // optional, default 3
-      barPercentage: 0.5,
-      useShadowColorFromDataset: false // optional
-    }; */
+  const { width, height } =  Dimensions.get("window");  
+  
   return (
-    // <ScrollView>
+    <ScrollView>
       <View style={theme.container}>
           <View style={styles.filter}>
               <SelectDropdown
@@ -96,60 +90,79 @@ const AtttendanceChart = ({navigation}) => {
               />     
           </View>
           <Text style={{textAlign:'center',marginTop:20,fontSize:16}}>{month}-{year}</Text>
-          <View style={{flex:1,alignItems:'center',justifyContent:'center'}}>
-            {/* <Svg width={width} height={height}> */}
-              <VictoryPie              
-                  data={paresult}
-                  colorScale={COLORS}
-                  innerRadius={70}
-                  labelRadius={({innerRadius}) => (width*0.4 + innerRadius)/2.5}                  
-                  style={{ 
-                    labels: { fill: "white", fontSize: 16 },
-                    data: {
-                      fillOpacity: 0.9, stroke: "#fff", strokeWidth: 1
-                    },
-                  }}
-                  animate={{
-                    duration: 2000
-                  }}
-                  width={400}
-                  height={height}
-                  // theme={VictoryTheme.material}
-                />
-              {/* </Svg> */}
-            </View>
-            <View style={{alignItems:'center'}}>
-              {
-                 paresult.map((item,index) => {
-                  return  (
-                    <View key={index}>
-                        <Text>{item.x} <Text>{item.y}</Text></Text>
-                    </View>
-                  )
-                })
-              }
-            </View>
-            {
-              //   Object.keys(paresult).length > 0 ?
-              //   <View style={{flex:1,justifyContent:'center'}}>
-              //     <Card elevation={3}>
-              //       <BarChart
-              //         data={data}
-              //         width={screenWidth}
-              //         height={400}
-              //         // fromZero={true}
-              //         chartConfig={chartConfig}
-              //         // yAxisLabel="No Of Days"
-              //         />
-              //       </Card>
-              //   </View>
-              // :
-              // <Nodatafound />
-              
-            }
-            
+          {
+            grpresult.length > 0 ?
+            <>
+              <View style={{justifyContent:'center',alignItems:'center'}}>          
+                  <VictoryPie
+                      data={grpresult}
+                      colorScale={gcolors}
+                      innerRadius={80}
+                      radius={({ datum }) => (selectedCategory && selectedCategory == datum.name) ? width * 0.43 : width*0.42 - 10}
+                      labelRadius={({ innerRadius }) => innerRadius + 20 }
+                      labels={({ datum }) => datum.y}
+                      style={{
+                        labels: { fontSize: 20,fill:'#fff' },
+                        data: {
+                          fillOpacity: 0.9, stroke: "#fff", strokeWidth: 3
+                        },
+                        parent:{
+                          ...styles.shadow
+                        }
+                      }}
+                      /* animate={{
+                        duration: 1000
+                      }} */
+                      // width={500}
+                      // height={400}
+                  />
+              </View>
+              {/* <ScrollView style={{flex:1}}> */}
+                <View>
+                  {
+                    legend.map((item,index) => {
+                      return (
+                        <Pressable
+                            key={index}
+                            style={{
+                              // flexDirection: 'row',
+                              height: 40,
+                              paddingHorizontal:20,
+                              borderRadius: 10,
+                              backgroundColor: (selectedCategory && selectedCategory === item.name) ? item.color : '#fff'
+                            }}                            
+                            onPress={() => {
+                                setSelectedCategory(item.name)
+                            }}                            
+                          >
+                          <View style={{flex:1,flexDirection: 'row', alignItems: 'center'}}>
+                            <View
+                                style={{ 
+                                  width: 20,
+                                  height: 20,                                
+                                  backgroundColor: (selectedCategory && selectedCategory == item.name) ? '#fff' : item.color,
+                                  borderRadius: 5
+                              }}
+                            />
+                            <Text style={{ marginLeft:10, color: (selectedCategory && selectedCategory == item.name) ? '#fff' : '#000' }}>{item.name}</Text>
+                          </View>
+                            
+                            {/* <View style={{ justifyContent: 'center' }}>
+                              <Text style={{ color: (selectedCategory && selectedCategory.name == item.name) ? '#fff' : '#000' }} >{item.value}</Text>
+                            </View> */}
+                        </Pressable>
+                      )
+                    })
+                  }
+                </View>
+              {/* </ScrollView> */}
+            </>
+            :
+            <Nodatafound/>
+          }
+          
       </View>
-    // </ScrollView>
+    </ScrollView>
   )
 }
 const styles = StyleSheet.create({
@@ -157,6 +170,17 @@ const styles = StyleSheet.create({
     display:'flex',
     flexDirection:'row',
     justifyContent:'space-evenly',
+  },
+  shadow:{
+    shadowColor:'#000',
+    shadowOffset:{
+      width:2,
+      height:2
+    },
+    shadowOpacity:0.25,
+    shadowRadius:3.84,
+    // backgroundColor : "#f4f4f4",
+    elevation:3,
   }
 })
 export default memo(AtttendanceChart)

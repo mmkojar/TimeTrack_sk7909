@@ -1,4 +1,4 @@
-import React,{ useEffect, useState } from 'react'
+import React,{ useEffect, useRef, useState } from 'react'
 import { View, Platform, TouchableWithoutFeedback, Keyboard, KeyboardAvoidingView, ScrollView } from 'react-native'
 import { Card, Title, Text, TextInput, withTheme } from 'react-native-paper'
 import { useDispatch, useSelector } from 'react-redux';
@@ -35,9 +35,11 @@ const Shortleave = ({theme,navigation,route}) => {
     },[])
     
     const [fdate, setFdate] = useState(moment(new Date()).format('DD/MM/YYYY'));
+    const durationRef = useRef();
     const [duration, setDuration] = useState('');
     const [intime, setIntime] = useState('');
     const [outtime, setOuttime] = useState('');
+    const sltypeRef = useRef();
     const [sltype, setSltype] = useState('');
     const [reason, setReason] = useState('');
 
@@ -54,11 +56,11 @@ const Shortleave = ({theme,navigation,route}) => {
                 text1:'Incorrect Time',
             });
         }
-        else {            
+        else {
             dispatch(insertAppForm(`ShortLeaveApplyForEmployee?EmpCode=${ecode}&Duration=${duration}&SLType=${sltype}&Fromdate=${fdate}&Todate=${fdate}&Reason=${reason}&Intime=${intime}&Outtime=${outtime}`));            
-            setFdate('')
-            setDuration('')
-            setSltype('')
+            setFdate(moment(new Date()).format('DD/MM/YYYY'))
+            durationRef.current.reset()
+            sltypeRef.current.reset()
             setIntime('')
             setOuttime('')
             setReason('')
@@ -85,7 +87,7 @@ const Shortleave = ({theme,navigation,route}) => {
                       </View>
                       <View style={{marginLeft:10,width:'62%'}}>
                         <Text style={theme.applabel}>Duration</Text>
-                        <Dropdown data={fiternames}  setValue={setDuration} />
+                        <Dropdown refval={durationRef} data={fiternames}  setValue={setDuration} />
                       </View>
                   </View>
                   <View style={{marginVertical:10,display:'flex',flexDirection:'row'}}>
@@ -107,7 +109,7 @@ const Shortleave = ({theme,navigation,route}) => {
                       </View>
                   </View>
                   <Text style={theme.applabel}>SL Type</Text>
-                  <Dropdown data={fitertypes}  setValue={setSltype} style={{width:'48%'}}/>
+                  <Dropdown refval={sltypeRef} data={fitertypes}  setValue={setSltype} style={{width:'48%'}}/>
                 </Card>
                 <Card style={theme.card} elevation={5}>
                     <Text style={theme.applabel}>Leave Reason</Text>

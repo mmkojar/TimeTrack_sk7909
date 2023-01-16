@@ -1,4 +1,4 @@
-import React,{ useEffect, useState } from 'react'
+import React,{ useEffect, useRef, useState } from 'react'
 import { Platform, ScrollView,TouchableWithoutFeedback, Keyboard, KeyboardAvoidingView, View } from 'react-native'
 import { Card, Title, Text, TextInput, Checkbox, withTheme } from 'react-native-paper'
 import { useDispatch, useSelector } from 'react-redux';
@@ -29,6 +29,7 @@ const OutDoor = ({theme,navigation,route}) => {
     
     const [duid, setDuid] = useState('');
     const [duration, setDuration] = useState(''); 
+    const durationRef = useRef();
     const [durmultiple, setDurmultiple] = useState(''); 
     const [odstart, setOdstart] = useState(''); 
     const [odend, setOdend] = useState(''); 
@@ -59,9 +60,8 @@ const OutDoor = ({theme,navigation,route}) => {
               `ApplyODEntryEmployee?EmpCode=${ecode}&Duration=${duration ? duration : duid}&Durationmultple=${durmultiple}
               &ODStart=${odstart}&ODEnd=${odend}&NextDay=${nextday == true ? '1' : '0'}&Fromdate=${fdate}&Todate=${tdate ? tdate : fdate}&Reason=${reason}`
             ));
+            durationRef.current.reset()
             setDuid('')
-            setDuration('')
-            setDurmultiple('');
             setOdstart('')
             setOdend('')
             setNextDay(false)
@@ -83,7 +83,7 @@ const OutDoor = ({theme,navigation,route}) => {
                     <Title style={theme.appheading}>OD Details</Title>
                     <View>
                     <Text style={theme.applabel}>Duration</Text>
-                    <Dropdown data={fiternames}  setValue={setDuid} />
+                    <Dropdown refval={durationRef} data={fiternames}  setValue={setDuid} />
                     {
                         duid == 'MultipleDay' ?
                         <MultipleDay duid={duid} fdate={fdate} tdate={tdate} setFdate={setFdate} setTdate={setTdate} 

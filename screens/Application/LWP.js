@@ -31,6 +31,7 @@ const LWP = ({theme,navigation,route}) => {
     const [fdate, setFdate] = useState(moment(new Date()).format('DD/MM/YYYY'));
     const [tdate, setTdate] = useState(moment(new Date()).format('DD/MM/YYYY')); 
     const [duration, setDuration] = useState(''); 
+    const durationRef = React.useRef();
     const [durmultiple, setDurmultiple] = useState(''); 
     const [reason, setReason] = useState(''); 
        
@@ -54,8 +55,7 @@ const LWP = ({theme,navigation,route}) => {
         else {
             dispatch(insertAppForm(`LWPApplyForEmployee?EmpCode=${ecode}&Duration=${duration ? duration : duid}&Durationmultple=${durmultiple}&Fromdate=${fdate}&Todate=${tdate ? tdate : fdate}&Reason=${reason}`));            
             setDuid('')
-            setDuration('')
-            setDurmultiple('')
+            durationRef.current.reset();
             // setFdate('')
             // setTdate('')
             setReason('')
@@ -73,7 +73,7 @@ const LWP = ({theme,navigation,route}) => {
                     <Title style={theme.appheading}>LWP Details</Title>
                     <View>
                         <Text style={theme.applabel}>Duration</Text>
-                        <Dropdown data={fiternames}  setValue={setDuid} />
+                        <Dropdown refval={durationRef} data={fiternames}  setValue={setDuid} />
                         {
                             duid == 'MultipleDay' ?
                             <MultipleDay duid={duid} fdate={fdate} tdate={tdate} setFdate={setFdate} setTdate={setTdate} 

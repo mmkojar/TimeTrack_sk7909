@@ -20,12 +20,14 @@ const Manual = ({theme,navigation,route}) => {
   const checkKey = result && Object.keys(result)[0];
              
   const [fdate, setFdate] = useState('');
+  const shiftRef = React.useRef();
   const [shift, setShift] = useState('');
   const [shiftime, setShiftime] = useState('');
   const [login, setLogin] = useState(''); 
   const [logout, setLogout] = useState('');
   const [nextday, setNextDay] = useState(false);
   const [reason, setReason] = useState('');
+  const reasonRef = React.useRef();
   const [remark, setRemark] = useState('');
   const [checkey, setCheckey] = useState('');
   
@@ -108,17 +110,17 @@ const Manual = ({theme,navigation,route}) => {
           });
       }
       else {
-          dispatch(insertAppForm(
-            `ApplyManualEntryEmployee?EmpCode=${ecode}&Fromdate=${fdate}&Todate=${fdate}&ShiftCode=${shift}&Reason=${reason}&Login=${login}&LogOut=${logout}&NextDay=${nextday}
-              &Login1=${login}&LogOut1=${logout}&NextDay1=${nextday}&LoginOG=${login}&LogoutOG=${logout}&Remark=${remark}`
-          ));
+          // dispatch(insertAppForm(
+          //   `ApplyManualEntryEmployee?EmpCode=${ecode}&Fromdate=${fdate}&Todate=${fdate}&ShiftCode=${shift}&Reason=${reason}&Login=${login}&LogOut=${logout}&NextDay=${nextday}
+          //     &Login1=${login}&LogOut1=${logout}&NextDay1=${nextday}&LoginOG=${login}&LogoutOG=${logout}&Remark=${remark}`
+          // ));
           setFdate('')
-          setShift('')
+          shiftRef.current.reset();
           setShiftime('');
           setLogin('')
           setLogout('')
           setNextDay(false)
-          setReason('')
+          reasonRef.current.reset();
           setRemark('')
       }
   }
@@ -148,7 +150,7 @@ const Manual = ({theme,navigation,route}) => {
                       </View>
                       <View style={{marginLeft:10,width:'48%'}}>
                           <Text style={theme.applabel}>Select Shift</Text>
-                          <Dropdown data={shiftcode} text={`${shift ? shift : '--Select--'}`} setValue={setShift}/>                          
+                          <Dropdown refval={shiftRef} data={shiftcode} text={`${shift ? shift : '--Select--'}`} setValue={setShift}/>                          
                           {
                             shiftime&&
                             <Text style={{color:'red'}}>
@@ -186,7 +188,7 @@ const Manual = ({theme,navigation,route}) => {
                         labelStyle={{marginRight:50}}
                     />
                     <Text style={theme.applabel}>Reason</Text>
-                    <Dropdown data={reasonmaster} text="--Select--" setValue={setReason} />
+                    <Dropdown refval={reasonRef} data={reasonmaster} text="--Select--" setValue={setReason} />
                   {/* </View> */}
                 </Card>
                 <Card style={theme.card} elevation={5}>

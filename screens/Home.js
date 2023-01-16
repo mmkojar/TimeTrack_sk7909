@@ -32,17 +32,18 @@ function Home({navigation}) {
         Object.assign(hps,result.homepagesetts[i]);
     }
     
-    // const LogoTitle = () => {
-    //     return (
-    //       <Image
-    //         style={{ width: 250, height: 50 }}
-    //         source={{uri:vru.find(item => item.CLogo).CLogo}}
-    //       />
-    //     );
-    // }
-   /*  React.useLayoutEffect(() => {
+    /* const LogoTitle = () => {
+        return (
+        <Image
+            style={{ width: 250, height: 42 }}
+            // source={{uri:result&&result.validreguser.find(item => item.CLogo).CLogo}}
+            source={require('../assets/icons/logo1.png')}
+        />
+        );
+    } */
+    /* React.useLayoutEffect(() => {
         navigation.setOptions({
-           // headerTitle: (props) => <LogoTitle {...props} />
+           headerTitle: (props) => <LogoTitle {...props} />
         });
     }, [navigation]); */
          
@@ -186,7 +187,7 @@ function Home({navigation}) {
                     hps['Application-Register'] === '1' && <Pressable onPress={() => navigation.navigate('RgList')}>
                         <Card style={styles.innerItem} elevation={3}>
                             <Image
-                                style={styles.image}                                
+                                style={styles.image}
                                 source={require('../assets/icons/3.png')}
                             >
                             </Image>
@@ -237,15 +238,20 @@ function Home({navigation}) {
                 </View>
             </ScrollView>
             <View style={{alignItems:'center',paddingVertical:10}}>
-            {/* <Text style={{fontSize:18}}>Vertex System &copy;2022</Text> */}
                 {
                     checkStatus!=='Invalid' &&
+                    <>
                     <Image
-                        style={{ width: 250, height: 42 }}
-                        source={{uri:result&&result.validreguser.find(item => item.CLogo).CLogo}}
-                    />
-                }
-                
+                    style={{ width: 250, height: 42 }}
+                    source={{uri:result&&result.validreguser.find(item => item.CLogo).CLogo}}
+                    />               
+                    <Text style={{fontSize:18}}>
+                    {
+                        result&&result.validreguser.find(item => item.CopyRight).CopyRight.replace('?','\u00A9 ')
+                    }
+                    </Text>    
+                    </>
+                 }            
             </View>
         </View>
     )

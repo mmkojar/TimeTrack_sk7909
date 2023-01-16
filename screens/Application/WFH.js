@@ -32,6 +32,7 @@ const WFH = ({theme,navigation,route}) => {
     const [tdate, setTdate] = useState(moment(new Date()).format('DD/MM/YYYY')); 
     const [duration, setDuration] = useState('');
     const [durmultiple, setDurmultiple] = useState(''); 
+    const durationRef = React.useRef();
     const [reason, setReason] = useState('');
        
     const submitEntry = () => {
@@ -57,8 +58,7 @@ const WFH = ({theme,navigation,route}) => {
                 &Fromdate=${fdate}&Todate=${tdate ? tdate : fdate}&Reason=${reason}`
             ));
             setDuid('')
-            setDuration('')
-            setDurmultiple('')
+            durationRef.current.reset();
             // setFdate('')
             // setTdate('')
             setReason('')
@@ -77,7 +77,7 @@ const WFH = ({theme,navigation,route}) => {
                     <Title style={theme.appheading}>WFH Details</Title>
                     <View>
                         <Text style={theme.applabel}>Duration</Text>
-                        <Dropdown data={fiternames}  setValue={setDuid} />
+                        <Dropdown refval={durationRef} data={fiternames}  setValue={setDuid} />
                         {
                             duid == 'MultipleDay' ?
                             <MultipleDay duid={duid} fdate={fdate} tdate={tdate} setFdate={setFdate} setTdate={setTdate} 

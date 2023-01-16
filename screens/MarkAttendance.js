@@ -155,7 +155,7 @@ function MarkAttendance({ navigation, route }) {
     )
   }
 
-  const header = ['Time', 'Type', 'Location'];
+  const header = ['LogTime', 'Type', 'Location'];
 
   return (
     <View style={[theme.dtcontainer]}>
@@ -206,7 +206,7 @@ function MarkAttendance({ navigation, route }) {
       </View>
       <View style={{ marginVertical: 16 }}>
         <View style={[styles.action]}>
-          <Text style={{ fontSize: 24, marginVertical: 16, paddingRight: 30 }}>IN</Text>
+          {/* <Text style={{ fontSize: 24, marginVertical: 16, paddingRight: 30 }}>IN</Text> */}
           {markemplogs && markemplogs.ButtonPair == '1' ?
             <Pressable onPress={() => openModals('HOME-IN')}>
               <Image
@@ -230,7 +230,7 @@ function MarkAttendance({ navigation, route }) {
         </View>
         <Text></Text>
         <View style={styles.action}>
-          <Text style={{ fontSize: 24, marginVertical: 16, paddingRight: 16 }}>Out</Text>
+          {/* <Text style={{ fontSize: 24, marginVertical: 16, paddingRight: 16 }}>Out</Text> */}
           {markemplogs && markemplogs.ButtonPair == '1' ?
             <Pressable onPress={() => openModals('HOME-OUT')}>
               <Image

@@ -43,15 +43,14 @@ const PAItemsDetail = ({theme,navigation,route}) => {
              dispatch(addLeaveaction(
               `GETHODPendingApplicationApproved?EmpCode=${ecode}&ID=${submitres.Id}&AppType=${apptype}&RecommendedStatus=${submitres.Recommended_Status}&Approve=1&RejectReason=`
             ));
-            redirect('success',`${apptype} Leave Approved`);
+            redirect('success',`${apptype == 'OutDoor' ? 'OutDoor Application Approved' : `${apptype} Leave Approved`}`);
         }
         else {
            dispatch(addLeaveaction(
             `GETHODCancellationPendingApplicationApproved?EmpCode=${ecode}&ID=${submitres.Id}&AppType=${apptype}&Approve=1&RejectReason=`
-          ));
-          redirect('success',`${apptype} Leave Approved`);
-        }
-       
+          ));          
+          redirect('success',`${apptype == 'OutDoor' ? 'OutDoor Application Approved' : `${apptype} Leave Approved`}`);
+        }       
       }
       else {
         setBoxVisible(true);
@@ -66,14 +65,14 @@ const PAItemsDetail = ({theme,navigation,route}) => {
         if(pdtype == 'Pending Approval') {
           dispatch(addLeaveaction(
             `GETHODPendingApplicationApproved?EmpCode=${ecode}&ID=${submitres.Id}&AppType=${apptype}&RecommendedStatus=${submitres.Recommended_Status}&Approve=0&RejectReason=${rejreason}`
-          ));
-          redirect('error',`${apptype} Leave Rejected`);
+          ));         
+          redirect('error',`${apptype == 'OutDoor' ? 'OutDoor Application Rejected' : `${apptype} Leave Rejected`}`);
         }
         else {
           dispatch(addLeaveaction(
             `GETHODCancellationPendingApplicationApproved?EmpCode=${ecode}&ID=${submitres.Id}&AppType=${apptype}&Approve=0&RejectReason=${rejreason}`
-          ));
-          redirect('error',`${apptype} Leave Rejected`);
+          ));         
+          redirect('error',`${apptype == 'OutDoor' ? 'OutDoor Application Rejected' : `${apptype} Leave Rejected`}`);
         }
       }      
     }

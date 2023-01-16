@@ -77,14 +77,15 @@ const Nav = ({color, refer}) => {
                 options={{ 
                     headerStyle:{
                         backgroundColor: color,
-                        // height:80,                        
+                        // height:60,
                     },
                     title:'Time Track Mobile App',
+                    headerTitleAlign:'left'
                 }}
             /> 
             <Stack.Screen name="AtttendanceChart" component={AtttendanceChartScreen} 
                 options={{
-                title:'Atttendance Chart',                   
+                title:'Atttendance Chart',
                 }} />    
             <Stack.Screen name="App" component={AppScreen} 
                 options={{
