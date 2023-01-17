@@ -20,6 +20,8 @@ function Home({navigation}) {
     
     let checkey = authuser && Object.keys(authuser[0])[0]
     let checkStatus = result && result.validreguser.find(item => item.Status).Status;
+    
+    let CopyRight = result && result.validreguser.find(item => item.CopyRight);
 
     let userid = authData&&authData.userid
     let password = authData&&authData.password
@@ -247,9 +249,10 @@ function Home({navigation}) {
                     />               
                     <Text style={{fontSize:18}}>
                     {
+                        CopyRight !== undefined &&
                         result&&result.validreguser.find(item => item.CopyRight).CopyRight.replace('?','\u00A9 ')
                     }
-                    </Text>    
+                    </Text>
                     </>
                  }            
             </View>

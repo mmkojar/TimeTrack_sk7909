@@ -73,18 +73,13 @@ const Manual = ({theme,navigation,route}) => {
             method:'GET'
           })
           .then(res => res.json())
-          .then((result) => {
-            // console.log(result);
+          .then((result) => {            
               dispatch({ type: STOP_LOADER });
               setCheckey(Object.keys(result)[0]);
               if(Object.keys(result)[0] !== 'msg') {
                 setShift(result.Shift[0].selection)
                 setLogin(result.Login[0].selection)
                 setLogout(result.Logout[0].selection)
-                // console.log(`"${moment(selectedDate).format('YYYY-MM-DD')} ${result.Login[0].selection}"`);
-                // var a = moment(selectedDate).format('YYYY-MM-DD');
-                // console.log(new Date(`"${a} ${result.Login[0].selection}"`));
-                // console.log(moment(new Date((moment(selectedDate).format('YYYY-MM-DD')+", "+result.Login[0].selection)).valueOf())
               }
               else {
                 Toast.show({ type:'error', text1:result.msg })
@@ -110,10 +105,10 @@ const Manual = ({theme,navigation,route}) => {
           });
       }
       else {
-          // dispatch(insertAppForm(
-          //   `ApplyManualEntryEmployee?EmpCode=${ecode}&Fromdate=${fdate}&Todate=${fdate}&ShiftCode=${shift}&Reason=${reason}&Login=${login}&LogOut=${logout}&NextDay=${nextday}
-          //     &Login1=${login}&LogOut1=${logout}&NextDay1=${nextday}&LoginOG=${login}&LogoutOG=${logout}&Remark=${remark}`
-          // ));
+          dispatch(insertAppForm(
+            `ApplyManualEntryEmployee?EmpCode=${ecode}&Fromdate=${fdate}&Todate=${fdate}&ShiftCode=${shift}&Reason=${reason}&Login=${login}&LogOut=${logout}&NextDay=${nextday}
+              &Login1=${login}&LogOut1=${logout}&NextDay1=${nextday}&LoginOG=${login}&LogoutOG=${logout}&Remark=${remark}`
+          ));
           setFdate('')
           shiftRef.current.reset();
           setShiftime('');
@@ -146,7 +141,7 @@ const Manual = ({theme,navigation,route}) => {
                                   showSoftInputOnFocus={false}
                                   editable={Platform.OS == 'ios' ? false : true}
                               />
-                            { show && <DateTimePicker onChange={onPickerChange} value={new Date(unix)} /> }
+                            { show && <DateTimePicker onChange={onPickerChange} value={new Date(unix)} themeVariant='light' /> }
                       </View>
                       <View style={{marginLeft:10,width:'48%'}}>
                           <Text style={theme.applabel}>Select Shift</Text>

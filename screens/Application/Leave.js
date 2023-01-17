@@ -51,7 +51,7 @@ const Leave = ({theme,navigation,route}) => {
     (checkKey !== 'msg')&&result&&result.Leave.filter((item,index) => {
       if(item.Name == ltype) {
           if(item.ApplyLeave == '1') {
-            filtertask.push('Apply Leave')          
+            filtertask.push('Apply Leave')
           }
           if(item.EncashMentAllowed == '1') {
             filtertask.push('Encash Leaves')
@@ -119,7 +119,7 @@ const Leave = ({theme,navigation,route}) => {
                 <Card style={theme.card} elevation={5}>                      
                   <Title style={theme.appheading}>Leave Details</Title>            
                   <Pressable onPress={() => navigation.navigate('LeaveBal',{ecode:ecode})}>
-                      <Text style={{color:'red',fontSize:16,textAlign:'right',marginTop:-30}}>Leave Balance</Text>
+                      <Text style={{color:'red',fontSize:16,textAlign:'right',marginTop:-30}}>Balance</Text>
                   </Pressable>
                     <View style={{display:'flex',flexDirection:'row'}}>
                       <View style={{width:'48%'}}>

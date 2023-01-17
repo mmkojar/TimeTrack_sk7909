@@ -36,6 +36,32 @@ const PAItemsDetail = ({theme,navigation,route}) => {
         text1:text
       })
     }
+    let succmsg = '';
+    if(apptype == 'OutDoor') {
+      succmsg = 'OutDoor Application Approved'
+    }
+    else if(apptype == 'Leave') {
+      succmsg = 'Leave Application Approved'
+    }
+    else if(apptype == 'ShortLeave') {
+      succmsg = 'ShortLeave Approved'
+    }
+    else {
+      succmsg = `${apptype} Leave Approved`
+    }
+    let errmsg = '';
+    if(apptype == 'OutDoor') {
+      errmsg = 'OutDoor Application Rejected'
+    }
+    else if(apptype == 'Leave') {
+      errmsg = 'Leave Application Rejected'
+    }
+    else if(apptype == 'ShortLeave') {
+      errmsg = 'ShortLeave Rejected'
+    }
+    else {
+      errmsg = `${apptype} Leave Rejected`
+    }
     
     const pressHandler = (type) => {
       if(type == '1') {
@@ -43,13 +69,13 @@ const PAItemsDetail = ({theme,navigation,route}) => {
              dispatch(addLeaveaction(
               `GETHODPendingApplicationApproved?EmpCode=${ecode}&ID=${submitres.Id}&AppType=${apptype}&RecommendedStatus=${submitres.Recommended_Status}&Approve=1&RejectReason=`
             ));
-            redirect('success',`${apptype == 'OutDoor' ? 'OutDoor Application Approved' : `${apptype} Leave Approved`}`);
+            redirect('success',succmsg);
         }
         else {
            dispatch(addLeaveaction(
             `GETHODCancellationPendingApplicationApproved?EmpCode=${ecode}&ID=${submitres.Id}&AppType=${apptype}&Approve=1&RejectReason=`
           ));          
-          redirect('success',`${apptype == 'OutDoor' ? 'OutDoor Application Approved' : `${apptype} Leave Approved`}`);
+          redirect('success',succmsg);
         }       
       }
       else {
@@ -66,13 +92,13 @@ const PAItemsDetail = ({theme,navigation,route}) => {
           dispatch(addLeaveaction(
             `GETHODPendingApplicationApproved?EmpCode=${ecode}&ID=${submitres.Id}&AppType=${apptype}&RecommendedStatus=${submitres.Recommended_Status}&Approve=0&RejectReason=${rejreason}`
           ));         
-          redirect('error',`${apptype == 'OutDoor' ? 'OutDoor Application Rejected' : `${apptype} Leave Rejected`}`);
+          redirect('error',errmsg);
         }
         else {
           dispatch(addLeaveaction(
             `GETHODCancellationPendingApplicationApproved?EmpCode=${ecode}&ID=${submitres.Id}&AppType=${apptype}&Approve=0&RejectReason=${rejreason}`
           ));         
-          redirect('error',`${apptype == 'OutDoor' ? 'OutDoor Application Rejected' : `${apptype} Leave Rejected`}`);
+          redirect('error',errmsg);
         }
       }      
     }

@@ -63,7 +63,7 @@ const AtttendanceChart = ({navigation}) => {
   const { width, height } =  Dimensions.get("window");  
   
   return (
-    <ScrollView>
+    <ScrollView contentContainerStyle={grpresult.length == 0 && {flex:1}}>
       <View style={theme.container}>
           <View style={styles.filter}>
               <SelectDropdown
@@ -93,7 +93,7 @@ const AtttendanceChart = ({navigation}) => {
           {
             grpresult.length > 0 ?
             <>
-              <View style={{justifyContent:'center',alignItems:'center'}}>          
+              <View style={{justifyContent:'center',alignItems:'center'}}>
                   <VictoryPie
                       data={grpresult}
                       colorScale={gcolors}
