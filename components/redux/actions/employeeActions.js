@@ -15,29 +15,25 @@ export const getGraph = (empcode,month,year) => (dispatch) => {
     fetchAxios(dispatch,`GetGraphForSelectedMonthToEmployee?EmpCode=${empcode}&Month=${month}&Year=${year}`,GET_GRAPH);
 }
 export const getHolidaylist = (empcode) => (dispatch) => {
-    dispatch({ type: GET_HOLIDAY_LIST, payload: [] })
+    // dispatch({ type: GET_HOLIDAY_LIST, payload: [] })
     fetchAxios(dispatch,`GetHolidayList?EmpCode=${empcode}`,GET_HOLIDAY_LIST);
 }
 export const getNoticeBoard = (empcode) => (dispatch) => {
-    dispatch({ type: GET_NBOARD, payload: [] })
+    // dispatch({ type: GET_NBOARD, payload: [] })
     fetchAxios(dispatch,`NoticeBoard?EmpCode=${empcode}`,GET_NBOARD);
 }
-export const getNotification = (empcode,type) => (dispatch) => {
-    if(type == '1') {
-        dispatch({ type: GET_NOTIFI, payload: [] })
-    }    
+export const getNotification = (empcode) => (dispatch) => { 
     fetchAxios(dispatch,`GetNotificationsForEmployee?EmpCode=${empcode}`,GET_NOTIFI);
 }
 export const updateNotification = (empcode,id,isread,isdelete) => (dispatch) => {
     
     fetchAxios(dispatch,`GetNotificationsIDForEmployeeRead?EmpCode=${empcode}&Id=${id}&IsRead=${isread}&Isdelete=${isdelete}`,UPDT_NOTIFI);
-    dispatch(getNotification(empcode,'0'));
+    dispatch(getNotification(empcode));
 }
 
 //Mark Attendance
 export const getTodaysAttLogs = (empcode) => (dispatch) => {
-    
-    dispatch({ type: ATTEND_LOGS,  payload: [] })
+        
     fetchAxios(dispatch,`MarkMyAttendanceLogs?EmpCode=${empcode}`,ATTEND_LOGS);
 }
 
@@ -93,8 +89,7 @@ export const insertAppForm = (fullpath) => (dispatch) => {
 
 // TimeCard
 export const getHodReportee = (empcode) => (dispatch) => {
-    
-    dispatch({ type: HOD_REPORTEE, payload: [] })
+        
     fetchAxios(dispatch,`GetHODReporteeList?EmpCode=${empcode}`,HOD_REPORTEE);
 }
 export const getTimeCardOnLoad = (empcode) => (dispatch) => {
@@ -112,7 +107,7 @@ export const getDetailTimeCardForSelf = (empcode,tr_date) => (dispatch) => {
 
 // App Register
 export const getRegisterList = () => (dispatch) => {
-    dispatch({ type: RG_LIST, payload: [] })
+    // dispatch({ type: RG_LIST, payload: [] })
     fetchAxios(dispatch,`RegisterSortingList`,RG_LIST);
 }
 export const getRegisterItems = (path,empcode) => (dispatch) => {

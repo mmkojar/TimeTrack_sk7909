@@ -6,6 +6,7 @@ import useThemeStyle from '../../components/utils/useThemeStyle';
 import Dtheader from '../Reusable/Dtheader';
 import LoopItems from '../Reusable/LoopItems';
 import uuid from 'react-uuid';
+import Nodatafound from '../Reusable/Nodatafound';
 
 const TeamAttendance = ({navigation,route}) => {
 
@@ -21,29 +22,35 @@ const TeamAttendance = ({navigation,route}) => {
   }
   
   useEffect(() => {
-    dispatch(getHodReportee(empcode));
+    dispatch(getHodReportee(empcode));    
   },[empcode])
-
+  
   return (
     <View style={theme.dtcontainer}>
       <Dtheader headtitle={['Team Members']}/>
-      <View style={{marginTop:5}}>
-        <FlatList
-            data={repoarry && repoarry}
-            keyExtractor={() => uuid()}
-            renderItem={({item,index}) => (
-              <LoopItems
-                type="card" 
-                navigation={navigation} 
-                naviTo="SelfCard" 
-                naviObj={{
-                  ecode:item['Reportee Code'] 
-                }}
-                ctitle={item['Reportee Name']}
-              />
-          )}
-        />
-      </View>
+      {
+        repoarry.length > 0 ?
+        <View style={{marginTop:5}}>
+          <FlatList
+              data={repoarry && repoarry}
+              keyExtractor={() => uuid()}
+              renderItem={({item,index}) => (
+                <LoopItems
+                  type="card" 
+                  navigation={navigation} 
+                  naviTo="SelfCard" 
+                  naviObj={{
+                    ecode:item['Reportee Code'] 
+                  }}
+                  ctitle={item['Reportee Name']}
+                />
+            )}
+          />
+        </View>
+        :
+        <Nodatafound/>
+      }
+      
     </View>
   )
 }

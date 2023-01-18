@@ -20,7 +20,7 @@ function Home({navigation}) {
     
     let checkey = authuser && Object.keys(authuser[0])[0]
     let checkStatus = result && result.validreguser.find(item => item.Status).Status;
-    
+    let footerlogo = result&&result.validreguser.find(item => item.CLogo);    
     let CopyRight = result && result.validreguser.find(item => item.CopyRight);
 
     let userid = authData&&authData.userid
@@ -33,21 +33,6 @@ function Home({navigation}) {
     for (var i in result&&result.homepagesetts) {
         Object.assign(hps,result.homepagesetts[i]);
     }
-    
-    /* const LogoTitle = () => {
-        return (
-        <Image
-            style={{ width: 250, height: 42 }}
-            // source={{uri:result&&result.validreguser.find(item => item.CLogo).CLogo}}
-            source={require('../assets/icons/logo1.png')}
-        />
-        );
-    } */
-    /* React.useLayoutEffect(() => {
-        navigation.setOptions({
-           headerTitle: (props) => <LogoTitle {...props} />
-        });
-    }, [navigation]); */
          
     const dispatch = useDispatch();
     const isFocused = useIsFocused();
@@ -117,12 +102,12 @@ function Home({navigation}) {
                             titleStyle={{fontSize:20,marginTop:0,color:'#fff',textAlign:'center'}}
                             subtitle={'Todays In Time: '+ (authuser && authuser[2].TodaysInTime)}
                             subtitleStyle={{fontSize:16,textAlign:'center',color:'#fff'}}
-                            left={(props) => <Avatar.Image size={80} source={authuser ? {uri: authuser[1].ProfilePic} : require('../assets/user.png')} style={{marginLeft:20}} />}
+                            left={(props) => <Avatar.Image size={80} source={authuser ? {uri: authuser[1].ProfilePic} : require('../assets/user.png')} />}
                         />
                     </View>
                 }
                
-            
+                
                 <View style={styles.cardstyles}>
                 {
                     hps['Attendance-Chart'] === '1' &&  <Pressable onPress={() => navigation.navigate('AtttendanceChart')}>
@@ -243,10 +228,13 @@ function Home({navigation}) {
                 {
                     checkStatus!=='Invalid' &&
                     <>
-                    <Image
-                    style={{ width: 250, height: 42 }}
-                    source={{uri:result&&result.validreguser.find(item => item.CLogo).CLogo}}
-                    />               
+                    {
+                        footerlogo !== undefined &&
+                        <Image
+                            style={{ width: 250, height: 42 }}
+                            source={{uri:result&&result.validreguser.find(item => item.CLogo).CLogo}}
+                        />
+                    }               
                     <Text style={{fontSize:18}}>
                     {
                         CopyRight !== undefined &&

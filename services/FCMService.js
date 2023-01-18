@@ -26,7 +26,7 @@ class FCMService {
                     this.requestPermission(onRegister);
                 }
             }).catch(error => {
-                console.log("[FCMService] Permission Rejected", error);
+                // console.log("[FCMService] Permission Rejected", error);
             })
     }
 
@@ -35,7 +35,7 @@ class FCMService {
             .then(() => {
                 this.getToken(onRegister);
             }).catch(error => {
-                console.log("[FCMService] Request Permission Rejected", error);
+                // console.log("[FCMService] Request Permission Rejected", error);
             })
     }
 
@@ -45,10 +45,10 @@ class FCMService {
                 if (fcmToken) {
                     onRegister(fcmToken)
                 } else {
-                    console.log("[FCMService] User does not have a devices token")
+                    // console.log("[FCMService] User does not have a devices token")
                 }
             }).catch(error => {
-                console.log("[FCMService] getToken Rejected", error);
+                // console.log("[FCMService] getToken Rejected", error);
             })
     }
     /* deleteToken = () => {

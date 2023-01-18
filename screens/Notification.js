@@ -1,4 +1,4 @@
-import React,{useEffect} from 'react'
+import React,{memo, useEffect} from 'react'
 import { View, FlatList, Pressable } from 'react-native'
 import { Card, Paragraph, IconButton, Text } from 'react-native-paper';
 import { useDispatch, useSelector } from 'react-redux'
@@ -6,6 +6,7 @@ import { getNotification, updateNotification } from '../components/redux/actions
 import useThemeStyle from '../components/utils/useThemeStyle';
 import Nodatafound from './Reusable/Nodatafound';
 import moment from 'moment'
+import uuid from 'react-uuid';
 
 const Notification = () => {
 
@@ -15,17 +16,16 @@ const Notification = () => {
  
   const dispatch = useDispatch();
   
-  useEffect(() => {
-    dispatch(getNotification(empcode,'1'));
-    
-  },[])
+  useEffect(() => {    
+    dispatch(getNotification(empcode));
+  },[empcode])
 
   const handlePress = (item) => {
     dispatch(updateNotification(empcode,item.id,'1','0'))
   }
 
   const handleDelete = (item) => {
-    dispatch(updateNotification(empcode,item.id,'0','1'))    
+    dispatch(updateNotification(empcode,item.id,'0','1'))
   }
 
   return (
@@ -34,7 +34,9 @@ const Notification = () => {
         notifi && notifi.Notification && notifi.Notification.length > 0 ? 
           <FlatList
               data={notifi && notifi.Notification}
-              keyExtractor={(item) => item.id}
+              keyExtractor={() => uuid()}
+              initialNumToRender={5}
+              removeClippedSubviews
               renderItem={({item}) => (
                   <Pressable onPress={() => handlePress(item)}>
                     <Card style={[theme.card,{padding:10,backgroundColor:`${item.IsRead == '0' ? theme.colors.accent : '#fff'}`}]} elevation={5} >
@@ -64,4 +66,4 @@ const Notification = () => {
   )
 }
 
-export default Notification
+export default memo(Notification)

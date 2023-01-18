@@ -27,7 +27,7 @@ const MarkEmpAtt = ({navigation,route}) => {
     <View style={theme.dtcontainer}>
       <Dtheader headtitle={['Team Members']}/>
       {
-        result && result.TeamAttendance[0].msg == 'Employee Found' ? 
+        result&&result.TeamAttendance&&result.TeamAttendance[0].msg == 'Employee Found' ? 
         <View style={{marginTop:5}}>
             <FlatList
                 data={repoarry && repoarry}
