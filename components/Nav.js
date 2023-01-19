@@ -97,7 +97,7 @@ const Nav = ({color, refer}) => {
                 }} />
             <Stack.Screen name="LeaveBal" component={LeaveBalScreen} 
                 options={{
-                title:'Leave Balance',                   
+                title:'Balance',                   
                 }} />    
             <Stack.Screen name="OdRegister" component={ODAppsScreen} 
                 options={{

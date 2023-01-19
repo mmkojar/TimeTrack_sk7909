@@ -79,7 +79,7 @@ function MarkAttendance({ navigation, route }) {
           setQrVisible(true)
         }
         else {
-          Toast.show({ type: 'error', text1: `Your are Outside of Geofence` })
+          Toast.show({ type: 'error', text1: `Your are Outside of Geofence ${location.latitude} - ${location.longitude}` })
         }
       }
       else {
@@ -95,14 +95,16 @@ function MarkAttendance({ navigation, route }) {
 
     geolocationService.getLocation(setLocation);
     if (getqrValue.indexOf(e.data) == '-1') {
-      Alert.alert('Error', 'Invalid QR Value', [
-        {
-          text: 'OK', onPress: () => {
-            scanner.current.reactivate()
-            // setQrVisible(false)
-          }
-        }
-      ], { cancelable: false })
+      // Alert.alert('Error', 'Invalid QR Value', [
+      //   {
+      //     text: 'OK', onPress: () => {
+      //       scanner.current.reactivate()
+      //       // setQrVisible(false)
+      //     }
+      //   }
+      // ], { cancelable: false })
+      setQrVisible(false)
+      Toast.show({ type: 'error', text1: 'Marathi Barcode not matching' })
     }
     else {
       setQrvalue(e.data);
@@ -122,7 +124,7 @@ function MarkAttendance({ navigation, route }) {
     setBoxVisible(false);
     dispatch(insertAttendance(ecode, type, location.longitude, location.latitude, location.accuracy, punchdate, remark, qrvalue))
     dispatch(getTodaysAttLogs(ecode));
-    // console.warn(ecode,type,longi,lati,accuracy,punchdate,remark,qrvalue);    
+    // console.warn(ecode,type,longi,lati,accuracy,punchdate,remark,qrvalue);
   }
 
   const HomeIn = ({ type }) => {
@@ -197,7 +199,7 @@ function MarkAttendance({ navigation, route }) {
             isHod == 'true' && 
             <Pressable onPress={attmarkDetail}>
               <Image
-                style={[styles.image,{alignSelf:'flex-end',marginRight:20}]}
+                style={{width: 60,height: 60,alignSelf:'flex-end',marginRight:20}}
                 source={require(`../assets/iii.png`)}
               />
             </Pressable>
