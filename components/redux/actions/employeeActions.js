@@ -97,7 +97,7 @@ export const getTimeCardOnLoad = (empcode) => (dispatch) => {
     fetchAxios(dispatch,`GetTimeCardPageLoad?EmpCode=${empcode}`,TCARD_ONLOAD);
 }
 export const getTimeCardSelfFilter = (empcode,fdate,tdate) => (dispatch) => {
-    dispatch({ type: TCARD_SELF, payload: [] })
+    // dispatch({ type: TCARD_SELF, payload: [] })
     fetchAxios(dispatch,`GetTimeCardForSelf?EmpCode=${empcode}&FromDate=${fdate}&ToDate=${tdate}`,TCARD_SELF);
 }
 export const getDetailTimeCardForSelf = (empcode,tr_date) => (dispatch) => {

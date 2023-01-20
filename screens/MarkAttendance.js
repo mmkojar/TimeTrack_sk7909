@@ -199,7 +199,7 @@ function MarkAttendance({ navigation, route }) {
             isHod == 'true' && 
             <Pressable onPress={attmarkDetail}>
               <Image
-                style={{width: 60,height: 60,alignSelf:'flex-end',marginRight:20}}
+                style={{width: 50,height: 50,alignSelf:'flex-end',marginRight:20}}
                 source={require(`../assets/iii.png`)}
               />
             </Pressable>
