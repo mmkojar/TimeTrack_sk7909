@@ -16,7 +16,7 @@ const AtttendanceChart = ({navigation}) => {
   const result = useSelector((state) => state.employee.graph)
   
   var graphArr = result && result['GraphValue'];
-  const COLORS = ['#b8d8d8','#d5e5a3','#f53e3e6b','#d6c1ab','#F3BB45','#FFD662','#008000','#000080','#800000','#ffa500','#4b0082'];
+  const COLORS = ['#00ff00','#ff0000','#f4f6f2','#ffff00','#078383','#ff8f48','#006400','#000080','#800000','#ffa500','#4b0082'];
   const [selectedCategory, setSelectedCategory] = React.useState(null)
   
   let grpresult = [];
@@ -34,6 +34,27 @@ const AtttendanceChart = ({navigation}) => {
   });
   let gcolors = [];
   for(var i in grpresult) {
+    if(grpresult[i].i == 'Present') {
+      grpresult[i].color = '#00ff00'
+    }
+    else if(grpresult[i].i == 'Absent') {
+      grpresult[i].color = '#ff0000'
+    }
+    else if(grpresult[i].i == 'OD') {
+      grpresult[i].color = '#f4f6f2'
+    }
+    else if(grpresult[i].i == 'Leave') {
+      grpresult[i].color = '#ffff00'
+    }
+    else if(grpresult[i].i == 'Coff') {
+      grpresult[i].color = '#078383'
+    }
+    else if(grpresult[i].i == 'Holiday') {
+      grpresult[i].color = '#ff8f48'
+    }
+    else if(grpresult[i].i == 'WeekOff') {
+      grpresult[i].color = '#006400'
+    }
     gcolors.push(grpresult[i].color)
   }
   let legend = [];
