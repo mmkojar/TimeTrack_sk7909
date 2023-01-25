@@ -1,4 +1,4 @@
-package com.timetrack.newarchitecture;
+package com.ttmobile.timetrack_hv1.newarchitecture;
 
 import android.app.Application;
 import androidx.annotation.NonNull;
@@ -19,9 +19,9 @@ import com.facebook.react.fabric.CoreComponentsRegistry;
 import com.facebook.react.fabric.FabricJSIModuleProvider;
 import com.facebook.react.fabric.ReactNativeConfig;
 import com.facebook.react.uimanager.ViewManagerRegistry;
-import com.timetrack.BuildConfig;
-import com.timetrack.newarchitecture.components.MainComponentsRegistry;
-import com.timetrack.newarchitecture.modules.MainApplicationTurboModuleManagerDelegate;
+import com.ttmobile.timetrack_hv1.BuildConfig;
+import com.ttmobile.timetrack_hv1.newarchitecture.components.MainComponentsRegistry;
+import com.ttmobile.timetrack_hv1.newarchitecture.modules.MainApplicationTurboModuleManagerDelegate;
 import java.util.ArrayList;
 import java.util.List;
 

@@ -31,10 +31,46 @@
               "client_type": 3
             },
             {
-              "client_id": "1525577107-84khbcbeump5nlls8slet08q9279ombj.apps.googleusercontent.com",
+              "client_id": "1525577107-505iu94f8ukg9hf8acicjm33vd89t043.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.timetrack"
+                "bundle_id": "com.ttmobile.main"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1525577107:android:0f199036b885eddfd0a466",
+        "android_client_info": {
+          "package_name": "com.ttmobile.timetrack_hv1"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1525577107-r3o5h0a5dg9urbtduns0boqnu57gimfo.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC8MJTgJeomGV6lYn1pk68JnfUFqP_qIBQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1525577107-r3o5h0a5dg9urbtduns0boqnu57gimfo.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1525577107-505iu94f8ukg9hf8acicjm33vd89t043.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.ttmobile.main"
               }
             }
           ]

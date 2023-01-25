@@ -4,7 +4,7 @@
     "type": "APK",
     "kind": "Directory"
   },
-  "applicationId": "com.timetrack",
+  "applicationId": "com.ttmobile.timetrack_hv1",
   "variantName": "release",
   "elements": [
     {

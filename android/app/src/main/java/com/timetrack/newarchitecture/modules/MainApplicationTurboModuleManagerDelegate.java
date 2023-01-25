@@ -1,4 +1,4 @@
-package com.timetrack.newarchitecture.modules;
+package com.ttmobile.timetrack_hv1.newarchitecture.modules;
 
 import com.facebook.jni.HybridData;
 import com.facebook.react.ReactPackage;
