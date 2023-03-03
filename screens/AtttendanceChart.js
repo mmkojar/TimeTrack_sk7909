@@ -16,7 +16,7 @@ const AtttendanceChart = ({navigation}) => {
   const result = useSelector((state) => state.employee.graph)
   
   var graphArr = result && result['GraphValue'];
-  const COLORS = ['#00ff00','#ff0000','#f4f6f2','#ffff00','#078383','#ff8f48','#006400','#000080','#800000','#ffa500','#4b0082'];
+  const COLORS = ['#0adf09','#ff0000','#f4f6f2','#ffff00','#078383','#ff8f48','#006400','#000080','#800000','#ffa500','#4b0082'];
   const [selectedCategory, setSelectedCategory] = React.useState(null)
   
   let grpresult = [];
@@ -25,7 +25,7 @@ const AtttendanceChart = ({navigation}) => {
         if(pa[i] !== '0' && i !== 'Graph For' && i !== 'Total') {
           grpresult.push(Object.assign({
               x:i,
-              y:pa[i],
+              y:Number(pa[i]),
               name:i,
               color:COLORS[index]
           }))
@@ -34,26 +34,29 @@ const AtttendanceChart = ({navigation}) => {
   });
   let gcolors = [];
   for(var i in grpresult) {
-    if(grpresult[i].i == 'Present') {
-      grpresult[i].color = '#00ff00'
+    if(grpresult[i].x == 'Present') {
+      grpresult[i].color = '#0adf09'
     }
-    else if(grpresult[i].i == 'Absent') {
-      grpresult[i].color = '#ff0000'
+    else if(grpresult[i].x == 'Absent') {
+      grpresult[i].color = '#f17676'
     }
-    else if(grpresult[i].i == 'OD') {
-      grpresult[i].color = '#f4f6f2'
+    else if(grpresult[i].x == 'OD') {
+      grpresult[i].color = '#d3d3d3'
     }
-    else if(grpresult[i].i == 'Leave') {
+    else if(grpresult[i].x == 'Leave') {
       grpresult[i].color = '#ffff00'
     }
-    else if(grpresult[i].i == 'Coff') {
-      grpresult[i].color = '#078383'
+    else if(grpresult[i].x == 'Coff') {
+      grpresult[i].color = '#9090f1'
     }
-    else if(grpresult[i].i == 'Holiday') {
-      grpresult[i].color = '#ff8f48'
+    else if(grpresult[i].x == 'Holiday') {
+      grpresult[i].color = '#fccd77'
     }
-    else if(grpresult[i].i == 'WeekOff') {
-      grpresult[i].color = '#006400'
+    else if(grpresult[i].x == 'WeekOff') {
+      grpresult[i].color = '#ffbfcd'
+    }
+    else if(grpresult[i].x == 'WFH') {
+      grpresult[i].color = '#00fefa'
     }
     gcolors.push(grpresult[i].color)
   }
@@ -118,14 +121,14 @@ const AtttendanceChart = ({navigation}) => {
                   <VictoryPie
                       data={grpresult}
                       colorScale={gcolors}
-                      innerRadius={80}
+                      innerRadius={70}
                       radius={({ datum }) => (selectedCategory && selectedCategory == datum.name) ? width * 0.43 : width*0.42 - 10}
                       labelRadius={({ innerRadius }) => innerRadius + 20 }
                       labels={({ datum }) => datum.y}
                       style={{
-                        labels: { fontSize: 20,fill:'#fff' },
+                        labels: { fontSize: 18,fill:'#000' },
                         data: {
-                          fillOpacity: 0.9, stroke: "#fff", strokeWidth: 3
+                          fillOpacity: 0.8, stroke: "#fff", strokeWidth: 3
                         },
                         parent:{
                           ...styles.shadow
@@ -139,7 +142,7 @@ const AtttendanceChart = ({navigation}) => {
                   />
               </View>
               {/* <ScrollView style={{flex:1}}> */}
-                <View>
+                <View style={{flex:1,flexDirection:'row',flexWrap: 'wrap'}}>
                   {
                     legend.map((item,index) => {
                       return (

@@ -54,8 +54,7 @@ const WFH = ({theme,navigation,route}) => {
         }
         else {
             dispatch(insertAppForm(
-                `WFHApplyForEmployee?EmpCode=${ecode}&Duration=${duration ? duration : duid}&Durationmultple=${durmultiple}
-                &Fromdate=${fdate}&Todate=${tdate ? tdate : fdate}&Reason=${reason}`
+                `WFHApplyForEmployee?EmpCode=${ecode}&Duration=${duration ? duration : duid}&Durationmultple=${durmultiple}&Fromdate=${fdate}&Todate=${tdate ? tdate : fdate}&Reason=${reason}`
             ));
             setDuid('')
             durationRef.current.reset();

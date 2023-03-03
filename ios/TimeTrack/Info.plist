@@ -38,9 +38,9 @@
 	<key>NSCameraUsageDescription</key>
 	<string>TimeTrack wants your camera permission for QR Scanner</string>
 	<key>NSLocationAlwaysUsageDescription</key>
-	<string>YOUR TEXT</string>
+	<string>TimeTrack wants to access your location for attedance punching.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string></string>
+	<string>TimeTrack wants to access your location for attedance punching.</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>VarelaRound-Regular.ttf</string>

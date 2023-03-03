@@ -10,13 +10,14 @@ const Datepicker = ({datecount,date1,date2,setState1,setState2,placeholder1,plac
     //For Datepicker
     const [show,setShow] = useState(false);
     const [pickno,setPickno] = useState('');
-    const [unix, setUnix] = useState(moment(new Date()).valueOf());
+    const [unix1, setUnix1] = useState(moment(new Date()).valueOf());
+    const [unix2, setUnix2] = useState(moment(new Date()).valueOf());
 
     const onPickerChange = (event, selectedDate) => {
         
         Platform.OS == 'android' && setShow(false);
-        setUnix(event.nativeEvent.timestamp);
-        
+        pickno == '1' ? setUnix1(event.nativeEvent.timestamp) : setUnix2(event.nativeEvent.timestamp);
+        console.log(event);
         if(event.type == 'set') {
             if(mode == 'time') {
                 var currentDate = moment(selectedDate).format('HH:mm');
@@ -38,7 +39,8 @@ const Datepicker = ({datecount,date1,date2,setState1,setState2,placeholder1,plac
 
     const handleIOSCancel = () => {
         setShow(false);
-        setUnix(moment(new Date()).valueOf());
+        
+        pickno == '1' ? setUnix1(moment(new Date()).valueOf()) : setUnix2(moment(new Date()).valueOf());
         if(mode == 'time') {
             pickno == '1' ? setState1(moment().format('HH:mm')) : setState2(moment().format('HH:mm'));
         }
@@ -56,7 +58,7 @@ const Datepicker = ({datecount,date1,date2,setState1,setState2,placeholder1,plac
                 Platform.OS == 'ios' ?
                 <Portal>
                     <Modal visible={visible} dismissable={false} contentContainerStyle={styles.modal}>
-                        <DateTimePicker onChange={onPickerChange} value={new Date(unix)} mode={mode && mode} display='inline' themeVariant='light'/>
+                        <DateTimePicker onChange={onPickerChange} value={pickno == '1' ? new Date(unix1) : new Date(unix2)} mode={mode && mode} display='inline' themeVariant='light'/>
                         <View style={styles.action}>
                             <View style={{width:'48%'}}>
                                 <CustomButtons title="Cancel" pressHandler={handleIOSCancel} style={{width:'100%',marginTop:0}}></CustomButtons>
@@ -68,7 +70,7 @@ const Datepicker = ({datecount,date1,date2,setState1,setState2,placeholder1,plac
                     </Modal>
                 </Portal>
                 :
-                <DateTimePicker onChange={onPickerChange} value={new Date(unix)} mode={mode && mode} display='default'/>            
+                <DateTimePicker onChange={onPickerChange} value={pickno == '1' ? new Date(unix1) : new Date(unix2)} mode={mode && mode} display='default'/>            
             )
         }
        

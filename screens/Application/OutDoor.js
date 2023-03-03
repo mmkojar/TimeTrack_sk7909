@@ -57,8 +57,7 @@ const OutDoor = ({theme,navigation,route}) => {
         }
         else {
             dispatch(insertAppForm(
-              `ApplyODEntryEmployee?EmpCode=${ecode}&Duration=${duration ? duration : duid}&Durationmultple=${durmultiple}
-              &ODStart=${odstart}&ODEnd=${odend}&NextDay=${nextday == true ? '1' : '0'}&Fromdate=${fdate}&Todate=${tdate ? tdate : fdate}&Reason=${reason}`
+              `ApplyODEntryEmployee?EmpCode=${ecode}&Duration=${duration ? duration : duid}&Durationmultple=${durmultiple}&ODStart=${odstart}&ODEnd=${odend}&NextDay=${nextday == true ? '1' : '0'}&Fromdate=${fdate}&Todate=${tdate ? tdate : fdate}&Reason=${reason}`
             ));
             durationRef.current.reset()
             setDuid('')

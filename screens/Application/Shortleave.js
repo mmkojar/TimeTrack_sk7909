@@ -33,7 +33,6 @@ const Shortleave = ({theme,navigation,route}) => {
       }
       dispatch(getEmpSL(ecode))
     },[])
-    
     const [fdate, setFdate] = useState(moment(new Date()).format('DD/MM/YYYY'));
     const durationRef = useRef();
     const [duration, setDuration] = useState('');
@@ -79,7 +78,7 @@ const Shortleave = ({theme,navigation,route}) => {
                   <Title style={theme.appheading}>Short Leave Entry Details</Title>
                   <View style={{display:'flex',flexDirection:'row'}}>
                       <View style={{width:'35%'}}>
-                        <Text style={theme.applabel}>Select Date</Text>              
+                        <Text style={theme.applabel}>Date</Text>              
                         <Datepicker
                             date1={fdate}
                             setState1={setFdate}              
@@ -91,22 +90,27 @@ const Shortleave = ({theme,navigation,route}) => {
                       </View>
                   </View>
                   <View style={{marginVertical:10,display:'flex',flexDirection:'row'}}>
-                      <View style={{width:'48%'}}>
-                        <Text style={theme.applabel}>Start Time</Text>              
-                        <Datepicker
-                            date1={intime}
-                            mode="time"
-                            setState1={setIntime}                    
-                        />
-                      </View>
-                      <View style={{marginLeft:10,width:'48%'}}>
-                        <Text style={theme.applabel}>End Time</Text>
-                        <Datepicker
-                            date1={outtime}
-                            setState1={setOuttime}
-                            mode="time"                    
-                        />
-                      </View>
+                  {
+                    result&&result.ShortleavetimeAllowed === '0' && 
+                        <>
+                        <View style={{width:'48%'}}>
+                          <Text style={theme.applabel}>Start Time</Text>              
+                          <Datepicker
+                              date1={intime}
+                              mode="time"
+                              setState1={setIntime}
+                          />
+                        </View>
+                        <View style={{marginLeft:10,width:'48%'}}>
+                          <Text style={theme.applabel}>End Time</Text>
+                          <Datepicker
+                              date1={outtime}
+                              setState1={setOuttime}
+                              mode="time"                    
+                          />
+                        </View>
+                        </>
+                  }
                   </View>
                   <Text style={theme.applabel}>SL Type</Text>
                   <Dropdown refval={sltypeRef} data={fitertypes}  setValue={setSltype} style={{width:'48%'}}/>

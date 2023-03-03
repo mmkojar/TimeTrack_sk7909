@@ -106,8 +106,7 @@ const Manual = ({theme,navigation,route}) => {
       }
       else {
           dispatch(insertAppForm(
-            `ApplyManualEntryEmployee?EmpCode=${ecode}&Fromdate=${fdate}&Todate=${fdate}&ShiftCode=${shift}&Reason=${reason}&Login=${login}&LogOut=${logout}&NextDay=${nextday}
-              &Login1=${login}&LogOut1=${logout}&NextDay1=${nextday}&LoginOG=${login}&LogoutOG=${logout}&Remark=${remark}`
+            `ApplyManualEntryEmployee?EmpCode=${ecode}&Fromdate=${fdate}&Todate=${fdate}&ShiftCode=${shift}&Reason=${reason}&Login=${login}&LogOut=${logout}&NextDay=${nextday}&Login1=${login}&LogOut1=${logout}&NextDay1=${nextday}&LoginOG=${login}&LogoutOG=${logout}&Remark=${remark}`
           ));
           setFdate('')
           shiftRef.current.reset();

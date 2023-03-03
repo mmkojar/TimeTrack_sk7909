@@ -20,13 +20,27 @@ const RegisterDetails = ({navigation,route}) => {
     else if(apptype == 'Coff'){
       apptype = 'CompOff'
     }
-    
+
+    const payroll = result && result.GetApplicationStatusReport;
+
+    let display = 'flex';
+    if(payroll&&payroll[0].PayrollLock) {
+      if(payroll[0].PayrollLock === 'false') {
+        display = 'flex';
+      }
+      else {
+        display = 'none';
+      }
+    }
+    else {
+      display = 'flex';
+    }
     React.useLayoutEffect(() => {
       navigation.setOptions({
         title:title,
         headerRight: () => (
           <View style={{flexDirection: "row",justifyContent: "space-evenly",marginRight:0}}>
-            <Button
+              <Button
                 onPress={() => {
                   Alert.alert('Message','Are You Sure you want to delete?',[
                   {text: 'Yes', onPress:() => {
@@ -37,7 +51,7 @@ const RegisterDetails = ({navigation,route}) => {
                   ],{cancelable:true})
                   
                   }}
-                  style={{marginRight:-24}}
+                  style={{marginRight:-24,display:display}}
               >
               <MaterialCommunityIcons                  
                     name="delete"
@@ -45,6 +59,7 @@ const RegisterDetails = ({navigation,route}) => {
                     color="#fff"
                 />
             </Button>
+            
             <Button
                   onPress={() => {
                     navigate('Home');

@@ -32,7 +32,7 @@ const LeaveBal = ({navigation,route}) => {
                             <List.Item title={`Opening : `} titleStyle={styles.titlestlye} right={() => <Text style={styles.textstyle}>{item.OpeningBalance}</Text>}/>
                             <List.Item title={`Accured : `} titleStyle={styles.titlestlye} right={() => <Text style={styles.textstyle}>{item.Accrued}</Text>}/>
                             <List.Item title={`Used : `} titleStyle={styles.titlestlye} right={() => <Text style={styles.textstyle}>{item.LeaveUsed}</Text>}/>
-                            <List.Item title={`Count : `} titleStyle={styles.titlestlye} right={() => <Text style={styles.textstyle}>{item.CurrentBalance}</Text>}/>
+                            <List.Item title={`Balance : `} titleStyle={styles.titlestlye} right={() => <Text style={styles.textstyle}>{item.CurrentBalance}</Text>}/>
                             <List.Item title={`Application Count : `} titleStyle={styles.titlestlye} right={() => <Text style={styles.textstyle}>{item.NoOfApp}</Text>}/>
                         </List.Accordion>
                     )}

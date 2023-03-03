@@ -34,15 +34,15 @@ const SelfCard = ({navigation,route}) => {
         })
     }    
     const handleSubmit = () => {
-        if(date1 > date2) {
-            Toast.show({
-                type:'error',
-                text1:'Incorrect Dates'
-            });
-        }
-        else {
+        // if(date1 > date2) {
+        //     Toast.show({
+        //         type:'error',
+        //         text1:'Incorrect Dates'
+        //     });
+        // }
+        // else {
             dispatch(getTimeCardSelfFilter(empcode,date1,date2))
-        }
+        // }
     }
 
     return (
@@ -74,9 +74,12 @@ const SelfCard = ({navigation,route}) => {
                                         tr_date:item.Tr_Date
                                     }}
                                     indexkey={index}
+                                    statuscolor={item.AttendanceStatus.includes('A') && 'red'}
                                     dttable={
                                     [
                                         item.Tr_Date,
+                                        item.In ? item.In : '-',
+                                        item.out ? item.out : '-',
                                         item.AttendanceStatus,
                                         <FontAwesome5
                                             name="arrow-right"

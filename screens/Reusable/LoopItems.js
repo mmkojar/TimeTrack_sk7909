@@ -5,7 +5,7 @@ import useThemeStyle from '../../components/utils/useThemeStyle';
 
 const LoopItems = (props) => {
 
-  const { type,navigation,naviTo,naviObj,ctitle,dttable,indexkey } = props;
+  const { type,navigation,naviTo,naviObj,ctitle,dttable,indexkey, statuscolor } = props;
   
   const [theme] = useThemeStyle();
 
@@ -52,7 +52,7 @@ const LoopItems = (props) => {
             else {
               var styles = {justifyContent:'center'};
             }
-            return <DataTable.Cell key={index} textStyle={{fontSize:12}} style={styles}>{item}</DataTable.Cell>
+            return <DataTable.Cell key={index} textStyle={{fontSize:12,color:statuscolor ? statuscolor : '#000'}} style={styles}>{item}</DataTable.Cell>
           })
       }
     </DataTable.Row>
