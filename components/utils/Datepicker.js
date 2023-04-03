@@ -5,7 +5,7 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import moment from 'moment';
 import CustomButtons from './CustomButtons';
 
-const Datepicker = ({datecount,date1,date2,setState1,setState2,placeholder1,placeholder2,style,mode}) => {
+const Datepicker = ({datecount,date1,date2,setState1,setState2,placeholder1,placeholder2,style,mode,maxDate}) => {
 
     //For Datepicker
     const [show,setShow] = useState(false);
@@ -70,7 +70,7 @@ const Datepicker = ({datecount,date1,date2,setState1,setState2,placeholder1,plac
                     </Modal>
                 </Portal>
                 :
-                <DateTimePicker onChange={onPickerChange} value={pickno == '1' ? new Date(unix1) : new Date(unix2)} mode={mode && mode} display='default'/>            
+                <DateTimePicker onChange={onPickerChange} value={pickno == '1' ? new Date(unix1) : new Date(unix2)} mode={mode && mode} maximumDate={maxDate&&maxDate} display='default'/>            
             )
         }
        

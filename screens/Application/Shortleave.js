@@ -3,19 +3,22 @@ import { View, Platform, TouchableWithoutFeedback, Keyboard, KeyboardAvoidingVie
 import { Card, Title, Text, TextInput, withTheme } from 'react-native-paper'
 import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
-import Dropdown from '../../components/utils/Dropdown';
 import CustomButtons from '../../components/utils/CustomButtons';
 import Authorities from '../Reusable/Authorities';
 import { getEmpSL, insertAppForm } from '../../components/redux/actions/employeeActions';
+import { START_LOADER, STOP_LOADER } from '../../components/redux/actions/type';
 import Toast from 'react-native-toast-message';
 import Datepicker from '../../components/utils/Datepicker';
+import DateTimePicker from '@react-native-community/datetimepicker';
+import Config from '../../components/utils/Config';
+import SelectDropdown from 'react-native-select-dropdown';
 
 const Shortleave = ({theme,navigation,route}) => {
 
     const {ecode} =  route.params;
     const result = useSelector((state) => state.employee.empsl)
     const checkKey = result && Object.keys(result)[0];
-
+  
     const fiternames = [];
     for(var i in (checkKey !== 'msg')&&result&&result.Duration) {
         fiternames.push(result.Duration[i].selection)
@@ -33,39 +36,89 @@ const Shortleave = ({theme,navigation,route}) => {
       }
       dispatch(getEmpSL(ecode))
     },[])
-    const [fdate, setFdate] = useState(moment(new Date()).format('DD/MM/YYYY'));
+    const [fdate, setFdate] = useState();
     const durationRef = useRef();
     const [duration, setDuration] = useState('');
     const [intime, setIntime] = useState('');
     const [outtime, setOuttime] = useState('');
-    const sltypeRef = useRef();
+    // const sltypeRef = useRef();
     const [sltype, setSltype] = useState('');
     const [reason, setReason] = useState('');
 
+    const [shift, setShift] = useState('');
+    const [login, setLogin] = useState(''); 
+    const [logout, setLogout] = useState('');
+    const [shiftStartTime, setShiftStartTime] = useState('');
+    const [shiftEndTime, setShiftEndTime] = useState('');
+    const [checkey, setCheckey] = useState('');
+
+    const [show,setShow] = useState(false);
+    const [unix, setUnix] = useState(moment(new Date()).valueOf());
+  
+    const onPickerChange = (event, selectedDate) => {
+      setShow(false);
+      setUnix(event.nativeEvent.timestamp);
+      if(event.type == 'set') {
+          var currentDate = moment(selectedDate).format('DD/MM/YYYY');
+          setFdate(currentDate);
+          dispatch({ type: START_LOADER });
+          fetch(Config.clientUrl+`GetShortLeaveForEmployeeWithDate?EmpCode=${ecode}&SLDate=${currentDate}`,{
+            method:'GET'
+          })
+          .then(res => res.json())
+          .then((result) => {
+              dispatch({ type: STOP_LOADER });
+              setCheckey(Object.keys(result)[0]);
+              if(Object.keys(result)[0] !== 'msg') {
+                setShift(result.Shift[0].selection)
+                setLogin(result.Login[0].selection)
+                setLogout(result.Logout[0].selection)
+                setShiftStartTime(result.ShiftStartTime[0].selection)
+                setShiftEndTime(result.ShiftEndTime[0].selection)
+              }
+              else {
+                Toast.show({ type:'error', text1:result.msg })
+                setShift('')
+                setLogin('')
+                setLogout('')
+              }
+          })
+      }
+  };
+
     const submitEntry = () => {
-        if(duration == '' ||  intime == "" || outtime == "" ||  sltype == "" || reason == ""){
+        if(
+          result&&result.ShortleavetimeAllowed === '0' ? 
+          fdate == '' || duration == '' ||  intime == "" || outtime == "" ||  reason == ""
+          : 
+          fdate == '' || duration == '' || reason == ""
+          )
+        {
             Toast.show({
                 type: 'error',
                 text1:'Fill All fields',
             });
         }
-        else if(intime > outtime) {
+        /* else if(intime > outtime) {
             Toast.show({
                 type: 'error',
                 text1:'Incorrect Time',
             });
-        }
+        } */
         else {
-            dispatch(insertAppForm(`ShortLeaveApplyForEmployee?EmpCode=${ecode}&Duration=${duration}&SLType=${sltype}&Fromdate=${fdate}&Todate=${fdate}&Reason=${reason}&Intime=${intime}&Outtime=${outtime}`));            
-            setFdate(moment(new Date()).format('DD/MM/YYYY'))
-            durationRef.current.reset()
-            sltypeRef.current.reset()
-            setIntime('')
-            setOuttime('')
-            setReason('')
+            // console.log(`ShortLeaveApplyForEmployee?EmpCode=${ecode}&Duration=${duration}&SLType=${sltype}&Fromdate=${fdate}&Todate=${fdate}&Reason=${reason}&Intime=${intime}&Outtime=${outtime}`);
+            if(dispatch(insertAppForm(`ShortLeaveApplyForEmployee?EmpCode=${ecode}&Duration=${duration}&SLType=${sltype}&Fromdate=${fdate}&Todate=${fdate}&Reason=${reason}&Intime=${intime}&Outtime=${outtime}`))) {
+              setFdate('')
+              durationRef.current.reset()
+              // sltypeRef.current.reset()
+              setIntime('')
+              setOuttime('')
+              setLogin('')
+              setLogout('')
+              setReason('')
+            }
         }
     }
-    //  const hdate = date.split("~")[1];
 
   return (
     <ScrollView>
@@ -77,17 +130,78 @@ const Shortleave = ({theme,navigation,route}) => {
                 <Card style={theme.card} elevation={5}>
                   <Title style={theme.appheading}>Short Leave Entry Details</Title>
                   <View style={{display:'flex',flexDirection:'row'}}>
-                      <View style={{width:'35%'}}>
-                        <Text style={theme.applabel}>Date</Text>              
+                      <View style={{width:'48%'}}>
+                        {/* <Text style={theme.applabel}>Date</Text>              
                         <Datepicker
                             date1={fdate}
-                            setState1={setFdate}              
+                            setState1={setFdate}            
+                            maxDate={new Date()}  
+                        /> */}
+                          <Text style={theme.applabel}>Date</Text>
+                            <TextInput
+                              style={[{fontSize:14,height:45}]}
+                              onPressIn={() => setShow(true)}
+                              value={fdate}
+                              caretHidden={true}
+                              showSoftInputOnFocus={false}
+                              editable={Platform.OS == 'ios' ? false : true}
+                          />
+                        { show && <DateTimePicker onChange={onPickerChange} value={new Date(unix)} themeVariant='light' /> }
+                      </View>
+                      <View style={{marginLeft:10,width:'48%'}}>
+                          <Text style={theme.applabel}>Shift</Text>
+                          <TextInput
+                            style={{height:45}}
+                            value={shift}
+                          /> 
+                      </View>
+                  </View>
+                  <View style={{marginVertical:10,display:'flex',flexDirection:'row'}}>
+                      <View style={{width:'48%'}}>
+                        <Text style={theme.applabel}>Login Time</Text>              
+                        <Datepicker
+                            date1={login}
+                            mode="time"
+                            setState1={setLogin}                    
                         />
                       </View>
-                      <View style={{marginLeft:10,width:'62%'}}>
-                        <Text style={theme.applabel}>Duration</Text>
-                        <Dropdown refval={durationRef} data={fiternames}  setValue={setDuration} />
+                      <View style={{marginLeft:10,width:'48%'}}>
+                        <Text style={theme.applabel}>Logout Time</Text>
+                        <Datepicker
+                            date1={logout}
+                            setState1={setLogout}
+                            mode="time"
+                        />
                       </View>
+                  </View>
+                  <View style={{width:'48%'}}>
+                      <Text style={theme.applabel}>Duration</Text>
+                      <SelectDropdown              
+                          ref={durationRef}
+                          data={fiternames}
+                          defaultButtonText="--Select--"
+                          buttonStyle={{backgroundColor:theme.colors.accent,borderTopRightRadius:6,borderTopLeftRadius:6,height:45,width:'100%'}}
+                          buttonTextStyle={{fontSize:16,fontFamily:'VarelaRound-Regular'}}
+                          dropdownStyle={{borderRadius:10,marginTop:-30}}
+                          rowTextStyle={{fontSize:14,fontFamily:'VarelaRound-Regular'}}
+                          onSelect={(selectedItem, index) => {
+                            if(result&&result.ShortleavetimeAllowed === '1') {
+                              setDuration(selectedItem)
+                              if(selectedItem === 'firstHalf') {
+                                setIntime(login);
+                                setOuttime(shiftStartTime);
+                              }
+                              else {
+                                setIntime(logout);
+                                setOuttime(shiftEndTime);
+                              }
+                            }
+                            else {
+                              setDuration(selectedItem)
+                            }
+                          }}
+                        />
+                      {/* <Dropdown refval={durationRef} data={fiternames}  setValue={result&&result.ShortleavetimeAllowed === '0' ? setDuration : changeDuration} /> */}
                   </View>
                   <View style={{marginVertical:10,display:'flex',flexDirection:'row'}}>
                   {
@@ -112,8 +226,8 @@ const Shortleave = ({theme,navigation,route}) => {
                         </>
                   }
                   </View>
-                  <Text style={theme.applabel}>SL Type</Text>
-                  <Dropdown refval={sltypeRef} data={fitertypes}  setValue={setSltype} style={{width:'48%'}}/>
+                  {/* <Text style={theme.applabel}>SL Type</Text> */}
+                  {/* <Dropdown refval={sltypeRef} data={fitertypes}  setValue={setSltype} style={{width:'48%'}}/> */}
                 </Card>
                 <Card style={theme.card} elevation={5}>
                     <Text style={theme.applabel}>Leave Reason</Text>
@@ -130,7 +244,10 @@ const Shortleave = ({theme,navigation,route}) => {
                       result&&result.ShowHoursBalance > 0 && <Title style={{color:'red',marginTop:10}}>Remaining Balance : {result.ShowHoursBalance}</Title>
                     }            
                 </Card>
-                <CustomButtons title="Submit" pressHandler={submitEntry} />
+                {
+                  checkey !== 'msg' &&
+                  <CustomButtons title="Submit" pressHandler={submitEntry} />
+                }
             </View>
           </TouchableWithoutFeedback>
       </KeyboardAvoidingView>

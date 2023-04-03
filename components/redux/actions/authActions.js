@@ -13,7 +13,12 @@ const urlSuffix = 'TimetrackMobileAppService/';
 export const validRegisterUser = (userid,password,key,deviceId,token) => (dispatch) => {
 
     dispatch({ type: START_LOADER });
-    
+    /* if(key.charAt(0) === 'H') {
+        Config.serverUrl = 'https://timetrackweb.com/TimetrackMobileAppService/';
+    }
+    else {
+        Config.serverUrl = 'http://timetrackweb.com/TimetrackMobileAppService/';
+    } */
     axios.get(Config.serverUrl+`ValidRegisterUser?userid=${userid}&password=${password}&key=${key}`
     )
     .then((res) => {
@@ -138,6 +143,12 @@ export const GetHPEmployeeDevice = (url,userid,deviceId,token) => (dispatch) => 
 export const getHomePageInfo = (userid,password,key) => (dispatch) => {
 
     dispatch({ type: START_LOADER });
+    /* if(key.charAt(0) === 'H') {
+        Config.serverUrl = 'https://timetrackweb.com/TimetrackMobileAppService/';
+    }
+    else {
+        Config.serverUrl = 'http://timetrackweb.com/TimetrackMobileAppService/';
+    } */
     axios.get(Config.serverUrl+`ValidRegisterUser?userid=${userid}&password=${password}&key=${key}`)
     .then((res) => {
         const result = {

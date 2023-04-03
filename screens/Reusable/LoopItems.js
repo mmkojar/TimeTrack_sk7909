@@ -28,11 +28,11 @@ const LoopItems = (props) => {
       {
           dttable.map((item,index) => {
             if(dttable.length == '4') {
-                if(index == '1' || index == '2') {
+                if(index == '2') {
                   var styles = {justifyContent:'flex-start'};
                 }
-                else if(index == '0') {
-                  var styles = {justifyContent:'center',marginLeft:-30};                  
+                else if(index == '0' || index == '1') {
+                  var styles = {justifyContent:'center'};                  
                 }
                 else {
                   var styles = {justifyContent:'center'};
