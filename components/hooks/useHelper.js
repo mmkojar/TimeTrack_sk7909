@@ -31,7 +31,20 @@ const useHelper = () => {
     // const isAuth = useSelector((state) => state.auth.isAuthenticated);
         
     const onOpenNotification =  (notifi) => {
-        notifi.userInteraction == true && navigate('Notifi');
+        console.log("notifi:",notifi);
+       
+        if(notifi.userInteraction == true) {
+            if(notifi.data.AppID) {
+                navigate('PAItemDetail' ,{
+                    ecode:notifi.data.EmpCode,
+                    apptype:notifi.data.AppType.replace(' ',''),
+                    pdtype:notifi.data.AppAction,
+                    id:notifi.data.AppID
+                });
+            }
+            
+        } 
+
         // if(isAuth) {
         //     notifi.userInteraction == true && navigate('Notifi');
         // }

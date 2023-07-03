@@ -28,7 +28,7 @@ const Leave = ({theme,navigation,route}) => {
     },[])
 
     const [fdate, setFdate] = useState(moment(new Date()).format('DD/MM/YYYY'));
-    const [tdate, setTdate] = useState(moment(new Date()).format('DD/MM/YYYY'));
+    const [tdate, setTdate] = useState();
     const [ltype, setLtype] = useState('');
     const [task, setTask] = useState('');
     const [ecdays, setEcDays] = useState('');

@@ -46,7 +46,7 @@ function MarkAttendance({ navigation, route }) {
     // geolocationService.getLocationUpdates(watchId,setLocation);
     dispatch(getTodaysAttLogs(ecode));
     dispatch(getMarkEmpLogs(ecode));
-
+    
     return () => {
       geolocationService.stopLocationUpdates(watchId)
     }
@@ -55,10 +55,40 @@ function MarkAttendance({ navigation, route }) {
   const openModals = (param) => {
     geolocationService.getLocation(setLocation);
     setType(param);
-    if (checkAttType == '1') {
+    if (markemplogs.Desc == 'MA') {
       setBoxVisible(true);
     }
-    else if (checkAttType == '3') {
+    else if(markemplogs.Desc == 'MA-QR') {
+      setQrVisible(true)
+    }
+    else if(markemplogs.Desc == 'MA-GO') {
+      let isMatch = false;
+      let Lat = parseFloat(listGeoFencingType[0].Lat)
+      let Lang = parseFloat(listGeoFencingType[0].Lang)
+      
+      if (location) {
+        var dist = getDistance(
+          { latitude: location.latitude, longitude: location.longitude },
+          { latitude: Lat, longitude: Lang },
+        );
+        const range = (listGeoFencingType[0].RangeForGeo)
+        if (dist >= range) {
+          isMatch = false;
+        } else {
+          isMatch = true;
+        }
+        if (isMatch) {
+          setBoxVisible(true)
+        }
+        else {
+          Toast.show({ type: 'error', text1: `Your are Outside of Geofence ${location.latitude} - ${location.longitude}` })
+        }
+      }
+      else {
+        Toast.show({ type: 'error', text1: `Please Try again` })
+      }
+    }
+    else if (markemplogs.Desc == 'MA-GO-QR') {
       
       let isMatch = false;
       let Lat = parseFloat(listGeoFencingType[0].Lat)
@@ -86,9 +116,13 @@ function MarkAttendance({ navigation, route }) {
         Toast.show({ type: 'error', text1: `Please Try again` })
       }
     }
-    else {
-      setQrVisible(true)
+    else if(markemplogs.Desc == '') {
+      Toast.show({ type: 'error', text1: 'You are not Allowed to Mark Attendance' });
+      navigation.navigate('Home');
     }
+    // else {
+    //   setQrVisible(true)
+    // }
   };
 
   const onQrSuccess = e => {
@@ -123,7 +157,10 @@ function MarkAttendance({ navigation, route }) {
   const addAttend = () => {
     setBoxVisible(false);
     dispatch(insertAttendance(ecode, type, location.longitude, location.latitude, location.accuracy, punchdate, remark, qrvalue))
-    dispatch(getTodaysAttLogs(ecode));
+    setTimeout(() => {
+      dispatch(getTodaysAttLogs(ecode));
+    }, 1000);
+    setRemark('');
     // console.warn(ecode,type,longi,lati,accuracy,punchdate,remark,qrvalue);
   }
 
@@ -176,7 +213,7 @@ function MarkAttendance({ navigation, route }) {
           // cameraContainerStyle={{width:250}}
           />
         </Modal>
-        <Modal visible={boxvisible} onDismiss={() => setBoxVisible(false)} contentContainerStyle={{ backgroundColor: '#ffffff', borderRadius: 5, padding: 14, marginHorizontal: 40 }}>
+        <Modal visible={boxvisible} onDismiss={false} contentContainerStyle={{ backgroundColor: '#ffffff', borderRadius: 5, padding: 14, marginHorizontal: 40 }}>
           <Text style={{ color: theme.colors.primary, fontSize: 20, marginBottom: 10 }}>Remark</Text>
           <TextInput            
             keyboardType='default'

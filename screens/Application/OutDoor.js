@@ -35,7 +35,7 @@ const OutDoor = ({theme,navigation,route}) => {
     const [odend, setOdend] = useState(''); 
     const [nextday, setNextDay] = useState(false); 
     const [fdate, setFdate] = useState(moment(new Date()).format('DD/MM/YYYY'));
-    const [tdate, setTdate] = useState(moment(new Date()).format('DD/MM/YYYY'));
+    const [tdate, setTdate] = useState('');
     const [reason, setReason] = useState(''); 
     
     const submitEntry = () => {

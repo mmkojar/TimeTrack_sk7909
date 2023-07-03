@@ -110,8 +110,8 @@ class FCMService {
     // Background state message
     bgheadlessTask = () => {
         messaging().setBackgroundMessageHandler(async remoteMessage => {
-            // console.log("[FCMService] A new FCm message arrived from background", remoteMessage);
             if (remoteMessage) {
+                // console.log("[FCMService] A new FCm message arrived from background", remoteMessage);
                 // let notification = null;
                 // if (Platform.OS === 'ios') {
                 //     notification = remoteMessage.notification

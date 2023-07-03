@@ -42,7 +42,7 @@ const Shortleave = ({theme,navigation,route}) => {
     const [intime, setIntime] = useState('');
     const [outtime, setOuttime] = useState('');
     // const sltypeRef = useRef();
-    const [sltype, setSltype] = useState('');
+    const [sltype, setSltype] = useState('OFFICIAL');
     const [reason, setReason] = useState('');
 
     const [shift, setShift] = useState('');
@@ -106,17 +106,15 @@ const Shortleave = ({theme,navigation,route}) => {
             });
         } */
         else {
-            // console.log(`ShortLeaveApplyForEmployee?EmpCode=${ecode}&Duration=${duration}&SLType=${sltype}&Fromdate=${fdate}&Todate=${fdate}&Reason=${reason}&Intime=${intime}&Outtime=${outtime}`);
-            if(dispatch(insertAppForm(`ShortLeaveApplyForEmployee?EmpCode=${ecode}&Duration=${duration}&SLType=${sltype}&Fromdate=${fdate}&Todate=${fdate}&Reason=${reason}&Intime=${intime}&Outtime=${outtime}`))) {
-              setFdate('')
-              durationRef.current.reset()
-              // sltypeRef.current.reset()
-              setIntime('')
-              setOuttime('')
-              setLogin('')
-              setLogout('')
-              setReason('')
-            }
+            dispatch(insertAppForm(`ShortLeaveApplyForEmployee?EmpCode=${ecode}&Duration=${duration}&SLType=${sltype}&Fromdate=${fdate}&Todate=${fdate}&Reason=${reason}&Intime=${intime}&Outtime=${outtime}`))
+            setFdate('')
+            durationRef.current.reset()
+            // sltypeRef.current.reset()
+            setIntime('')
+            setOuttime('')
+            setLogin('')
+            setLogout('')
+            setReason('')
         }
     }
 
@@ -153,25 +151,36 @@ const Shortleave = ({theme,navigation,route}) => {
                           <TextInput
                             style={{height:45}}
                             value={shift}
+                            editable={false}
                           /> 
                       </View>
                   </View>
                   <View style={{marginVertical:10,display:'flex',flexDirection:'row'}}>
                       <View style={{width:'48%'}}>
                         <Text style={theme.applabel}>Login Time</Text>              
-                        <Datepicker
+                        {/* <Datepicker
                             date1={login}
                             mode="time"
-                            setState1={setLogin}                    
-                        />
+                            setState1={setLogin}
+                        /> */}
+                        <TextInput
+                            style={{height:45}}
+                            value={login}
+                            editable={false}
+                          /> 
                       </View>
                       <View style={{marginLeft:10,width:'48%'}}>
                         <Text style={theme.applabel}>Logout Time</Text>
-                        <Datepicker
+                        {/* <Datepicker
                             date1={logout}
                             setState1={setLogout}
                             mode="time"
-                        />
+                        /> */}
+                        <TextInput
+                            style={{height:45}}
+                            value={logout}
+                            editable={false}
+                          /> 
                       </View>
                   </View>
                   <View style={{width:'48%'}}>

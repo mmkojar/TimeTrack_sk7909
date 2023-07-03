@@ -14,7 +14,6 @@ const PAItemsDetail = ({theme,navigation,route}) => {
     const result = useSelector((state) => state.employee.detailhodlist)
     const entries = result && result.GetDetailedRegisterForHOD && Object.entries(result.GetDetailedRegisterForHOD[0]);
     const dispatch = useDispatch();
-    
     React.useLayoutEffect(() => {
       navigation.setOptions({
         title:apptype,
@@ -65,7 +64,7 @@ const PAItemsDetail = ({theme,navigation,route}) => {
     
     const pressHandler = (type) => {
       if(type == '1') {
-        if(pdtype == 'Pending Approval') {
+        if(pdtype == 'Pending Approval' || pdtype == 'Approval') {
              dispatch(addLeaveaction(
               `GETHODPendingApplicationApproved?EmpCode=${ecode}&ID=${submitres.Id}&AppType=${apptype}&RecommendedStatus=${submitres.Recommended_Status}&Approve=1&RejectReason=`
             ));
@@ -88,7 +87,7 @@ const PAItemsDetail = ({theme,navigation,route}) => {
         Toast.show({ type:'error', text1:'Rejection Reason is Required' })
       }
       else {
-        if(pdtype == 'Pending Approval') {
+        if(pdtype == 'Pending Approval' || pdtype == 'Approval') {
           dispatch(addLeaveaction(
             `GETHODPendingApplicationApproved?EmpCode=${ecode}&ID=${submitres.Id}&AppType=${apptype}&RecommendedStatus=${submitres.Recommended_Status}&Approve=0&RejectReason=${rejreason}`
           ));         
