@@ -8,6 +8,7 @@ import { appPermissions } from '../services/AppPermissions';
 import { PERMISSIONS } from 'react-native-permissions';
 import { useIsFocused } from '@react-navigation/native';
 import useHelper from '../components/hooks/useHelper';
+import deviceInfo from 'react-native-device-info';
 
 function Home({navigation}) {
      
@@ -46,6 +47,7 @@ function Home({navigation}) {
             return true;
         }
     };
+
     useEffect(() => {
         dispatch(GetHPEmployeeDevice(clientUrl,userid,deviceId&&deviceId,token&&token));
         dispatch(getHomePageInfo(userid,password,key));
@@ -224,7 +226,7 @@ function Home({navigation}) {
                 }
                 </View>
             </ScrollView>
-            <View style={{alignItems:'center',paddingVertical:10}}>
+            <View style={{alignItems:'center',padding:10}}>
                 {
                     checkStatus!=='Invalid' &&
                     <>
@@ -235,14 +237,19 @@ function Home({navigation}) {
                             source={{uri:result&&result.validreguser.find(item => item.CLogo).CLogo}}
                         />
                     }               
-                    <Text style={{fontSize:18}}>
+                
                     {
                         CopyRight !== undefined &&
-                        result&&result.validreguser.find(item => item.CopyRight).CopyRight.replace('?','\u00A9 ')
+                        <Text style={{fontSize:16}}>
+                        {
+                            result&&result.validreguser.find(item => item.CopyRight).CopyRight.replace('?','\u00A9 ')
+                        }
+                        </Text>
                     }
-                    </Text>
+                    
                     </>
-                 }            
+                }            
+                <Text>Version {deviceInfo.getVersion()}</Text>
             </View>
         </View>
     )

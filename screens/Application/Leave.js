@@ -77,6 +77,12 @@ const Leave = ({theme,navigation,route}) => {
     
     
     const submitEntry = () => {        
+
+        var vfdate = fdate.split("/").reverse().join("-");
+        var vtdate = tdate && tdate.split("/").reverse().join("-");
+    
+        let isBefore = moment(vfdate).isBefore(vtdate);
+
         if(
           task == 'Encash Leaves' && ltype == 'E-Earned Leave' ? 
           ltype == '' || task == '' || ecdays == '' || reason == ''
@@ -91,11 +97,11 @@ const Leave = ({theme,navigation,route}) => {
                 text1:'Fill All fields',
             });
         }
-        else if(duid == 'MultipleDay' ? (fdate > tdate) : !fdate) {
-            Toast.show({
-                type: 'error',
-                text1:`Incorrect Dates`,
-            });
+        else if(duid == 'MultipleDay' ? (isBefore === false) : !fdate) {
+          Toast.show({
+              type: 'error',
+              text1:'Incorrect Dates',
+          });
         }
         else {
             dispatch(insertAppForm(

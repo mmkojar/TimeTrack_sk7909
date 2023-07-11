@@ -98,12 +98,12 @@ const Manual = ({theme,navigation,route}) => {
               text1:'Fill All fields',
           });
       }
-      else if(login > logout) {
+      /* else if(login > logout) {
           Toast.show({
               type: 'error',
               text1:'Incorrect Time',
           });
-      }
+      } */
       else {
           dispatch(insertAppForm(
             `ApplyManualEntryEmployee?EmpCode=${ecode}&Fromdate=${fdate}&Todate=${fdate}&ShiftCode=${shift}&Reason=${reason}&Login=${login}&LogOut=${logout}&NextDay=${nextday}&Login1=${login}&LogOut1=${logout}&NextDay1=${nextday}&LoginOG=${login}&LogoutOG=${logout}&Remark=${remark}`

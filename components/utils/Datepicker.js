@@ -17,7 +17,7 @@ const Datepicker = ({datecount,date1,date2,setState1,setState2,placeholder1,plac
         
         Platform.OS == 'android' && setShow(false);
         pickno == '1' ? setUnix1(event.nativeEvent.timestamp) : setUnix2(event.nativeEvent.timestamp);
-        console.log(event);
+        // console.log(event);
         if(event.type == 'set') {
             if(mode == 'time') {
                 var currentDate = moment(selectedDate).format('HH:mm');

@@ -29,7 +29,7 @@ const LWP = ({theme,navigation,route}) => {
     
     const [duid, setDuid] = useState('');
     const [fdate, setFdate] = useState(moment(new Date()).format('DD/MM/YYYY'));
-    const [tdate, setTdate] = useState(moment(new Date()).format('DD/MM/YYYY')); 
+    const [tdate, setTdate] = useState(); 
     const [duration, setDuration] = useState(''); 
     const durationRef = React.useRef();
     const [durmultiple, setDurmultiple] = useState(''); 
@@ -37,6 +37,11 @@ const LWP = ({theme,navigation,route}) => {
        
     const submitEntry = () => {
         
+        var vfdate = fdate.split("/").reverse().join("-");
+        var vtdate = tdate && tdate.split("/").reverse().join("-");
+    
+        let isBefore = moment(vfdate).isBefore(vtdate);
+
         if(duid == 'MultipleDay' ? 
             reason == "" || duid == "" ||  duration == "" || durmultiple == "" : 
             reason == "" || duid == "" 
@@ -46,7 +51,7 @@ const LWP = ({theme,navigation,route}) => {
                 text1:'Fill All fields',
             });
         }
-        else if(duid == 'MultipleDay' ? (fdate > tdate) : !fdate) {
+        else if(duid == 'MultipleDay' ? (isBefore === false) : !fdate) {
             Toast.show({
                 type: 'error',
                 text1:'Incorrect Dates',
