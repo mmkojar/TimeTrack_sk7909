@@ -7,6 +7,7 @@
 #import <React/RCTAppSetupUtils.h>
 #import <UserNotifications/UserNotifications.h>
 #import <RNCPushNotificationIOS.h>
+// #import <GoogleMaps/GoogleMaps.h>
 
 #if RCT_NEW_ARCH_ENABLED
 #import <React/CoreModulesPlugins.h>
@@ -57,6 +58,8 @@ didReceiveNotificationResponse:(UNNotificationResponse *)response
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+  // [GMSServices provideAPIKey:@"AIzaSyBnJodmA0aQ80bkm0XTleXIO_FhzKty5E0"];
+
   [FIRApp configure];
   RCTAppSetupPrepareApp(application);
 

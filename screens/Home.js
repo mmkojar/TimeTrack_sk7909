@@ -10,7 +10,7 @@ import { useIsFocused } from '@react-navigation/native';
 import useHelper from '../components/hooks/useHelper';
 import deviceInfo from 'react-native-device-info';
 
-function Home({navigation}) {
+const Home = ({navigation}) => {
      
     const [theme] = useThemeStyle();
     const { token,deviceId } = useHelper();
@@ -49,6 +49,7 @@ function Home({navigation}) {
     };
 
     useEffect(() => {
+        // console.log('debug');
         dispatch(GetHPEmployeeDevice(clientUrl,userid,deviceId&&deviceId,token&&token));
         dispatch(getHomePageInfo(userid,password,key));
         dispatch(getHPEmployeeInfo(clientUrl,userid));
@@ -82,12 +83,12 @@ function Home({navigation}) {
             })
         }
     }
-    const checkPermi = () => {
+    const checkPermi = (navi,param) => {
         if(Platform.OS ==  'android') {
-            appPermissions.requestMultiple([PERMISSIONS.ANDROID.CAMERA,PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION],'MarkAtt',{ecode:userid,isHod:isHod});
+            appPermissions.requestMultiple([PERMISSIONS.ANDROID.CAMERA,PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION],navi,param);
         }
         if(Platform.OS ==  'ios') {
-            appPermissions.requestMultiple([PERMISSIONS.IOS.CAMERA,PERMISSIONS.IOS.LOCATION_WHEN_IN_USE],'MarkAtt',{ecode:userid,isHod:isHod});
+            appPermissions.requestMultiple([PERMISSIONS.IOS.CAMERA,PERMISSIONS.IOS.LOCATION_WHEN_IN_USE],navi,param);
         }
     }
             
@@ -137,7 +138,7 @@ function Home({navigation}) {
                     </Pressable>
                 }
                 {
-                    hps['MarkMyAttendance'] === '1' && <Pressable onPress={checkPermi}>
+                    hps['MarkMyAttendance'] === '1' && <Pressable onPress={() => checkPermi('MarkAtt',{ecode:userid,isHod:isHod})}>
                         <Card style={styles.innerItem} elevation={3}>
                                 <Image
                                     style={styles.image}
@@ -224,9 +225,19 @@ function Home({navigation}) {
                         </Card>
                     </Pressable>
                 }
+                <Pressable onPress={() =>checkPermi('livetracking',{})}>
+                        <Card style={styles.innerItem} elevation={3}>
+                            <Image
+                                style={styles.image}                                
+                                source={require('../assets/location.png')}
+                            >
+                            </Image>
+                            <Text style={theme.homeIconText}>Location{"\n"}Tracking</Text>
+                        </Card>
+                    </Pressable>
                 </View>
             </ScrollView>
-            <View style={{alignItems:'center',padding:10}}>
+            <View style={{alignItems:'center',padding:5}}>
                 {
                     checkStatus!=='Invalid' &&
                     <>

@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { START_LOADER, STOP_LOADER, LOGIN_SUCCESS, EMPLOYEE_INFO, HOME_PAGE, LOGOUT_SUCCESS } from './type';
+import { START_LOADER, STOP_LOADER, LOGIN_SUCCESS, EMPLOYEE_INFO, HOME_PAGE, LOGOUT_SUCCESS,OTP_VALIDATE, TIMER } from './type';
 import Config from '../../utils/Config';
 import Toast from 'react-native-toast-message';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -9,6 +9,7 @@ const Toaster = (type,text) => {
     Toast.show({ type: type, text1:text });
 }
 const urlSuffix = 'TimetrackMobileAppService/';
+var otpobj = {};
 
 export const validRegisterUser = (userid,password,key,deviceId,token) => (dispatch) => {
 
@@ -26,7 +27,13 @@ export const validRegisterUser = (userid,password,key,deviceId,token) => (dispat
         const checkStatus = res.data.ValidRegisterUser.find(item => item.Status).Status;
         if(checkStatus == 'active') {
             const clientUrl = res.data.ValidRegisterUser.find(item => item.IP).IP.split(',');
-            dispatch(ValidEmployeeUser(clientUrl,userid,password,key,deviceId,token))
+            // const OTP = res.data.ValidRegisterUser.find(item => item.OTP).OTP;
+            const OTP = '1';
+            dispatch({
+                type: OTP_VALIDATE,
+                payload: OTP,
+            });
+            dispatch(ValidEmployeeUser(clientUrl,userid,password,key,deviceId,token,OTP))
         }
         else {
             Toaster('error','Invalid Key')
@@ -39,13 +46,29 @@ export const validRegisterUser = (userid,password,key,deviceId,token) => (dispat
     });
 };
 
-export const ValidEmployeeUser = (url,userid,password,key,deviceId,token) => (dispatch) => {
+export const ValidEmployeeUser = (url,userid,password,key,deviceId,token,otp) => (dispatch) => {
    
-    axios.get(url[0]+urlSuffix+`ValidEmployeeUser?userid=${userid}&password=${password}`
-    )
+    var urlpath = (otp  == '1') ? url[0]+urlSuffix+`ValidEmployeeUser2?userid=${userid}&password=${password}&OTP=1` :
+            url[0]+urlSuffix+`ValidEmployeeUser?userid=${userid}&password=${password}`
+    axios.get(urlpath)
     .then((res) => {
         if(res.data.Active == 'true') {
-            dispatch(GetEmployeeDevice(url[0]+urlSuffix,userid,password,key,res.data.IsHod,deviceId,token))
+            if(res.data.OTP) {
+                dispatch({ type: STOP_LOADER });
+                const dt = new Date();
+                let minutes = dt.getTime();
+                Toaster('success',res.data.OTP);
+                dispatch({
+                    type:TIMER,
+                    payload:minutes,
+                })
+                otpobj.url = url[0]+urlSuffix;
+                otpobj.isHod = res.data.IsHod;
+                otpobj.OTP = res.data.OTP;
+            }
+            else {
+                dispatch(GetEmployeeDevice(url[0]+urlSuffix,userid,password,key,res.data.IsHod,deviceId,token))
+            }
         }
         else {
             Toaster('error','No User Found')
@@ -57,6 +80,18 @@ export const ValidEmployeeUser = (url,userid,password,key,deviceId,token) => (di
         dispatch(ValidEmployeeUser2(url[1]+urlSuffix,userid,password,key,deviceId,token))
         // Toaster('error','Server Error. Please try again after sometime');
     });
+}
+// console.log(otpobj);
+export const verifyOTP = (userid,password,key,deviceId,token,otpval) => (dispatch) => {
+    if(otpval == ''){
+        Toaster('error','Enter OTP');
+    }
+    else if(otpobj.OTP !== otpval) {
+         Toaster('error','Invalid OTP');
+    }
+    else{
+        dispatch(GetEmployeeDevice(otpobj.url,userid,password,key,otpobj.isHod,deviceId,token))
+    }
 }
 
 export const ValidEmployeeUser2 = (url,userid,password,key,deviceId,token) => (dispatch) => {

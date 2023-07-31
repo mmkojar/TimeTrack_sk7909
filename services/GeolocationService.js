@@ -31,12 +31,12 @@ class GeolocationService  {
     
         watchId.current = Geolocation.watchPosition(
           position => {
-            setLocation(position.coords);            
+            setLocation(position.coords);
           },
           error => {
             Alert.alert('Error',error.message,[
               {text: 'Go Back', onPress: () => navigate('Home')}
-              ],{cancelable:false})            
+              ],{cancelable:false})
               setLocation(null); 
           },
           {

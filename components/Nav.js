@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux';
 import { NavigationContainer  } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import HomeScreen from '../screens/Home';
+import LiveTrackingScreen from '../screens/LiveTracking';
 import LoginScreen from '../screens/Login';
 import AtttendanceChartScreen from '../screens/AtttendanceChart';
 //App screens
@@ -83,6 +84,10 @@ const Nav = ({color, refer}) => {
                     headerTitleAlign:'left'
                 }}
             /> 
+            <Stack.Screen name="livetracking" component={LiveTrackingScreen} 
+                options={{
+                title:'LiveTracking',
+                }} />  
             <Stack.Screen name="AtttendanceChart" component={AtttendanceChartScreen} 
                 options={{
                 title:'Atttendance Chart',

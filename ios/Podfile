@@ -1,26 +1,30 @@
 require_relative '../node_modules/react-native/scripts/react_native_pods'
 require_relative '../node_modules/@react-native-community/cli-platform-ios/native_modules'
 $RNFirebaseAsStaticFramework = true
-platform :ios, '12.4'
+platform :ios, '13.0'
 install! 'cocoapods', :deterministic_uuids => false
 
 target 'TimeTrack' do
-  config = use_native_modules!
-  use_frameworks!
+
+    config = use_native_modules!
+    use_frameworks!
   
-  pre_install do |installer|
-    Pod::Installer::Xcode::TargetValidator.send(:define_method, :verify_no_static_framework_transitive_dependencies) {}
-  
-    installer.pod_targets.each do |pod|
-      if pod.name.eql?('RNPermissions') || pod.name.start_with?('Permission-')
-        def pod.build_type;
-          # Uncomment the line corresponding to your CocoaPods version
-          Pod::BuildType.static_library # >= 1.9
-          # Pod::Target::BuildType.static_library # < 1.9
+    pre_install do |installer|
+      Pod::Installer::Xcode::TargetValidator.send(:define_method, :verify_no_static_framework_transitive_dependencies) {}
+    
+      installer.pod_targets.each do |pod|
+        if pod.name.eql?('RNPermissions') || pod.name.start_with?('Permission-')
+          def pod.build_type;
+            # Uncomment the line corresponding to your CocoaPods version
+            Pod::BuildType.static_library # >= 1.9
+            # Pod::Target::BuildType.static_library # < 1.9
+          end
         end
       end
     end
-  end
+    
+    # rn_maps_path = '../node_modules/react-native-maps'
+    # pod 'react-native-google-maps', :path => rn_maps_path
 
     permissions_path = '../node_modules/react-native-permissions/ios'
 

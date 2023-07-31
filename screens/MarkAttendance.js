@@ -43,7 +43,6 @@ function MarkAttendance({ navigation, route }) {
   const watchId = useRef(null);
   useEffect(() => {
     geolocationService.getLocation(setLocation);
-    // geolocationService.getLocationUpdates(watchId,setLocation);
     dispatch(getTodaysAttLogs(ecode));
     dispatch(getMarkEmpLogs(ecode));
     

@@ -1,4 +1,4 @@
-import React from 'react'
+import React,{memo} from 'react'
 import { DataTable } from 'react-native-paper';
 
 const Dtheader = ({headtitle}) => {
@@ -33,4 +33,4 @@ const Dtheader = ({headtitle}) => {
   )
 }
 
-export default Dtheader
+export default memo(Dtheader)
