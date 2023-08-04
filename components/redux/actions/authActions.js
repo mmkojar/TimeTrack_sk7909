@@ -1,9 +1,10 @@
 import axios from 'axios';
-import { START_LOADER, STOP_LOADER, LOGIN_SUCCESS, EMPLOYEE_INFO, HOME_PAGE, LOGOUT_SUCCESS,OTP_VALIDATE, TIMER } from './type';
+import { START_LOADER, STOP_LOADER, LOGIN_SUCCESS, EMPLOYEE_INFO, HOME_PAGE, LOGOUT_SUCCESS,OTP_VALIDATE } from './type';
 import Config from '../../utils/Config';
 import Toast from 'react-native-toast-message';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Platform } from 'react-native';
+import { navigate } from "../../../services/RootNavigation";
 
 const Toaster = (type,text) => {
     Toast.show({ type: type, text1:text });
@@ -27,8 +28,8 @@ export const validRegisterUser = (userid,password,key,deviceId,token) => (dispat
         const checkStatus = res.data.ValidRegisterUser.find(item => item.Status).Status;
         if(checkStatus == 'active') {
             const clientUrl = res.data.ValidRegisterUser.find(item => item.IP).IP.split(',');
-            // const OTP = res.data.ValidRegisterUser.find(item => item.OTP).OTP;
-            const OTP = '1';
+            const OTP = res.data.ValidRegisterUser.find(item => item.OTP).OTP;
+            // const OTP = '0';
             dispatch({
                 type: OTP_VALIDATE,
                 payload: OTP,
@@ -54,17 +55,17 @@ export const ValidEmployeeUser = (url,userid,password,key,deviceId,token,otp) =>
     .then((res) => {
         if(res.data.Active == 'true') {
             if(res.data.OTP) {
+                navigate('otp',{
+                    url: url[0]+urlSuffix,
+                    userid:userid,
+                    password:password,
+                    key:key,
+                    isHod: res.data.IsHod,
+                    deviceId:deviceId,
+                    token:token,
+                    apiotp: res.data.OTP,
+                });
                 dispatch({ type: STOP_LOADER });
-                const dt = new Date();
-                let minutes = dt.getTime();
-                Toaster('success',res.data.OTP);
-                dispatch({
-                    type:TIMER,
-                    payload:minutes,
-                })
-                otpobj.url = url[0]+urlSuffix;
-                otpobj.isHod = res.data.IsHod;
-                otpobj.OTP = res.data.OTP;
             }
             else {
                 dispatch(GetEmployeeDevice(url[0]+urlSuffix,userid,password,key,res.data.IsHod,deviceId,token))
@@ -82,15 +83,16 @@ export const ValidEmployeeUser = (url,userid,password,key,deviceId,token,otp) =>
     });
 }
 // console.log(otpobj);
-export const verifyOTP = (userid,password,key,deviceId,token,otpval) => (dispatch) => {
+export const verifyOTP = (url,userid,password,key,isHod,deviceId,token,apiotp,otpval) => (dispatch) => {
     if(otpval == ''){
         Toaster('error','Enter OTP');
     }
-    else if(otpobj.OTP !== otpval) {
+    else if(apiotp !== otpval) {
          Toaster('error','Invalid OTP');
     }
     else{
-        dispatch(GetEmployeeDevice(otpobj.url,userid,password,key,otpobj.isHod,deviceId,token))
+        dispatch(GetEmployeeDevice(url,userid,password,key,isHod,deviceId,token))
+        // dispatch(GetEmployeeDevice(otpobj.url,userid,password,key,otpobj.isHod,deviceId,token))
     }
 }
 

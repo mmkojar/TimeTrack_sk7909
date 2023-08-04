@@ -1,4 +1,4 @@
-import { LOGIN_SUCCESS, AUTH_ERROR, HOME_PAGE, EMPLOYEE_INFO, LOGOUT_SUCCESS, OTP_VALIDATE, TIMER } from '../actions/type';
+import { LOGIN_SUCCESS, AUTH_ERROR, HOME_PAGE, EMPLOYEE_INFO, LOGOUT_SUCCESS, OTP_VALIDATE } from '../actions/type';
 
 const initialState = {
     isAuthenticated: false,    
@@ -6,7 +6,6 @@ const initialState = {
     empinfo:null,
     hpsettings:null,
     otp:null,
-    timer:null
 };
 
 export default function (state = initialState, action) {
@@ -22,11 +21,6 @@ export default function (state = initialState, action) {
                 ...state,
                 otp:action.payload,
             };
-        case TIMER:
-            return {
-                ...state,
-                timer:action.payload,
-            };    
         case HOME_PAGE:
             return {
                 ...state,

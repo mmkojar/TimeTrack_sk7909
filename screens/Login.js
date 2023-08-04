@@ -1,51 +1,26 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import {  View,StyleSheet, Platform, TouchableWithoutFeedback, Keyboard, KeyboardAvoidingView, Image } from 'react-native';
 import { Card,TextInput,Text } from 'react-native-paper';
 import CustomButtons from '../components/utils/CustomButtons';
-import { useDispatch, useSelector } from 'react-redux';
-import { validRegisterUser, verifyOTP } from '../components/redux/actions/authActions';
+import { useDispatch } from 'react-redux';
+import { validRegisterUser } from '../components/redux/actions/authActions';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import useThemeStyle from '../components/utils/useThemeStyle';
 import Toast from 'react-native-toast-message';
 import useHelper from '../components/hooks/useHelper';
-import { OTP_VALIDATE, TIMER } from '../components/redux/actions/type';
+// import { OTP_VALIDATE, TIMER } from '../components/redux/actions/type';
 
 function Login() {
 
     const [ theme ] = useThemeStyle();
     const { token,deviceId } = useHelper();
-
-    const [userid,SetUserid] = useState('RT1505');
-    const [password,SetPassword] = useState('RT1505');
-    const [key,SetKey] = useState('Https@123');
-    const [otp,SetOtp] = useState('');
+    
+    const [userid,SetUserid] = useState('');
+    const [password,SetPassword] = useState('');
+    const [key,SetKey] = useState('');
     
     const [isPasswordSecure, setIsPasswordSecure] = useState(true);
     const [isKeySecure, setIsKeySecure] = useState(true);
-
-    const otpvalue = useSelector((state) => state.auth.otp);
-    const intitime = useSelector((state) => state.auth.timer);
-
-    useEffect(()=> {
-        if(intitime) {
-            let myInterval = setInterval(() => {
-                const dt = new Date();
-                let newtime = dt.getTime();
-                console.log("newtime:",newtime);
-                var differenceValue = (newtime - intitime) / 1000;
-                differenceValue /= 60;
-                let mintdiff = Math.abs(Math.round(differenceValue))
-                // console.log("mintdiff:",mintdiff);
-                if(mintdiff > 3) {
-                    Toast.show({ type: 'error', text1:'Session Exipire! Please login again' });
-                    resetHandler();
-                }
-            },1000)
-            return () => {
-                clearInterval(myInterval);
-            };
-        }
-    },[intitime])
          
     const dispatch = useDispatch();
 
@@ -67,25 +42,10 @@ function Login() {
         }
     }
 
-    const OTPHandler = () => {
-        // dispatch(validRegisterUser(userid,password,key,deviceId&&deviceId,token&&token));
-        dispatch(verifyOTP(userid,password,key,deviceId&&deviceId,token&&token,otp&&otp))
-    }
-
     const resetHandler = () => {
         SetUserid('')
         SetPassword('')
         SetKey('')
-        dispatch({
-            type: OTP_VALIDATE,
-            payload: '0',
-        });
-        const dt = new Date();
-        let resettime = dt.getTime();
-        dispatch({
-            type:TIMER,
-            payload:resettime,
-        })
     }
     
     return (
@@ -137,7 +97,7 @@ function Login() {
                                     }
                                     value={key}
                                 />
-                                {
+                                {/* {
                                     otpvalue == '1' ? 
                                     <TextInput
                                         style={[theme.textinput,{marginVertical:20}]}
@@ -148,20 +108,19 @@ function Login() {
                                         value={otp}
                                     />
                                     : null
-                                }
+                                } */}
                             </Card.Content>
                             <View style={styles.action}>
                                 <View style={{width:'36%'}}>
                                     <CustomButtons title="Reset" pressHandler={resetHandler} style={{width:'100%'}}></CustomButtons>                                
                                 </View>
                                 <View style={{width:'36%',marginLeft:10}}>
-                                    {
+                                    {/* {
                                          otpvalue == '1' ? 
-                                        <CustomButtons title="Verify OTP" pressHandler={OTPHandler} style={{width:'100%'}}></CustomButtons>
-                                        :
-                                        <CustomButtons title="Login" pressHandler={loginHandler} style={{width:'100%'}}></CustomButtons>
-
-                                    }
+                                        <CustomButtons title="Verify OTP" pressHandler={otpHandler} style={{width:'100%'}}></CustomButtons>
+                                        :     
+                                    } */}
+                                    <CustomButtons title="Login" pressHandler={loginHandler} style={{width:'100%'}}></CustomButtons>
                                 </View>
                             </View>
                         </Card>

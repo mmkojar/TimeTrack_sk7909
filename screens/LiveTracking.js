@@ -2,7 +2,7 @@ import React, { useEffect, useState,useRef } from 'react'
 import { View,StyleSheet, Alert, TouchableOpacity } from 'react-native'
 import { Text } from 'react-native-paper'
 import { geolocationService } from '../services/GeolocationService';
-import MapView, { Marker,PROVIDER_GOOGLE,Polyline } from "react-native-maps";
+import MapView, { Marker,PROVIDER_DEFAULT,PROVIDER_GOOGLE,Polyline } from "react-native-maps";
 import Geolocation from 'react-native-geolocation-service';
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 import haversine from 'haversine';
@@ -164,20 +164,29 @@ const LiveTracking = ({navigation}) => {
     
     // console.log("loc:",distanceTravelled&&distanceTravelled); 
     // console.log("cords:",routeCoordinates&&routeCoordinates);
-    // console.log("prevLatLng:",region.prevLatLng&&region.prevLatLng);
+    // console.log("prevLatLng:",prevLatLng&&prevLatLng);
     return (
         <View style={styles.container}>
             <MapView
                 ref={mapRef}
-                provider={PROVIDER_GOOGLE}
+                provider={PROVIDER_DEFAULT}
                 style={{ ...StyleSheet.absoluteFillObject }}
                 initialRegion={initRegion}
                 showsUserLocation={true}
+                userLocationAnnotationTitle="Testing Location"
+                followsUserLocation={true}
                 onRegionChangeComplete={(region) => setRegion(region)}
                 // mapType="hybrid"
             >
                 <Marker coordinate={initRegion} />
-                <Polyline coordinates={routeCoordinates} strokeWidth={5} />
+                <Polyline coordinates={routeCoordinates} strokeWidth={5}  strokeColor="#000" strokeColors={[
+                  '#7F0000',
+                  '#00000000', 
+                  '#B24112',
+                  '#E5845C',
+                  '#238C23',
+                  '#7F0000',
+                ]}/>
             </MapView>
             <View style={{alignSelf:'flex-end',marginRight:10,marginBottom:10}}>
               <TouchableOpacity onPress={() => handleZoom(true)} disabled={zoom === MAX_ZOOM_LEVEL}>

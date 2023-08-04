@@ -6,6 +6,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import HomeScreen from '../screens/Home';
 import LiveTrackingScreen from '../screens/LiveTracking';
 import LoginScreen from '../screens/Login';
+import OTPScreen from '../screens/OTP';
 import AtttendanceChartScreen from '../screens/AtttendanceChart';
 //App screens
 import AppScreen from '../screens/Application/Applist';
@@ -200,6 +201,11 @@ const Nav = ({color, refer}) => {
                 animationEnabled:false
             })}>    
             <Stack.Screen name="Login" component={LoginScreen} 
+                options={{
+                    headerShown:false
+                }}
+            />
+            <Stack.Screen name="otp" component={OTPScreen} 
                 options={{
                     headerShown:false
                 }}

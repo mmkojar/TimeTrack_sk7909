@@ -1,7 +1,7 @@
 require_relative '../node_modules/react-native/scripts/react_native_pods'
 require_relative '../node_modules/@react-native-community/cli-platform-ios/native_modules'
 $RNFirebaseAsStaticFramework = true
-platform :ios, '13.0'
+platform :ios, '12.4'
 install! 'cocoapods', :deterministic_uuids => false
 
 target 'TimeTrack' do
@@ -22,6 +22,33 @@ target 'TimeTrack' do
         end
       end
     end
+
+    # $static_library = [
+    #   'React',
+    #   'Google-Maps-iOS-Utils',
+    #   'GoogleMaps',
+    #   'react-native-google-maps',
+    #   'react-native-maps',
+    #   'React-hermes'
+    # ]
+
+    # pre_install do |installer|
+    #   Pod::Installer::Xcode::TargetValidator.send(:define_method, :verify_no_static_framework_transitive_dependencies) {}
+    #   installer.pod_targets.each do |pod|
+    #     bt = pod.send(:build_type)
+    #     if $static_library.include?(pod.name)
+    #       puts "Overriding the build_type to static_library from static_framework for #{pod.name}"
+    #       def pod.build_type;
+    #         Pod::BuildType.static_library
+    #       end
+    #     end
+    #   end
+    #   installer.pod_targets.each do |pod|
+    #     bt = pod.send(:build_type)
+    #     puts "#{pod.name} (#{bt})"
+    #     puts "  linkage: #{bt.send(:linkage)} packaging: #{bt.send(:packaging)}"
+    #   end
+    # end
     
     # rn_maps_path = '../node_modules/react-native-maps'
     # pod 'react-native-google-maps', :path => rn_maps_path
