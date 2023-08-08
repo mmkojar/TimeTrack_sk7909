@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { START_LOADER, STOP_LOADER, LOGIN_SUCCESS, EMPLOYEE_INFO, HOME_PAGE, LOGOUT_SUCCESS,OTP_VALIDATE } from './type';
+import { START_LOADER, STOP_LOADER, LOGIN_SUCCESS, EMPLOYEE_INFO, HOME_PAGE, LOGOUT_SUCCESS,OTP_VALIDATE, LOCK_INPUT } from './type';
 import Config from '../../utils/Config';
 import Toast from 'react-native-toast-message';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -83,12 +83,37 @@ export const ValidEmployeeUser = (url,userid,password,key,deviceId,token,otp) =>
     });
 }
 // console.log(otpobj);
+var icount = 0;
 export const verifyOTP = (url,userid,password,key,isHod,deviceId,token,apiotp,otpval) => (dispatch) => {
     if(otpval == ''){
         Toaster('error','Enter OTP');
     }
     else if(apiotp !== otpval) {
-         Toaster('error','Invalid OTP');
+        icount++;
+        var ccheck = icount == 1 ? '2' : icount == 2 ? '1' : '0';
+        if(ccheck == '0') {
+            navigate('Login')
+            Toaster('error','Your Account is Block for 15 minutes' );
+            const d1 = new Date();
+            const d2 = new Date(d1);
+            d2.setMinutes(d1.getMinutes()+15);
+            // d2.setMinutes(3);
+            // d2.setSeconds(10);
+            const lockinfo = {
+                stime:d2.getTime(),
+                // min: d2.getMinutes(),
+                // sec: 60,
+                lock:'1',
+            }
+            dispatch({
+                type: LOCK_INPUT,
+                payload: lockinfo,
+            });
+            // icount = 0;
+        }
+        else {
+            Toaster('error','Invalid OTP '+ ccheck +' Attempt Remaining' );
+        }
     }
     else{
         dispatch(GetEmployeeDevice(url,userid,password,key,isHod,deviceId,token))

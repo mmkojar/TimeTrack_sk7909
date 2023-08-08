@@ -10,6 +10,8 @@ export const LOGIN_INFO = 'LOGIN_INFO';
 export const HOME_PAGE = 'HOME_PAGE';
 export const EMPLOYEE_INFO = 'EMPLOYEE_INFO';
 export const OTP_VALIDATE = 'OTP_VALIDATE';
+export const LOCK_INPUT = 'LOCK_INPUT';
+export const SET_TIME = 'SET_TIME';
 // Graph
 export const GET_GRAPH = 'GET_GRAPH';
 // Mark Attendance

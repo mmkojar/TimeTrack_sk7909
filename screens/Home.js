@@ -112,129 +112,129 @@ const Home = ({navigation}) => {
                
                 
                 <View style={styles.cardstyles}>
-                {
-                    hps['Attendance-Chart'] === '1' &&  <Pressable onPress={() => navigation.navigate('AtttendanceChart')}>
-                        <Card style={styles.innerItem} elevation={3}>
+                    {
+                        hps['Attendance-Chart'] === '1' &&  <Pressable onPress={() => navigation.navigate('AtttendanceChart')}>
+                            <Card style={styles.innerItem} elevation={3}>
+                                    <Image
+                                        style={styles.image}
+                                        source={require('../assets/icons/8.png')}
+                                    >
+                                    </Image>
+                                    <Text style={theme.homeIconText}>Attendance {"\n"}Chart</Text>
+                            </Card>
+                        </Pressable>
+                    }
+                    
+                    {
+                        hps['Time-Card'] === '1' && <Pressable onPress={handleTimeCard}>
+                            <Card style={styles.innerItem} elevation={3}>
+                                    <Image
+                                        style={styles.image}
+                                        source={require('../assets/icons/4.png')}
+                                    >
+                                    </Image>
+                                    <Text style={theme.homeIconText}>Time Card</Text>
+                            </Card>
+                        </Pressable>
+                    }
+                    {
+                        hps['MarkMyAttendance'] === '1' && <Pressable onPress={() => checkPermi('MarkAtt',{ecode:userid,isHod:isHod})}>
+                            <Card style={styles.innerItem} elevation={3}>
+                                    <Image
+                                        style={styles.image}
+                                        source={require('../assets/icons/5.png')}
+                                    >
+                                    </Image>
+                                    <Text style={theme.homeIconText}>Mark My {"\n"}Attendance</Text>
+                            </Card>
+                        </Pressable>
+                    }
+                    {
+                        hps['Application'] === '1' && <Pressable onPress={() => navigation.navigate('App')}>
+                            <Card style={styles.innerItem} elevation={3}>
+                                    <Image
+                                        style={styles.image}
+                                        source={require('../assets/icons/1.png')}
+                                    >
+                                    </Image>
+                                    <Text style={theme.homeIconText}>Application</Text>
+                            </Card>
+                        </Pressable>
+                    } 
+                    {
+                        hps['Pending-Application'] === '1' && <Pressable onPress={handlePA}>
+                            <Card style={styles.innerItem} elevation={3}>
+                                    <Image
+                                        style={styles.image}
+                                        source={require('../assets/icons/2.png')}
+                                    >
+                                    </Image>
+                                    <Text style={theme.homeIconText}>Pending {"\n"}Application</Text>
+                            </Card>
+                        </Pressable>
+                    } 
+                    {
+                        hps['Application-Register'] === '1' && <Pressable onPress={() => navigation.navigate('RgList')}>
+                            <Card style={styles.innerItem} elevation={3}>
                                 <Image
                                     style={styles.image}
-                                    source={require('../assets/icons/8.png')}
+                                    source={require('../assets/icons/3.png')}
                                 >
                                 </Image>
-                                <Text style={theme.homeIconText}>Attendance {"\n"}Chart</Text>
-                        </Card>
-                    </Pressable>
-                }
-                
-                {
-                    hps['Time-Card'] === '1' && <Pressable onPress={handleTimeCard}>
-                        <Card style={styles.innerItem} elevation={3}>
+                                <Text style={theme.homeIconText}>Application {"\n"}Register</Text>
+                            </Card>
+                        </Pressable>
+                    }
+                    {
+                        hps['Holiday-List'] === '1' && <Pressable onPress={() => navigation.navigate('Holiday')}>
+                            <Card style={styles.innerItem} elevation={3}>
+                                    <Image
+                                        style={styles.image}
+                                        source={require('../assets/icons/6.png')}
+                                    >
+                                    </Image>
+                                    <Text style={theme.homeIconText}>Holiday List</Text>
+                            </Card>
+                        </Pressable>
+                    }
+                    {
+                        hps['Notice-Board'] === '1' && <Pressable onPress={() => navigation.navigate('Notice')}> 
+                            <Card style={styles.innerItem} elevation={3}>
                                 <Image
                                     style={styles.image}
-                                    source={require('../assets/icons/4.png')}
+                                    source={require('../assets/icons/7.png')}
                                 >
                                 </Image>
-                                <Text style={theme.homeIconText}>Time Card</Text>
-                        </Card>
-                    </Pressable>
-                }
-                {
-                    hps['MarkMyAttendance'] === '1' && <Pressable onPress={() => checkPermi('MarkAtt',{ecode:userid,isHod:isHod})}>
-                        <Card style={styles.innerItem} elevation={3}>
+                                <Text style={theme.homeIconText}>Notice Board</Text>
+                            </Card>
+                        </Pressable>
+                    }
+                    {
+                        hps['Notification'] === '1' && <Pressable onPress={() => navigation.navigate('Notifi')}>
+                            <Card style={styles.innerItem} elevation={3}>
+                                {
+                                    checkey!=='Status' && 
+                                    <Avatar.Text label={authuser && authuser[3].NotificationCount} size={22} style={{position:'absolute',top:-14,right:10}}/>
+                                }
                                 <Image
-                                    style={styles.image}
-                                    source={require('../assets/icons/5.png')}
+                                    style={styles.image}                                
+                                    source={require('../assets/icons/9.png')}
                                 >
                                 </Image>
-                                <Text style={theme.homeIconText}>Mark My {"\n"}Attendance</Text>
-                        </Card>
-                    </Pressable>
-                }
-                {
-                    hps['Application'] === '1' && <Pressable onPress={() => navigation.navigate('App')}>
-                        <Card style={styles.innerItem} elevation={3}>
+                                <Text style={theme.homeIconText}>Notification</Text>
+                            </Card>
+                        </Pressable>
+                    }
+                   {/*  <Pressable onPress={() =>checkPermi('livetracking',{})}>
+                            <Card style={styles.innerItem} elevation={3}>
                                 <Image
-                                    style={styles.image}
-                                    source={require('../assets/icons/1.png')}
+                                    style={styles.image}                                
+                                    source={require('../assets/location.png')}
                                 >
                                 </Image>
-                                <Text style={theme.homeIconText}>Application</Text>
-                        </Card>
-                    </Pressable>
-                } 
-                {
-                    hps['Pending-Application'] === '1' && <Pressable onPress={handlePA}>
-                        <Card style={styles.innerItem} elevation={3}>
-                                <Image
-                                    style={styles.image}
-                                    source={require('../assets/icons/2.png')}
-                                >
-                                </Image>
-                                <Text style={theme.homeIconText}>Pending {"\n"}Application</Text>
-                        </Card>
-                    </Pressable>
-                } 
-                {
-                    hps['Application-Register'] === '1' && <Pressable onPress={() => navigation.navigate('RgList')}>
-                        <Card style={styles.innerItem} elevation={3}>
-                            <Image
-                                style={styles.image}
-                                source={require('../assets/icons/3.png')}
-                            >
-                            </Image>
-                            <Text style={theme.homeIconText}>Application {"\n"}Register</Text>
-                        </Card>
-                    </Pressable>
-                }
-                {
-                    hps['Holiday-List'] === '1' && <Pressable onPress={() => navigation.navigate('Holiday')}>
-                        <Card style={styles.innerItem} elevation={3}>
-                                <Image
-                                    style={styles.image}
-                                    source={require('../assets/icons/6.png')}
-                                >
-                                </Image>
-                                <Text style={theme.homeIconText}>Holiday List</Text>
-                        </Card>
-                    </Pressable>
-                }
-                {
-                    hps['Notice-Board'] === '1' && <Pressable onPress={() => navigation.navigate('Notice')}> 
-                        <Card style={styles.innerItem} elevation={3}>
-                            <Image
-                                style={styles.image}
-                                source={require('../assets/icons/7.png')}
-                            >
-                            </Image>
-                            <Text style={theme.homeIconText}>Notice Board</Text>
-                        </Card>
-                    </Pressable>
-                }
-                {
-                    hps['Notification'] === '1' && <Pressable onPress={() => navigation.navigate('Notifi')}>
-                        <Card style={styles.innerItem} elevation={3}>
-                            {
-                                checkey!=='Status' && 
-                                <Avatar.Text label={authuser && authuser[3].NotificationCount} size={22} style={{position:'absolute',top:-14,right:10}}/>
-                            }
-                            <Image
-                                style={styles.image}                                
-                                source={require('../assets/icons/9.png')}
-                            >
-                            </Image>
-                            <Text style={theme.homeIconText}>Notification</Text>
-                        </Card>
-                    </Pressable>
-                }
-                <Pressable onPress={() =>checkPermi('livetracking',{})}>
-                        <Card style={styles.innerItem} elevation={3}>
-                            <Image
-                                style={styles.image}                                
-                                source={require('../assets/location.png')}
-                            >
-                            </Image>
-                            <Text style={theme.homeIconText}>Location{"\n"}Tracking</Text>
-                        </Card>
-                    </Pressable>
+                                <Text style={theme.homeIconText}>Location{"\n"}Tracking</Text>
+                            </Card>
+                    </Pressable> */}
                 </View>
             </ScrollView>
             <View style={{alignItems:'center',padding:5}}>

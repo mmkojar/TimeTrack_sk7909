@@ -1,16 +1,16 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState, memo } from 'react';
 import {  View,StyleSheet, Platform, TouchableWithoutFeedback, Keyboard, KeyboardAvoidingView, Image } from 'react-native';
 import { Card,TextInput,Text } from 'react-native-paper';
 import CustomButtons from '../components/utils/CustomButtons';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { validRegisterUser } from '../components/redux/actions/authActions';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import useThemeStyle from '../components/utils/useThemeStyle';
 import Toast from 'react-native-toast-message';
 import useHelper from '../components/hooks/useHelper';
-// import { OTP_VALIDATE, TIMER } from '../components/redux/actions/type';
+import { LOCK_INPUT, SET_TIME } from '../components/redux/actions/type';
 
-function Login() {
+function Login({navigation}) {
 
     const [ theme ] = useThemeStyle();
     const { token,deviceId } = useHelper();
@@ -18,11 +18,75 @@ function Login() {
     const [userid,SetUserid] = useState('');
     const [password,SetPassword] = useState('');
     const [key,SetKey] = useState('');
+    const [disableinput,SetDisableInput] = useState(false);
     
     const [isPasswordSecure, setIsPasswordSecure] = useState(true);
     const [isKeySecure, setIsKeySecure] = useState(true);
          
+    const lockinfo = useSelector((state) => state.auth.lock);
+    const settimediff = useSelector((state) => state.auth.settime);
+
+    // const [minutes, setMinutes] = useState('');
+    // const [seconds, setSeconds] = useState('');
+
+    // const [currentmin, setcurrentmin] =  useState('')
+    // const [currentsec, setCurrentsec] = useState('');
+
+    // const [mindiff, setmindiff] = useState('');
+    // const [secdiff, setsecdiff] = useState('');
     const dispatch = useDispatch();
+
+    function calculateTimeDifference(date1,date2) {
+
+        var diff = date2 - date1.getTime();
+    
+        var msec = diff;
+        var hh = `0${Math.floor(msec / 1000 / 60 / 60)}`;
+        msec -= hh * 1000 * 60 * 60;
+    
+        var mm = `0${Math.floor(msec / 1000 / 60)}`;
+        msec -= mm * 1000 * 60;
+    
+        var ss = `0${Math.floor(msec / 1000)}`;
+        msec -= ss * 1000;
+        // setmindiff(mm.slice(-2))
+        const timepayload = {
+            min: mm.slice(-2),
+            sec: ss.slice(-2),
+        }
+        dispatch({ type: SET_TIME, payload: timepayload });
+        // setsecdiff(ss.slice(-2))
+        return hh.slice(-2) + ":" + mm.slice(-2) + ":" + ss.slice(-2);
+    }
+   
+    useEffect(() => {
+        // console.log(lockinfo&&lockinfo);
+        if(lockinfo&&lockinfo.lock == '1') {
+            SetDisableInput(true);
+            let myInterval = setInterval(() => {
+                    const d3 = new Date();
+                    calculateTimeDifference(d3,lockinfo.stime);
+                    if((settimediff&&settimediff.min == 0) && (settimediff&&settimediff.sec == 0) ) {
+                        SetDisableInput(false);
+                        const enableinfo = {
+                            stime:d3.getTime(),
+                            // sec:0,
+                            lock:'0'
+                        }
+                        dispatch({
+                            type: LOCK_INPUT,
+                            payload: enableinfo,
+                        });
+                    }
+            }, 1000)
+            return () => {
+                clearInterval(myInterval);
+            };
+        }
+        else{
+            SetDisableInput(false);
+        }
+    });
 
     const loginHandler = (e) => {
         
@@ -39,6 +103,7 @@ function Login() {
         else {
             Keyboard.dismiss();
             dispatch(validRegisterUser(userid,password,key,deviceId&&deviceId,token&&token));
+            resetHandler();
         }
     }
 
@@ -60,7 +125,8 @@ function Login() {
                             <Text style={styles.heading}>Please fillup all the details and complete the Login process</Text>
                             <Card.Content>
                                 <TextInput
-                                    style={theme.textinput}
+                                    disabled={disableinput}
+                                    style={[theme.textinput,{backgroundColor:`${disableinput == true ? '#ccc' : '#fff'}`}]}
                                     onChangeText={(val) => SetUserid(val)}
                                     placeholder="User Id"
                                     placeholderTextColor={theme.colors.primary}
@@ -68,7 +134,8 @@ function Login() {
                                     value={userid}
                                 />
                                 <TextInput
-                                    style={[theme.textinput,{marginVertical:20}]}
+                                    disabled={disableinput}
+                                    style={[theme.textinput,{marginVertical:20,backgroundColor:`${disableinput == true ? '#ccc' : '#fff'}`}]}
                                     onChangeText={(val) => SetPassword(val)}
                                     placeholder="Password"
                                     placeholderTextColor={theme.colors.primary}
@@ -83,7 +150,8 @@ function Login() {
                                     value={password}
                                 />
                                 <TextInput
-                                    style={theme.textinput}
+                                    disabled={disableinput}
+                                    style={[theme.textinput,{backgroundColor:`${disableinput == true ? '#ccc' : '#fff'}`}]}
                                     onChangeText={(val) => SetKey(val)}
                                     placeholder="Key"
                                     placeholderTextColor={theme.colors.primary}
@@ -97,32 +165,24 @@ function Login() {
                                     }
                                     value={key}
                                 />
-                                {/* {
-                                    otpvalue == '1' ? 
-                                    <TextInput
-                                        style={[theme.textinput,{marginVertical:20}]}
-                                        onChangeText={(val) => SetOtp(val)}
-                                        placeholder="Enter OTP"
-                                        placeholderTextColor={theme.colors.primary}
-                                        keyboardType='default'
-                                        value={otp}
-                                    />
-                                    : null
-                                } */}
                             </Card.Content>
                             <View style={styles.action}>
                                 <View style={{width:'36%'}}>
-                                    <CustomButtons title="Reset" pressHandler={resetHandler} style={{width:'100%'}}></CustomButtons>                                
+                                    <CustomButtons title="Reset" pressHandler={resetHandler} style={{width:'100%'}} disable={disableinput}></CustomButtons>                                
                                 </View>
                                 <View style={{width:'36%',marginLeft:10}}>
-                                    {/* {
-                                         otpvalue == '1' ? 
-                                        <CustomButtons title="Verify OTP" pressHandler={otpHandler} style={{width:'100%'}}></CustomButtons>
-                                        :     
-                                    } */}
-                                    <CustomButtons title="Login" pressHandler={loginHandler} style={{width:'100%'}}></CustomButtons>
+                                    <CustomButtons title="Login" pressHandler={loginHandler} style={{width:'100%'}} disable={disableinput}></CustomButtons>
                                 </View>
                             </View>
+                            {
+                                (settimediff&&settimediff) && (lockinfo&&lockinfo.lock == '1') ?
+                                <View>
+                                    <Text style={[styles.heading,{marginVertical:0,color:'#ff0000'}]}>Too many incorrect attempts. Login locked for next {settimediff.min ? settimediff.min : '0'}:{settimediff.sec ? settimediff.sec : '0'} seconds</Text>
+                                </View>
+                                :
+                                null
+                            }
+                           
                         </Card>
                 </View>
             </TouchableWithoutFeedback>
@@ -148,9 +208,9 @@ const styles = StyleSheet.create({
     action : {
         display:'flex',
         flexDirection:'row',                
-        marginTop:30,
+        marginVertical:30,
         alignSelf:'center',
-    }
+    },
 })
 
-export default Login
+export default memo(Login)
