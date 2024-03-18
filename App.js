@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import { Button, Modal, Provider as PaperProvider, Portal, Text, Headline } from 'react-native-paper';
 import Nav from './components/Nav';
 import Spinner from './components/utils/Spinner';
@@ -13,9 +13,10 @@ import messaging from '@react-native-firebase/messaging';
 import useHelper from './components/hooks/useHelper';
 import Config from './components/utils/Config';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { Linking, Platform, StyleSheet, View } from 'react-native';
+import { Linking, Platform, StyleSheet, View, BackHandler,Image } from 'react-native';
 import checkVersion from 'react-native-store-version';
 import deviceInfo from 'react-native-device-info';
+import NetInfo from '@react-native-community/netinfo';
 
 const App = () => {
   
@@ -28,7 +29,8 @@ const App = () => {
       }
   }
 
-  const [visible, setVisible] = React.useState(false);
+  const [visible, setVisible] = useState(false);
+  const [internalPopup, setInternalPopup] = useState(false);
 
   const initPopup = async () => {
     try {
@@ -72,9 +74,17 @@ const App = () => {
           onNotification(remoteMessage.data);
       }
     });
+    const netInfo = NetInfo.addEventListener((state) => {
+			if (!state.isConnected) {
+				setInternalPopup(true);
+			} else {
+        setInternalPopup(false);
+      }
+		});
     SplashScreen.hide();
     return () => {
       unsubscribe();
+      netInfo();
     };
   },[])  
   const onRegister = () => { }
@@ -94,6 +104,18 @@ const App = () => {
                           <Text style={{fontSize:18,textAlign:'center'}}>There is a newer version of this app available</Text>
                       </View>
                       <Button mode="contained" onPress={redirect} style={{width:'50%',alignSelf:'center'}}>Update Now</Button>
+                  </View>
+              </Modal>
+              <Modal visible={internalPopup} dismissable={false} contentContainerStyle={styles.modal}>
+                  <View style={{paddingHorizontal:20,marginVertical:10}}>
+                      <Image style={{height:120,width:120,alignSelf:'center'}}
+                                source={require('./assets/net_off.jpg')}
+                        />  
+                      <Headline style={{textAlign:'center'}}>You're Offline</Headline>
+                      <View style={{marginVertical:20}}>
+                          <Text style={{fontSize:18,textAlign:'center'}}>Turn on mobile data or connect to wifi network</Text>
+                      </View>
+                      {/* <Button mode="contained" onPress={redirect} style={{width:'50%',alignSelf:'center'}}>Referesh</Button> */}
                   </View>
               </Modal>
           </Portal>

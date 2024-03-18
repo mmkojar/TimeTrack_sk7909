@@ -3,7 +3,7 @@ import {  View,StyleSheet,Image,ScrollView,Pressable, Dimensions, Platform, Back
 import { Card,Avatar,Text } from 'react-native-paper';
 import useThemeStyle from '../components/utils/useThemeStyle';
 import { useDispatch, useSelector } from 'react-redux';
-import { GetHPEmployeeDevice, getHPEmployeeInfo, getHomePageInfo } from '../components/redux/actions/authActions';
+import { GetHPEmployeeDevice, getHPEmployeeInfo, getHomePageInfo,GetHomeValidEmployeeUser } from '../components/redux/actions/authActions';
 import { appPermissions } from '../services/AppPermissions';
 import { PERMISSIONS } from 'react-native-permissions';
 import { useIsFocused } from '@react-navigation/native';
@@ -15,7 +15,7 @@ const Home = ({navigation}) => {
     const [theme] = useThemeStyle();
     const { token,deviceId } = useHelper();
 
-    const authData = useSelector((state) => state.auth.logininfo)
+    const authData = useSelector((state) => state.auth.logininfo);
     const authuser = useSelector((state) => state.auth.empinfo);
     const result = useSelector((state) => state.auth.hpsettings);
     
@@ -53,6 +53,7 @@ const Home = ({navigation}) => {
         dispatch(GetHPEmployeeDevice(clientUrl,userid,deviceId&&deviceId,token&&token));
         dispatch(getHomePageInfo(userid,password,key));
         dispatch(getHPEmployeeInfo(clientUrl,userid));
+        dispatch(GetHomeValidEmployeeUser(clientUrl,userid,password));
         BackHandler.addEventListener('hardwareBackPress', backAction);
         return () => {
             BackHandler.removeEventListener('hardwareBackPress', backAction);

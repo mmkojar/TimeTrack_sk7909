@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { START_LOADER, STOP_LOADER, LOGIN_SUCCESS, EMPLOYEE_INFO, HOME_PAGE, LOGOUT_SUCCESS,OTP_VALIDATE, LOCK_INPUT } from './type';
+import { START_LOADER, STOP_LOADER, LOGIN_SUCCESS, EMPLOYEE_INFO, HOME_PAGE, LOGOUT_SUCCESS,OTP_VALIDATE, LOCK_INPUT, OTP_SESSION_TIME1 } from './type';
 import Config from '../../utils/Config';
 import Toast from 'react-native-toast-message';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -66,23 +66,54 @@ export const ValidEmployeeUser = (url,userid,password,key,deviceId,token,otp) =>
                     apiotp: res.data.OTP,
                 });
                 dispatch({ type: STOP_LOADER });
+                
+                const d1 = new Date();
+                const d2 = new Date(d1);
+                d2.setMinutes(d1.getMinutes()+5);
+                const session = {
+                    stime:d2.getTime(),
+                }
+                dispatch({
+                    type: OTP_SESSION_TIME1,
+                    payload: session,
+                });
             }
             else {
                 dispatch(GetEmployeeDevice(url[0]+urlSuffix,userid,password,key,res.data.IsHod,deviceId,token))
             }
         }
         else {
-            Toaster('error','No User Found')
+            Toaster('error','Invalid Username or Password')
             dispatch({ type: STOP_LOADER });
         }
     })
     .catch((err) => {
         dispatch({ type: STOP_LOADER });
         dispatch(ValidEmployeeUser2(url[1]+urlSuffix,userid,password,key,deviceId,token))
-        // Toaster('error','Server Error. Please try again after sometime');
+        Toaster('error','Server Error. Please try again after sometime');
     });
 }
-// console.log(otpobj);
+
+export const ValidEmployeeUser2 = (url,userid,password,key,deviceId,token) => (dispatch) => {
+    
+    axios.get(url+`ValidEmployeeUser?userid=${userid}&password=${password}`
+    )
+    .then((res) => {
+        if(res.data.Active == 'true') {
+            dispatch(GetEmployeeDevice(url,userid,password,key,res.data.IsHod,deviceId,token))
+        }
+        else {
+            Toaster('error','Invalid Username or Password')
+            dispatch({ type: STOP_LOADER });
+        }
+    })
+    .catch((err) => {
+        dispatch({ type: STOP_LOADER });
+        Toaster('error','Server Error. Please try again after sometime');
+    });
+}
+
+
 var icount = 0;
 export const verifyOTP = (url,userid,password,key,isHod,deviceId,token,apiotp,otpval) => (dispatch) => {
     if(otpval == ''){
@@ -92,7 +123,9 @@ export const verifyOTP = (url,userid,password,key,isHod,deviceId,token,apiotp,ot
         icount++;
         var ccheck = icount == 1 ? '2' : icount == 2 ? '1' : '0';
         if(ccheck == '0') {
-            navigate('Login')
+            navigate('Login',{
+                code:'1',
+            })
             Toaster('error','Your Account is Block for 15 minutes' );
             const d1 = new Date();
             const d2 = new Date(d1);
@@ -119,25 +152,6 @@ export const verifyOTP = (url,userid,password,key,isHod,deviceId,token,apiotp,ot
         dispatch(GetEmployeeDevice(url,userid,password,key,isHod,deviceId,token))
         // dispatch(GetEmployeeDevice(otpobj.url,userid,password,key,otpobj.isHod,deviceId,token))
     }
-}
-
-export const ValidEmployeeUser2 = (url,userid,password,key,deviceId,token) => (dispatch) => {
-    
-    axios.get(url+`ValidEmployeeUser?userid=${userid}&password=${password}`
-    )
-    .then((res) => {        
-        if(res.data.Active == 'true') {
-            dispatch(GetEmployeeDevice(url,userid,password,key,res.data.IsHod,deviceId,token))
-        }
-        else {
-            Toaster('error','No User Found')
-            dispatch({ type: STOP_LOADER });
-        }
-    })
-    .catch((err) => {
-        dispatch({ type: STOP_LOADER });
-        Toaster('error','Server Error. Please try again after sometime');
-    });
 }
 
 export const GetEmployeeDevice = (url,userid,password,key,isHod,deviceId,token) => (dispatch) => {
@@ -199,9 +213,29 @@ export const GetHPEmployeeDevice = (url,userid,deviceId,token) => (dispatch) => 
             Toaster('error','Server Error. Please try again after sometime');
             dispatch({ type: STOP_LOADER });
         });
-    }
-    
+    }   
 }
+
+export const GetHomeValidEmployeeUser = (url,userid,password) => (dispatch) => {
+   
+    var urlpath =url+`ValidEmployeeUser?userid=${userid}&password=${password}`
+    axios.get(urlpath)
+    .then((res) => {
+        if(res.data.Active == 'false') {
+            Toaster('error','Employee not Active')
+            setTimeout(() => {
+                dispatch(logoutAction());
+            }, 2000);
+            dispatch({ type: STOP_LOADER });
+        }
+    })
+    .catch((err) => {
+        dispatch({ type: STOP_LOADER });
+        // dispatch(ValidEmployeeUser2(url[1]+urlSuffix,userid,password,key,deviceId,token))
+        Toaster('error','Server Error. Please try again after sometime');
+    });
+}
+
 export const getHomePageInfo = (userid,password,key) => (dispatch) => {
 
     dispatch({ type: START_LOADER });

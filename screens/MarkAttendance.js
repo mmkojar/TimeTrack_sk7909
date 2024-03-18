@@ -24,7 +24,8 @@ function MarkAttendance({ navigation, route }) {
   const attlogs = result && result.GetLogsFromMarkMyAttendance;
   const markemplogs = result1 && result1.GetMarkMyAttendanceForEmployee[0];
 
-  const getqrValue = markemplogs && markemplogs.IsGeoFancingCoOrdinates[0].QRCodeValues.split(',')
+  const getqrValue = markemplogs && markemplogs.IsGeoFancingCoOrdinates
+  // const getqrValue = markemplogs && markemplogs.IsGeoFancingCoOrdinates[0].QRCodeValues.split(',')
   const listGeoFencingType = markemplogs && markemplogs.IsGeoFancingCoOrdinates
   const checkAttType = markemplogs && markemplogs.Type;
 
@@ -126,8 +127,11 @@ function MarkAttendance({ navigation, route }) {
 
   const onQrSuccess = e => {
 
+    console.log("getqrValue:",getqrValue)
+    console.log("e.data:",e.data)
     geolocationService.getLocation(setLocation);
-    if (getqrValue.indexOf(e.data) == '-1') {
+    console.log(getqrValue.find(x => x.QRCodeValues === e.data));
+    if (getqrValue.some(item=>item.QRCodeValues===e.data)==false) {
       // Alert.alert('Error', 'Invalid QR Value', [
       //   {
       //     text: 'OK', onPress: () => {
@@ -137,7 +141,7 @@ function MarkAttendance({ navigation, route }) {
       //   }
       // ], { cancelable: false })
       setQrVisible(false)
-      Toast.show({ type: 'error', text1: 'Marathi Barcode not matching' })
+      Toast.show({ type: 'error', text1: e.data + 'QR Code mismatch!' })
     }
     else {
       setQrvalue(e.data);

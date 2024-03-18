@@ -1,4 +1,4 @@
-import { LOGIN_SUCCESS, AUTH_ERROR, HOME_PAGE, EMPLOYEE_INFO, LOGOUT_SUCCESS, OTP_VALIDATE, LOCK_INPUT, SET_TIME } from '../actions/type';
+import { LOGIN_SUCCESS, AUTH_ERROR, HOME_PAGE, EMPLOYEE_INFO, LOGOUT_SUCCESS, OTP_VALIDATE, LOCK_INPUT, SET_TIME, OTP_SESSION_TIME2, OTP_SESSION_TIME1 } from '../actions/type';
 
 const initialState = {
     isAuthenticated: false,    
@@ -8,6 +8,8 @@ const initialState = {
     otp:null,
     lock:null,
     settime:null,
+    sessiontime1:null,
+    sessiontime2:null,
 };
 
 export default function (state = initialState, action) {
@@ -32,7 +34,17 @@ export default function (state = initialState, action) {
             return {
                 ...state,
                 settime:action.payload,
-            };      
+            };  
+        case OTP_SESSION_TIME1:
+            return {
+                ...state,
+                sessiontime1:action.payload,
+            }; 
+        case OTP_SESSION_TIME2:
+            return {
+                ...state,
+                sessiontime2:action.payload,
+            };          
         case HOME_PAGE:
             return {
                 ...state,

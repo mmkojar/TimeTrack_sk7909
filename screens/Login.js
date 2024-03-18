@@ -1,4 +1,4 @@
-import React, { useEffect, useState, memo } from 'react';
+import React, { useEffect, useState } from 'react';
 import {  View,StyleSheet, Platform, TouchableWithoutFeedback, Keyboard, KeyboardAvoidingView, Image } from 'react-native';
 import { Card,TextInput,Text } from 'react-native-paper';
 import CustomButtons from '../components/utils/CustomButtons';
@@ -10,8 +10,15 @@ import Toast from 'react-native-toast-message';
 import useHelper from '../components/hooks/useHelper';
 import { LOCK_INPUT, SET_TIME } from '../components/redux/actions/type';
 
-function Login({navigation}) {
+function Login({route}) {
 
+    /* if(route.params !== 'undefined') {
+        const {code} = route.params;
+        if(code == '1'){
+            resetHandler();
+        }
+    } */
+    
     const [ theme ] = useThemeStyle();
     const { token,deviceId } = useHelper();
     
@@ -19,21 +26,13 @@ function Login({navigation}) {
     const [password,SetPassword] = useState('');
     const [key,SetKey] = useState('');
     const [disableinput,SetDisableInput] = useState(false);
-    
+        
     const [isPasswordSecure, setIsPasswordSecure] = useState(true);
     const [isKeySecure, setIsKeySecure] = useState(true);
          
     const lockinfo = useSelector((state) => state.auth.lock);
     const settimediff = useSelector((state) => state.auth.settime);
 
-    // const [minutes, setMinutes] = useState('');
-    // const [seconds, setSeconds] = useState('');
-
-    // const [currentmin, setcurrentmin] =  useState('')
-    // const [currentsec, setCurrentsec] = useState('');
-
-    // const [mindiff, setmindiff] = useState('');
-    // const [secdiff, setsecdiff] = useState('');
     const dispatch = useDispatch();
 
     function calculateTimeDifference(date1,date2) {
@@ -49,24 +48,28 @@ function Login({navigation}) {
     
         var ss = `0${Math.floor(msec / 1000)}`;
         msec -= ss * 1000;
-        // setmindiff(mm.slice(-2))
+
         const timepayload = {
             min: mm.slice(-2),
             sec: ss.slice(-2),
         }
         dispatch({ type: SET_TIME, payload: timepayload });
-        // setsecdiff(ss.slice(-2))
+
         return hh.slice(-2) + ":" + mm.slice(-2) + ":" + ss.slice(-2);
     }
    
     useEffect(() => {
-        // console.log(lockinfo&&lockinfo);
+        // console.log("login renderer")
+        // if((settimediff&&settimediff.min == 0) && (settimediff&&settimediff.sec == 0) ) {
+        //     SetDisableInput(false);
+        // }
         if(lockinfo&&lockinfo.lock == '1') {
             SetDisableInput(true);
             let myInterval = setInterval(() => {
                     const d3 = new Date();
                     calculateTimeDifference(d3,lockinfo.stime);
-                    if((settimediff&&settimediff.min == 0) && (settimediff&&settimediff.sec == 0) ) {
+                    if((settimediff&&settimediff.min == 0) && (settimediff&&settimediff.sec == 0) ||
+                    (settimediff&&settimediff.min == "aN") && (settimediff&&settimediff.sec == "aN")) {
                         SetDisableInput(false);
                         const enableinfo = {
                             stime:d3.getTime(),
@@ -177,7 +180,7 @@ function Login({navigation}) {
                             {
                                 (settimediff&&settimediff) && (lockinfo&&lockinfo.lock == '1') ?
                                 <View>
-                                    <Text style={[styles.heading,{marginVertical:0,color:'#ff0000'}]}>Too many incorrect attempts. Login locked for next {settimediff.min ? settimediff.min : '0'}:{settimediff.sec ? settimediff.sec : '0'} seconds</Text>
+                                    <Text style={[styles.heading,{marginVertical:0,color:'#000000'}]}>Too many incorrect attempts. Login locked for next {settimediff.min ? settimediff.min : '0'}:{settimediff.sec ? settimediff.sec : '0'} minutes</Text>
                                 </View>
                                 :
                                 null
@@ -213,4 +216,4 @@ const styles = StyleSheet.create({
     },
 })
 
-export default memo(Login)
+export default Login

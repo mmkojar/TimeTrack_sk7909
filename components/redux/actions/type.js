@@ -12,6 +12,8 @@ export const EMPLOYEE_INFO = 'EMPLOYEE_INFO';
 export const OTP_VALIDATE = 'OTP_VALIDATE';
 export const LOCK_INPUT = 'LOCK_INPUT';
 export const SET_TIME = 'SET_TIME';
+export const OTP_SESSION_TIME1 = 'OTP_SESSION_TIME1';
+export const OTP_SESSION_TIME2 = 'OTP_SESSION_TIME2';
 // Graph
 export const GET_GRAPH = 'GET_GRAPH';
 // Mark Attendance

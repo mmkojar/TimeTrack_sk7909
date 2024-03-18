@@ -91,7 +91,7 @@ const Nav = ({color, refer}) => {
                 }} />  
             <Stack.Screen name="AtttendanceChart" component={AtttendanceChartScreen} 
                 options={{
-                title:'Atttendance Chart',
+                title:'Attendance Chart',
                 }} />    
             <Stack.Screen name="App" component={AppScreen} 
                 options={{
